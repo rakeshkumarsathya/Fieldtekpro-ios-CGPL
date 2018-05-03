@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IncidentManagement.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>4E9E8E45C6E1B4808FEB7D7E1B70D50428206624</string>
+				<key>dateExpires</key>
+				<string>10/03/19</string>
+				<key>type</key>
+				<string>iOS Development</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>6EXFB34K49.com.Enstrapp.IncidentManagement</string>
+				<key>aps-environment</key>
+				<string>development</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>6EXFB34K49</string>
+				<key>get-task-allow</key>
+				<true/>
+			</dict>
+			<key>name</key>
+			<string>IncidentManagement.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>45d89b8d-92aa-4302-8985-09a5b1bbe974</string>
+				<key>name</key>
+				<string>iOS Team Provisioning Profile: com.Enstrapp.IncidentManagement</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>6EXFB34K49</string>
+				<key>name</key>
+				<string>Deepak Gantala</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

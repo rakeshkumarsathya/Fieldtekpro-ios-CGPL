@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="17D102" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="EHSJOBTYP" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descrption" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Equipment" representedClassName="Equipment" syncable="YES">
+        <attribute name="anlnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="anlun" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="catalogProfileID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="costCenter" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="eqart" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equipmentHID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equipmentID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="equipmentName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="herst" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ingrp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="invzu" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ivdat" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="iwerks" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="level" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mapar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="plantName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pltxt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sequip" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serge" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tplnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="typbz" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="workStation" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FunctionalLocation" inverseName="equipments" inverseEntity="FunctionalLocation" syncable="YES"/>
+    </entity>
+    <entity name="EquipmentBOMHeader" syncable="YES">
+        <attribute name="bomdesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bomheader" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="plant" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="EquipmentBOMTransaction" syncable="YES">
+        <attribute name="bomcomponent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bomtransaction" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="comptext" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stlkz" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unit" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="EquipMptt" syncable="YES">
+        <attribute name="alarm" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="atbez" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="atinn" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cdsuf" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="codct" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="codgr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="critical" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desir" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mpobj" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mpobt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mptyp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mrmax" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mrmin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mrngu" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="msehl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="normal" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="point" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="psort" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pttxt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="readc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="strno" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="task" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tplnr" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSHAZAIMP" syncable="YES">
+        <attribute name="hazardcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="impactcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSHAZARD" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSHAZCAT" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSHAZCTRL" syncable="YES">
+        <attribute name="controlcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hazardcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subject" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSLOCREV" syncable="YES">
+        <attribute name="dbkey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equipmentid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="functlocId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="parentkey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="plantid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSLOCTYP" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSOPSTAT" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSRASROLE" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descrption" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSRASSTEP" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descrption" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETEHSREASON" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descrption" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ETMeasCodes" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="codegruppe" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kurztext" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kurztext1" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="FlocMptt" syncable="YES">
+        <attribute name="atbez" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="atinn" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desir" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mpobj" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mptyp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mrngu" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="msehl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="point" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="psort" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pttxt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tplnr" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="FunctionalLocation" representedClassName="FunctionalLocation" syncable="YES">
+        <attribute name="costCenter" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fltyp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="level" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="locationid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="locationName" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="plannerGroup" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="plantName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stplnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tplma" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="workStation" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="equipments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Equipment" inverseName="location" inverseEntity="Equipment" syncable="YES"/>
+    </entity>
+    <entity name="Material" representedClassName="Material" syncable="YES">
+        <attribute name="labst" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lgort" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lgpbe" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maktx" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="matnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="speme" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="werks" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="StockOverView" syncable="YES">
+        <attribute name="labst" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lgort" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lgpbe" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maktx" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="matnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="speme" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="werks" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="EHSJOBTYP" positionX="-9" positionY="198" width="128" height="75"/>
+        <element name="Equipment" positionX="-162" positionY="245" width="128" height="390"/>
+        <element name="EquipmentBOMHeader" positionX="0" positionY="207" width="128" height="90"/>
+        <element name="EquipmentBOMTransaction" positionX="9" positionY="216" width="128" height="135"/>
+        <element name="EquipMptt" positionX="-9" positionY="189" width="128" height="420"/>
+        <element name="ETEHSHAZAIMP" positionX="18" positionY="225" width="128" height="105"/>
+        <element name="ETEHSHAZARD" positionX="9" positionY="216" width="128" height="75"/>
+        <element name="ETEHSHAZCAT" positionX="0" positionY="207" width="128" height="75"/>
+        <element name="ETEHSHAZCTRL" positionX="27" positionY="234" width="128" height="120"/>
+        <element name="ETEHSLOCREV" positionX="45" positionY="252" width="128" height="165"/>
+        <element name="ETEHSLOCTYP" positionX="36" positionY="243" width="128" height="75"/>
+        <element name="ETEHSOPSTAT" positionX="-9" positionY="198" width="128" height="75"/>
+        <element name="ETEHSRASROLE" positionX="9" positionY="216" width="128" height="75"/>
+        <element name="ETEHSRASSTEP" positionX="18" positionY="225" width="128" height="75"/>
+        <element name="ETEHSREASON" positionX="0" positionY="207" width="128" height="75"/>
+        <element name="FlocMptt" positionX="0" positionY="207" width="128" height="210"/>
+        <element name="FunctionalLocation" positionX="144" positionY="153" width="128" height="210"/>
+        <element name="Material" positionX="-29" positionY="50" width="128" height="150"/>
+        <element name="StockOverView" positionX="18" positionY="225" width="128" height="150"/>
+        <element name="ETMeasCodes" positionX="-9" positionY="198" width="128" height="105"/>
+    </elements>
+</model>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="IssueApprovalTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="139"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="138.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Permit :" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIe-dN-4DU">
+                        <rect key="frame" x="51" y="8" width="72" height="28"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="72" id="4gg-pl-Fs0"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Permit Text :" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4s-Tr-3Nv">
+                        <rect key="frame" x="25" y="40" width="98" height="28"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Permit Issued :" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ImY-K5-h5E">
+                        <rect key="frame" x="8" y="72" width="116" height="28"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="116" id="VjX-vW-kgQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Approve By :" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7z-Qg-MWW">
+                        <rect key="frame" x="7" y="104" width="116" height="28"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XpH-uY-y3c">
+                        <rect key="frame" x="129" y="10" width="233" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="fBq-xP-aSg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yu9-8B-7vL">
+                        <rect key="frame" x="129" y="41" width="233" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="66D-Su-UnX"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ctW-L7-XKw">
+                        <rect key="frame" x="129" y="104" width="233" height="30"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outlet property="delegate" destination="-1" id="YfN-9s-Mhv"/>
+                        </connections>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Yu9-8B-7vL" firstAttribute="trailing" secondItem="ctW-L7-XKw" secondAttribute="trailing" id="0qF-HH-OB2"/>
+                    <constraint firstItem="v4s-Tr-3Nv" firstAttribute="centerY" secondItem="Yu9-8B-7vL" secondAttribute="centerY" id="3YF-2m-PgE"/>
+                    <constraint firstItem="Yu9-8B-7vL" firstAttribute="leading" secondItem="ctW-L7-XKw" secondAttribute="leading" id="5Mc-eB-PTd"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="ctW-L7-XKw" secondAttribute="bottom" constant="-6" id="C7y-5a-Due"/>
+                    <constraint firstItem="A7z-Qg-MWW" firstAttribute="top" secondItem="ImY-K5-h5E" secondAttribute="bottom" constant="4" id="DBB-UD-Qug"/>
+                    <constraint firstItem="A7z-Qg-MWW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-9" id="G3S-cR-iDF"/>
+                    <constraint firstItem="XpH-uY-y3c" firstAttribute="trailing" secondItem="Yu9-8B-7vL" secondAttribute="trailing" id="GYG-DH-pMa"/>
+                    <constraint firstItem="rIe-dN-4DU" firstAttribute="centerY" secondItem="XpH-uY-y3c" secondAttribute="centerY" id="J0i-df-1tn"/>
+                    <constraint firstItem="A7z-Qg-MWW" firstAttribute="top" secondItem="ctW-L7-XKw" secondAttribute="top" id="KOZ-dl-laL"/>
+                    <constraint firstItem="rIe-dN-4DU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="35" id="Q5g-47-SYQ"/>
+                    <constraint firstItem="ImY-K5-h5E" firstAttribute="top" secondItem="v4s-Tr-3Nv" secondAttribute="bottom" constant="4" id="QT3-4f-4CL"/>
+                    <constraint firstItem="XpH-uY-y3c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-1" id="Wxe-tP-KPR"/>
+                    <constraint firstItem="ImY-K5-h5E" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="XQP-sK-UCT"/>
+                    <constraint firstItem="ctW-L7-XKw" firstAttribute="top" secondItem="Yu9-8B-7vL" secondAttribute="bottom" constant="38" id="Xue-Ok-JR4"/>
+                    <constraint firstItem="XpH-uY-y3c" firstAttribute="leading" secondItem="rIe-dN-4DU" secondAttribute="trailing" constant="6" id="a7v-aT-apN"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="A7z-Qg-MWW" secondAttribute="bottom" constant="-4" id="bG5-0p-cd0"/>
+                    <constraint firstItem="v4s-Tr-3Nv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="hhh-Xg-TjM"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="XpH-uY-y3c" secondAttribute="trailing" constant="-3" id="iIj-D1-LmW"/>
+                    <constraint firstItem="Yu9-8B-7vL" firstAttribute="top" secondItem="XpH-uY-y3c" secondAttribute="bottom" constant="6" id="iJy-IU-aEg"/>
+                    <constraint firstItem="rIe-dN-4DU" firstAttribute="trailing" secondItem="v4s-Tr-3Nv" secondAttribute="trailing" id="lpr-6j-QKB"/>
+                    <constraint firstItem="v4s-Tr-3Nv" firstAttribute="top" secondItem="rIe-dN-4DU" secondAttribute="bottom" constant="4" id="mb2-2N-sdD"/>
+                    <constraint firstItem="v4s-Tr-3Nv" firstAttribute="trailing" secondItem="A7z-Qg-MWW" secondAttribute="trailing" id="nD3-Nf-Fdv"/>
+                    <constraint firstItem="XpH-uY-y3c" firstAttribute="leading" secondItem="Yu9-8B-7vL" secondAttribute="leading" id="uhf-Yi-u6f"/>
+                    <constraint firstItem="rIe-dN-4DU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-3" id="xF7-Ql-4CD"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="approvedByTextField" destination="ctW-L7-XKw" id="mkM-xo-TDS"/>
+                <outlet property="permitLabel" destination="XpH-uY-y3c" id="CWW-GH-IUn"/>
+                <outlet property="permittextLabel" destination="Yu9-8B-7vL" id="FIt-xn-Qhm"/>
+            </connections>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </tableViewCell>
+    </objects>
+</document>
