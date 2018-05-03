@@ -2986,30 +2986,31 @@
                     parsedDictionaryWorkApprovalDetails = [[dataObject objectAtIndex:0] copy];
                     parsedDictionaryMeasurementDocuments = [[dataObject objectAtIndex:0] copy];
                     parseHeaderDictionary = [[dataObject objectAtIndex:0] copy];
-                    
                     parseMessageDictionary = [[dataObject objectAtIndex:0] copy];
 
-                    
-                }
+                 }
             }
-            
-            
+ 
             if ([parseHeaderDictionary objectForKey:@"EtOrderHeader"]) {
-                parseHeaderDictionary = [parseHeaderDictionary objectForKey:@"EtOrderHeader"];
-                if ([parseHeaderDictionary objectForKey:@"results"]) {
-                    parseHeaderDictionary = [parseHeaderDictionary objectForKey:@"results"];
-                    if ([parseHeaderDictionary isKindOfClass:[NSDictionary class]]) {
-                        [xmlDoc setObject:[NSMutableArray arrayWithObject:parseHeaderDictionary] forKey:@"resultHeader"];
-                    }
-                    else if([parseHeaderDictionary isKindOfClass:[NSArray class]])
-                    {
-                        [xmlDoc setObject:parseHeaderDictionary forKey:@"resultHeader"];
+ 
+                if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtOrderHeader"]]) {
+                     parseHeaderDictionary = [parseHeaderDictionary objectForKey:@"EtOrderHeader"];
+                    if ([parseHeaderDictionary objectForKey:@"results"]) {
+                        parseHeaderDictionary = [parseHeaderDictionary objectForKey:@"results"];
+                        if ([parseHeaderDictionary isKindOfClass:[NSDictionary class]]) {
+                            [xmlDoc setObject:[NSMutableArray arrayWithObject:parseHeaderDictionary] forKey:@"resultHeader"];
+                        }
+                        else if([parseHeaderDictionary isKindOfClass:[NSArray class]])
+                        {
+                            [xmlDoc setObject:parseHeaderDictionary forKey:@"resultHeader"];
+                        }
                     }
                 }
-            }
+             }
             
             if ([parseDictionaryObjects objectForKey:@"EtOrderOlist"]) {
-                parseDictionaryObjects = [parseDictionaryObjects objectForKey:@"EtOrderOlist"];
+                 if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtOrderOlist"]]) {
+                 parseDictionaryObjects = [parseDictionaryObjects objectForKey:@"EtOrderOlist"];
                 if ([parseDictionaryObjects objectForKey:@"results"]) {
                     parseDictionaryObjects = [parseDictionaryObjects objectForKey:@"results"];
                     if ([parseDictionaryObjects isKindOfClass:[NSDictionary class]]) {
@@ -3020,9 +3021,13 @@
                         [xmlDoc setObject:parseDictionaryObjects forKey:@"resultHeaderObjects"];
                     }
                 }
+              }
             }
             
             if ([parsedDictionaryMeasurementDocuments objectForKey:@"EtImrg"]) {
+                
+                if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtImrg"]]) {
+
                 parsedDictionaryMeasurementDocuments = [parsedDictionaryMeasurementDocuments objectForKey:@"EtImrg"];
                 if ([parsedDictionaryMeasurementDocuments objectForKey:@"results"]) {
                     parsedDictionaryMeasurementDocuments = [parsedDictionaryMeasurementDocuments objectForKey:@"results"];
@@ -3033,7 +3038,8 @@
                     {
                         [xmlDoc setObject:parsedDictionaryMeasurementDocuments forKey:@"resultMeasurementDocuments"];
                     }
-                }
+                 }
+              }
             }
             
             if ([parseDictionaryHeaderPermits objectForKey:@"EtOrderPermits"]) {
