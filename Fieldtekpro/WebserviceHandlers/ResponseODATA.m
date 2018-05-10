@@ -3009,7 +3009,9 @@
              }
             
             if ([parseDictionaryObjects objectForKey:@"EtOrderOlist"]) {
-                 if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtOrderOlist"]]) {
+                
+              if (![NullChecker isNull:[parseDictionaryObjects objectForKey:@"EtOrderOlist"]]) {
+                    
                  parseDictionaryObjects = [parseDictionaryObjects objectForKey:@"EtOrderOlist"];
                 if ([parseDictionaryObjects objectForKey:@"results"]) {
                     parseDictionaryObjects = [parseDictionaryObjects objectForKey:@"results"];
@@ -3026,9 +3028,9 @@
             
             if ([parsedDictionaryMeasurementDocuments objectForKey:@"EtImrg"]) {
                 
-                if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtImrg"]]) {
+                if (![NullChecker isNull:[parsedDictionaryMeasurementDocuments objectForKey:@"EtImrg"]]) {
 
-                parsedDictionaryMeasurementDocuments = [parsedDictionaryMeasurementDocuments objectForKey:@"EtImrg"];
+                 parsedDictionaryMeasurementDocuments = [parsedDictionaryMeasurementDocuments objectForKey:@"EtImrg"];
                 if ([parsedDictionaryMeasurementDocuments objectForKey:@"results"]) {
                     parsedDictionaryMeasurementDocuments = [parsedDictionaryMeasurementDocuments objectForKey:@"results"];
                     if ([parsedDictionaryMeasurementDocuments isKindOfClass:[NSDictionary class]]) {
@@ -3043,7 +3045,10 @@
             }
             
             if ([parseDictionaryHeaderPermits objectForKey:@"EtOrderPermits"]) {
-                parseDictionaryHeaderPermits = [parseDictionaryHeaderPermits objectForKey:@"EtOrderPermits"];
+                
+                if (![NullChecker isNull:[parseDictionaryHeaderPermits objectForKey:@"EtOrderPermits"]]) {
+ 
+                 parseDictionaryHeaderPermits = [parseDictionaryHeaderPermits objectForKey:@"EtOrderPermits"];
                 if ([parseDictionaryHeaderPermits objectForKey:@"results"]) {
                     parseDictionaryHeaderPermits = [parseDictionaryHeaderPermits objectForKey:@"results"];
                     if ([parseDictionaryHeaderPermits isKindOfClass:[NSDictionary class]]) {
@@ -3053,11 +3058,14 @@
                     {
                         [xmlDoc setObject:parseDictionaryHeaderPermits forKey:@"resultHeaderPermits"];
                     }
-                }
+                  }
+                 }
             }
             
             if ([parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"]) {
-                parseDictionaryOperationTransaction = [parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"];
+                
+                if (![NullChecker isNull:[parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"]]) {
+                 parseDictionaryOperationTransaction = [parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"];
                 if ([parseDictionaryOperationTransaction objectForKey:@"results"]) {
                     parseDictionaryOperationTransaction = [parseDictionaryOperationTransaction objectForKey:@"results"];
                     if ([parseDictionaryOperationTransaction isKindOfClass:[NSDictionary class]]) {
@@ -3067,30 +3075,34 @@
                     {
                         [xmlDoc setObject:parseDictionaryOperationTransaction forKey:@"resultOperationsTransactions"];
                     }
-                }
+                  }
+                 }
             }
         
-        if ([parseMessageDictionary objectForKey:@"EsAufnr"]) {
-            if ([[parseMessageDictionary objectForKey:@"EsAufnr"] objectForKey:@"results"]) {
-                id messageArray = [[parseMessageDictionary objectForKey:@"EsAufnr"] objectForKey:@"results"];
-                if ([messageArray isKindOfClass:[NSDictionary class]]) {
-                    
-                    [xmlDoc setObject:[NSMutableArray arrayWithObject:[[[[messageArray objectForKey:@"EsAufnr"] objectForKey:@"results"] objectAtIndex:0] objectForKey:@"Message"]] forKey:@"MESSAGE"];
-                    
-                    [xmlDoc setObject:[NSMutableArray arrayWithObject:[[[[messageArray objectForKey:@"EsAufnr"] objectForKey:@"results"] objectAtIndex:0] objectForKey:@"Qmnum"]] forKey:@"OBJECTID"];
-                    
-                }
-                else if([messageArray isKindOfClass:[NSArray class]])
-                {
-                    
-                    [xmlDoc setObject:[[messageArray objectAtIndex:0] objectForKey:@"Message"] forKey:@"MESSAGE"];
-                    
-                    [xmlDoc setObject:[NSMutableArray arrayWithObject:[[messageArray objectAtIndex:0] objectForKey:@"Aufnr"]] forKey:@"OBJECTID"];
-                    
+         if ([parseMessageDictionary objectForKey:@"EsAufnr"]) {
+            
+            if (![NullChecker isNull:[parseMessageDictionary objectForKey:@"EsAufnr"]]) {
+                
+                if ([[parseMessageDictionary objectForKey:@"EsAufnr"] objectForKey:@"results"]) {
+                    id messageArray = [[parseMessageDictionary objectForKey:@"EsAufnr"] objectForKey:@"results"];
+                    if ([messageArray isKindOfClass:[NSDictionary class]]) {
+                        
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:[[[[messageArray objectForKey:@"EsAufnr"] objectForKey:@"results"] objectAtIndex:0] objectForKey:@"Message"]] forKey:@"MESSAGE"];
+                        
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:[[[[messageArray objectForKey:@"EsAufnr"] objectForKey:@"results"] objectAtIndex:0] objectForKey:@"Qmnum"]] forKey:@"OBJECTID"];
+                        
+                    }
+                    else if([messageArray isKindOfClass:[NSArray class]])
+                    {
+                        
+                        [xmlDoc setObject:[[messageArray objectAtIndex:0] objectForKey:@"Message"] forKey:@"MESSAGE"];
+                         [xmlDoc setObject:[NSMutableArray arrayWithObject:[[messageArray objectAtIndex:0] objectForKey:@"Aufnr"]] forKey:@"OBJECTID"];
+                        
+                     }
                 }
             }
-        }
-
+         }
+ 
         
             if ([parseDictionaryComponentsTransaction objectForKey:@"EtOrderComponents"]) {
                 
@@ -3107,9 +3119,8 @@
                     {
                         [xmlDoc setObject:parseDictionaryComponentsTransaction forKey:@"resultComponentsTransactions"];
                     }
-                }
-                    
-                }
+                 }
+               }
             }
             
             if ([parseDictionaryLongText objectForKey:@"EtOrderLongtext"]) {
@@ -3125,8 +3136,11 @@
                     }
                 }
             }
-            
+ 
+        
             if ([parseDictionaryDocs objectForKey:@"EtDocs"]) {
+                
+            if (![NullChecker isNull:[parseDictionaryDocs objectForKey:@"EtDocs"]]) {
                 parseDictionaryDocs = [parseDictionaryDocs objectForKey:@"EtDocs"];
                 if ([parseDictionaryDocs objectForKey:@"results"]) {
                     parseDictionaryDocs = [parseDictionaryDocs objectForKey:@"results"];
@@ -3137,6 +3151,7 @@
                     {
                         [xmlDoc setObject:parseDictionaryDocs forKey:@"resultDocs"];
                     }
+                 }
                 }
             }
             
@@ -3155,6 +3170,9 @@
             }
             
             if ([parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]) {
+                
+            if (![NullChecker isNull:[parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]]) {
+
                 parsedDictionaryOrderStatus = [parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"];
                 if ([parsedDictionaryOrderStatus objectForKey:@"results"]) {
                     parsedDictionaryOrderStatus = [parsedDictionaryOrderStatus objectForKey:@"results"];
@@ -3166,10 +3184,13 @@
                         [xmlDoc setObject:parsedDictionaryOrderStatus forKey:@"resultOrderStatus"];
                     }
                 }
+                }
             }
             
             if ([parsedDictionaryOrderOlist objectForKey:@"EtOrderOlist"]) {
-                parsedDictionaryOrderOlist = [parsedDictionaryOrderOlist objectForKey:@"EtOrderOlist"];
+                
+                if (![NullChecker isNull:[parsedDictionaryOrderOlist objectForKey:@"EtOrderOlist"]]) {
+                  parsedDictionaryOrderOlist = [parsedDictionaryOrderOlist objectForKey:@"EtOrderOlist"];
                 if ([parsedDictionaryOrderOlist objectForKey:@"results"]) {
                     parsedDictionaryOrderOlist = [parsedDictionaryOrderOlist objectForKey:@"results"];
                     if ([parsedDictionaryOrderOlist isKindOfClass:[NSDictionary class]]) {
@@ -3179,6 +3200,7 @@
                     {
                         [xmlDoc setObject:parsedDictionaryOrderOlist forKey:@"resultOrderOlist"];
                     }
+                }
                 }
             }
             
@@ -3849,7 +3871,7 @@
         
         if ([parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"]) {
             
-            if (![NullChecker isNull:[parseDictionaryComponentsTransaction objectForKey:@"EtOrderOperations"]]) {
+            if (![NullChecker isNull:[parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"]]) {
                 
                 parseDictionaryOperationTransaction = [parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"];
                 
@@ -3951,7 +3973,7 @@
         }
         
         if ([parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]) {
-            if (![NullChecker isNull:[parseDictionaryComponentsTransaction objectForKey:@"EtOrderStatus"]]) {
+            if (![NullChecker isNull:[parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]]) {
                 parsedDictionaryOrderStatus = [parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"];
                 if ([parsedDictionaryOrderStatus objectForKey:@"results"]) {
                     parsedDictionaryOrderStatus = [parsedDictionaryOrderStatus objectForKey:@"results"];

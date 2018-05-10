@@ -628,12 +628,10 @@
         
         [tempArray addObject:[[self.inspectionCheckListDataArray objectAtIndex:i] objectForKey:@"readc"]];
         
-        
-        
+ 
         [tempArray addObject:[[self.inspectionCheckListDataArray objectAtIndex:i] objectForKey:@"task"]];
         
-        
-        
+ 
         NSString *vlcodString;
         
         if ([[[self.inspectionCheckListDataArray objectAtIndex:i] objectForKey:@"normal"] isEqualToString:@"X"]) {
@@ -658,24 +656,25 @@
         }
         
         if ([vlcodString isEqualToString:@""]) {
-            
-            if ([[self.inspectionCheckListDataArray objectAtIndex:i] objectForKey:@"vlcod"]) {
-                
-                [tempArray addObject:[[self.inspectionCheckListDataArray objectAtIndex:i] objectForKey:@"vlcod"]];
-            }
-            
-            else{
-                
-                [tempArray addObject:@""];
-            }
-        }
+ 
+             [tempArray addObject:@""];
+         }
         else{
             
             [tempArray addObject:vlcodString];
             
         }
         
-        [tempArray addObject:@""];
+
+        if ([[self.inspectionCheckListDataArray objectAtIndex:i] objectForKey:@"vlcod"]) {
+            
+            [tempArray addObject:[[self.inspectionCheckListDataArray objectAtIndex:i] objectForKey:@"vlcod"]];
+        }
+        
+        else{
+            
+            [tempArray addObject:@""];
+        }
         
         [inspectionChecklistArray addObject:tempArray];
     }

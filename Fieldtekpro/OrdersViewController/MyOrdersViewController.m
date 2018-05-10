@@ -79,6 +79,13 @@ static dispatch_once_t onceToken;
     self.attachmentArray=[NSMutableArray new];
     
      [measurementDocTableView registerNib:[UINib nibWithNibName:@"MeasureMentDocumentTableViewCell_Iphone5" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"Cell"];
+    
+
+    resultString = @"normal";
+
+    [normalBtn setImage:[UIImage imageNamed:@"radioselection.png"] forState:UIControlStateNormal];
+    [alarmBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
+    [criticalBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
 
  
     [[DataBase sharedInstance] deleteOrderTransactions];
@@ -91,6 +98,11 @@ static dispatch_once_t onceToken;
     [self setBorderlayerContentViewforView:mDateView];
     [self setBorderlayerContentViewforView:mTimeView];
     [self setBorderlayerContentViewforView:mNotesView];
+    
+     normalFlag = NO;
+     alarmFlag = NO;
+     criticalFlag = NO;
+
     
     if (isiPhone5) {
         
@@ -2899,49 +2911,57 @@ static dispatch_once_t onceToken;
     [measurementDetailsView removeFromSuperview];
 }
 
+-(IBAction)cancelMdocsClicked:(id)sender{
+    
+      [self.addMeasurePointView removeFromSuperview];
+ }
+
 -(IBAction)addMeasureDocumentDetails:(id)sender{
     
-    if(![JEValidator validateTextValue:measurementPointTextField.text])
+    if(![JEValidator validateTextValue:mPointTextField.text])
     {
  
         [self showAlertMessageWithTitle:@"Failure" message:@"Please Select MeasurementPoint" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-        
-    }
-    else if(![JEValidator validateTextValue:measurementDescriptionTextField.text])
-    {
- 
-        [self showAlertMessageWithTitle:@"Failure" message:@"Please enter MeasurementDescription" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-        
-    }
-    else if(![JEValidator validateTextValue:measurementDateTextField.text])
+     }
+    
+    else if(![JEValidator validateTextValue:mDatetextfield.text])
     {
  
         [self showAlertMessageWithTitle:@"Failure" message:@"Please enter Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
         
         
     }
-    else if(![JEValidator validateTextValue:measurementTimeTextField.text])
+    else if(![JEValidator validateTextValue:mTimetextField.text])
     {
  
         [self showAlertMessageWithTitle:@"Failure" message:@"Please enter Time" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
         
     }
+    else if([resultString isEqualToString:@""])
+    {
+        
+        [self showAlertMessageWithTitle:@"Failure" message:@"Please enter Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+ 
+    }
     else
     {
         
         NSMutableDictionary *addMdocsDictionary = [NSMutableDictionary new];
-        
         [addMdocsDictionary setObject:[[self.OrderListArray objectAtIndex:selectedIndex] objectForKey:@"orderh_id"]  forKey:@"ID"];
         [addMdocsDictionary setObject:@"" forKey:@"ITEMSTATUS"];
-        [addMdocsDictionary setObject:[measurementPointTextField.text copy] forKey:@"MEASUREMENTPOINTNAME"];
-        [addMdocsDictionary setObject:[measurementDescriptionTextField.text copy] forKey:@"MEASUREMENTDESCRIPTION"];
-        
-        [addMdocsDictionary setObject:[raedingTextField.text copy] forKey:@"MEASUREMENTREADING"];
-        [addMdocsDictionary setObject:[measurementDateTextField.text copy] forKey:@"MEASUREMENTDATE"];
-        
-        [addMdocsDictionary setObject:[measurementTimeTextField.text copy] forKey:@"MEASUREMENTTIME"];
+        [addMdocsDictionary setObject:[mPointTextField.text copy] forKey:@"MEASUREMENTPOINTNAME"];
+        [addMdocsDictionary setObject:@"" forKey:@"MEASUREMENTDESCRIPTION"];
+        [addMdocsDictionary setObject:[mreadingTextField.text copy] forKey:@"MEASUREMENTREADING"];
+        [addMdocsDictionary setObject:[mDatetextfield.text copy] forKey:@"MEASUREMENTDATE"];
+        [addMdocsDictionary setObject:[mTimetextField.text copy] forKey:@"MEASUREMENTTIME"];
         [addMdocsDictionary setObject:[measurementTaskCheckString copy] forKey:@"MEASUREMENTTASK"];
-        
+        [addMdocsDictionary setObject:@"" forKey:@"MVALUATION"];
+        [addMdocsDictionary setObject:@"" forKey:@"RESULT"];
+         if (resultString.length) {
+            
+            [addMdocsDictionary setObject:[resultString copy] forKey:@"RESULT"];
+         }
+ 
         [[DataBase sharedInstance] insertMeasurementDocs:addMdocsDictionary];
         
         if (self.mesurementDocumentArray == nil) {
@@ -2956,8 +2976,9 @@ static dispatch_once_t onceToken;
         
         [measurementDetailsView removeFromSuperview];
         [measurementDocTableView reloadData];
-        
-    }
+        [self.addMeasurePointView removeFromSuperview];
+
+     }
 }
 
 
@@ -2980,58 +3001,52 @@ static dispatch_once_t onceToken;
     }
 }
 
--(void)normalCheckMark{
+
+-(IBAction)normalBtnClicked:(id)sender{
     
-    if (measurementTaskCheckBoxFlag == NO)
-    {
-        normalFlag = YES;
-        normalString = @"X";
-        [normalBtn setImage:nil forState:UIControlStateNormal];
-        [normalBtn setImage:[UIImage imageNamed:@"radioselection.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        normalString = @" ";
-        [normalBtn setImage:nil forState:UIControlStateSelected];
-        [normalBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
-        normalFlag = NO;
-    }
+     [self normalCheckMark];
+ }
+
+-(IBAction)alarmBtnClicked:(id)sender{
+    
+    [self alarmCheckMark];
+    
+}
+
+-(IBAction)criticalBtnClicked:(id)sender{
+    
+    [self criticalCheckMark];
+    
+}
+
+-(void)normalCheckMark{
+ 
+    resultString = @"normal";
+ 
+    [normalBtn setImage:[UIImage imageNamed:@"radioselection.png"] forState:UIControlStateNormal];
+    [alarmBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
+    [criticalBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
+ 
 }
 
 -(void)alarmCheckMark{
-    
-    if (measurementTaskCheckBoxFlag == NO)
-    {
-        alarmFlag = YES;
-        alarmString = @"X";
-        [alarmBtn setImage:nil forState:UIControlStateNormal];
-        [alarmBtn setImage:[UIImage imageNamed:@"radioselection.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        alarmString = @" ";
-        [alarmBtn setImage:nil forState:UIControlStateSelected];
-        [alarmBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
-        alarmFlag = NO;
-    }
+ 
+    resultString = @"alarm";
+ 
+    [normalBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
+    [alarmBtn setImage:[UIImage imageNamed:@"radioselection.png"] forState:UIControlStateNormal];
+    [criticalBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
+ 
 }
 
 -(void)criticalCheckMark{
     
-    if (criticalFlag == NO)
-    {
-        criticalFlag = YES;
-        criticalString = @"X";
-        [criticalBtn setImage:nil forState:UIControlStateNormal];
-        [criticalBtn setImage:[UIImage imageNamed:@"radioselection.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        criticalString = @" ";
-        [criticalBtn setImage:nil forState:UIControlStateSelected];
-        [criticalBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
-        criticalFlag = NO;
-    }
+    resultString = @"critical";
+
+    [normalBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
+    [alarmBtn setImage:[UIImage imageNamed:@"radiounselection.png"] forState:UIControlStateNormal];
+    [criticalBtn setImage:[UIImage imageNamed:@"radioselection.png"] forState:UIControlStateNormal];
+    
 }
 
 -(IBAction)navigateMdocsButton:(id)sender
@@ -4721,6 +4736,11 @@ static dispatch_once_t onceToken;
             cell=[[MeasureMentDocumentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         
+        cell.mDocsContentView.layer.cornerRadius = 2.0f;
+        cell.mDocsContentView.layer.masksToBounds = YES;
+        cell.mDocsContentView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+        cell.mDocsContentView.layer.borderWidth = 1.0f;
+        
         [cell.checkBoxButton setImage:[UIImage imageNamed:@"checkbox_unselected.png"]   forState:UIControlStateNormal];
         
         cell.checkBoxButton.adjustsImageWhenHighlighted = YES;
@@ -5218,6 +5238,10 @@ static dispatch_once_t onceToken;
         
         return 30;
     }
+    else if (tableView==measurementDocTableView){
+        
+        return 236;
+    }
     else
     {
         return 40;
@@ -5674,15 +5698,14 @@ static dispatch_once_t onceToken;
         [[self.mesurementDocumentArray objectAtIndex:i] replaceObjectAtIndex:22 withObject:@"X"];
         [self.selectedMeasureDocsCheckBoxArray addObject:[NSNumber numberWithInteger:i]];
         
-        
-    }
+     }
     else
     {
         [sender setImage:[UIImage imageNamed:@"radiounselection.png"]forState:UIControlStateNormal];
         [[self.mesurementDocumentArray objectAtIndex:i] replaceObjectAtIndex:22 withObject:@""];
         [self.selectedMeasureDocsCheckBoxArray removeObject:[NSNumber numberWithInteger:i]];
-        
-    }
+     }
+    
 }
 
 
@@ -9903,9 +9926,7 @@ static dispatch_once_t onceToken;
             }
             else{
                 
-                
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-
  
                 [self showAlertMessageWithTitle:@"FieldTekPro" message:errorDescription cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
                 
@@ -13830,7 +13851,6 @@ static dispatch_once_t onceToken;
                 }
                 
                 [self searchMyOrdersFromSqlite:nil];
-                
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
 
             }
@@ -13839,9 +13859,8 @@ static dispatch_once_t onceToken;
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
 
                  [self showAlertMessageWithTitle:@"FieldTekPro" message:errorDescription cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-                
-            }
-            
+             }
+ 
             break;
             
         case ORDER_COLLECTIVE_CONFIRMATION:

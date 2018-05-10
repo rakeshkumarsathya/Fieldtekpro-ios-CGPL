@@ -130,7 +130,7 @@ typedef enum ORDERHEADERDETAILSMAPPING{
     IBOutlet UITextField *measurementPointTextField,*measurementDescriptionTextField,*raedingTextField,*measurementDateTextField,*measurementTimeTextField;
     IBOutlet UIScrollView *measurementDocScrollView;
     IBOutlet UIView *confirmOperationsView,*measurementDetailsView,*measurementDocumentView,*blackView;
-    NSString *measurementTaskCheckString,*wocoOrderNoString,*alarmString,*criticalString,*normalString;
+    NSString *measurementTaskCheckString,*wocoOrderNoString,*resultString;
     
     BOOL measurementTaskCheckBoxFlag,criticalFlag,normalFlag,alarmFlag;
     

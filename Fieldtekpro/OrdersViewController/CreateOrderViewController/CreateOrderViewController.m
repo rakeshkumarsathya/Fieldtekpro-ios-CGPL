@@ -1063,30 +1063,30 @@
     
     [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:0] objectAtIndex:2] forKey:@"ONAME"];
     
-    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:2] objectAtIndex:3] forKey:@"FID"];
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:3] objectAtIndex:3] forKey:@"FID"];
     
-    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:2] objectAtIndex:2] forKey:@"FNAME"];
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:3] objectAtIndex:2] forKey:@"FNAME"];
     
     if ([NullChecker isNull:equipmentID])
     {
-        equipmentID = [[headerDataArray objectAtIndex:3] objectAtIndex:3];
+        equipmentID = [[headerDataArray objectAtIndex:4] objectAtIndex:3];
     }
     
     [self.orderHeaderDetails setObject:[equipmentID copy] forKey:@"EQID"];
     
-    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:3] objectAtIndex:2] forKey:@"EQNAME"];
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:4] objectAtIndex:2] forKey:@"EQNAME"];
     
     [self.orderHeaderDetails setObject:@"" forKey:@"OPID"];
     [self.orderHeaderDetails setObject:@"" forKey:@"OPNAME"];
     
-    if ([[[headerDataArray objectAtIndex:4] objectAtIndex:3] length])
+    if ([[[headerDataArray objectAtIndex:5] objectAtIndex:3] length])
     {
-        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:4] objectAtIndex:3] forKey:@"OPID"];
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:5] objectAtIndex:3] forKey:@"OPID"];
     }
     
-    if ([[[headerDataArray objectAtIndex:4] objectAtIndex:2] length])
+    if ([[[headerDataArray objectAtIndex:5] objectAtIndex:2] length])
     {
-        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:4] objectAtIndex:2] forKey:@"OPNAME"];
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:5] objectAtIndex:2] forKey:@"OPNAME"];
     }
     
     [self.orderHeaderDetails setObject:@"" forKey:@"ACCINCID"];
@@ -1112,9 +1112,9 @@
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM dd, yyyy"];
-    NSDate *startDate = [dateFormatter dateFromString:[[headerDataArray objectAtIndex:7] objectAtIndex:2]];
+    NSDate *startDate = [dateFormatter dateFromString:[[headerDataArray objectAtIndex:8] objectAtIndex:2]];
     
-    NSDate *endDate = [dateFormatter dateFromString:[[headerDataArray objectAtIndex:8] objectAtIndex:2]];
+    NSDate *endDate = [dateFormatter dateFromString:[[headerDataArray objectAtIndex:9] objectAtIndex:2]];
     
     //    NSDate *startMalfunctionDate = [StartdateFormatter dateFromString:malfunctionStartDateTextField.text];
     //    NSDate *endMalfunctionDate = [StartdateFormatter dateFromString:malfunctionEndDateTextField.text];
@@ -1179,12 +1179,12 @@
     
     [self.orderHeaderDetails setObject:@"" forKey:@"SYSTEMCONDITIONID"];
     
-    if ([[[headerDataArray objectAtIndex:11] objectAtIndex:3] length]) {
+    if ([[[headerDataArray objectAtIndex:12] objectAtIndex:3] length]) {
         
-        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:11] objectAtIndex:3] forKey:@"SYSTEMCONDITIONID"];
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:12] objectAtIndex:3] forKey:@"SYSTEMCONDITIONID"];
     }
     
-    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:11] objectAtIndex:2] forKey:@"SYSTEMCONDITIONTEXT"];
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:12] objectAtIndex:2] forKey:@"SYSTEMCONDITIONTEXT"];
     
     [self.orderHeaderDetails setObject:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"oh_objectID"] forKey:@"OBJECTID"];
     
@@ -1209,10 +1209,10 @@
     
     if ([[[headerDataArray objectAtIndex:9] objectAtIndex:3] length])
     {
-        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:9] objectAtIndex:3] forKey:@"WORKCENTERID"];
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:10] objectAtIndex:3] forKey:@"WORKCENTERID"];
     }
     
-    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:9] objectAtIndex:3] forKey:@"WORKCENTERNAME"];
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:10] objectAtIndex:3] forKey:@"WORKCENTERNAME"];
     
  
     [self.orderHeaderDetails setObject:@"" forKey:@"PLANNERGROUP"];
@@ -1258,9 +1258,9 @@
         [self.orderHeaderDetails setObject:headerWorkArea forKey:@"workarea"];
     }
     
-    if ([[[headerDataArray objectAtIndex:10] objectAtIndex:3] length]) {
+    if ([[[headerDataArray objectAtIndex:11] objectAtIndex:3] length]) {
         
-        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:10] objectAtIndex:3] forKey:@"costcenter"];
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:11] objectAtIndex:3] forKey:@"costcenter"];
     }
     
     NSDateFormatter *getDate = [[NSDateFormatter alloc] init];
@@ -2486,7 +2486,6 @@
     NSMutableArray *tempworkSafetyPlansArray = [NSMutableArray new];
     
     [[DataBase sharedInstance] getinsertDetailOrderDetailstoDictionary:self.orderHeaderDetails withAttachments:self.attachmentArray withPermitWorkApprovals:self.workApprovalDetailsArray withPermitWorkApplications:self.workApplicationDetailsArray withIssuePermits:self.issuePermitsDetailArray withPermitsOperationWCD:self.permitsOperationWCD withTransaction:self.operationDetailsArray withParts:self.partDetailsArray withActivity:@"" withWsmDetails:tempworkSafetyPlansArray withObjectDetails:self.objectDetailsArray ForUUID:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_id"]];
- 
  
     [[DataBase sharedInstance] insertOrderTranscationDetails:self.operationDetailsArray :self.partDetailsArray :[[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_id"] copy]];
     
@@ -5181,65 +5180,133 @@
 
 -(IBAction)createOrder:(id)sender{
     
-    if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:0] objectAtIndex:2]])
-    {
- 
-        [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Order Type" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+    if (createOrderFlag) {
         
-    }
-    else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:1] objectAtIndex:2]])
-    {
- 
-         [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Order Long Text" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-        
-    }
-    else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:3] objectAtIndex:2]])
-    {
- 
-        [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Equipment Number" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-        
-    }
-    else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:5] objectAtIndex:2]])
-    {
-        
-        [self showAlertMessageWithTitle:@"Information" message:@"Please Select Planner group" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-        
-    }
-    else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:8] objectAtIndex:2]])
-    {
- 
-      [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Basic Start Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-        
-    }
-    else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:9] objectAtIndex:2]])
-    {
-           [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Basic End Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-    }
-    else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:10] objectAtIndex:2]])
-    {
-        [self showAlertMessageWithTitle:@"Information" message:@"Please Select Cost Center" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-    }
- 
-    else
-    {
-        if (createOrderFlag) {
+        if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:0] objectAtIndex:2]])
+        {
             
-            if(![self.operationDetailsArray count])
-            {
-                  [self showAlertMessageWithTitle:@"Information" message:@"Please enter at least 1 operation for order creation" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Order Type" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:1] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Order Long Text" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:3] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Equipment Number" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:5] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Select Planner group" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:8] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Basic Start Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:9] objectAtIndex:2]])
+        {
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Basic End Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:10] objectAtIndex:2]])
+        {
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Select Cost Center" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+        }
+        
+        else
+        {
+            if (createOrderFlag) {
+                
+                if(![self.operationDetailsArray count])
+                {
+                    [self showAlertMessageWithTitle:@"Information" message:@"Please enter at least 1 operation for order creation" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+                }
+                else
+                {
+                    
+                    [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to submit for Order creation?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Create Order"];
+                }
             }
-             else
-            {
- 
-                [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to submit for Order creation?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Create Order"];
-             }
-          }
-        
-        else{
             
-             [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to submit for Change Order?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Change Order"];
-         }
+            else{
+                
+                [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to submit for Change Order?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Change Order"];
+            }
+        }
      }
+    else{
+        
+        
+        if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:0] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Order Type" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:1] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Order Long Text" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:3] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Equipment Number" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:6] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Select Planner group" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:9] objectAtIndex:2]])
+        {
+            
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Basic Start Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:10] objectAtIndex:2]])
+        {
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Basic End Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+        }
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:11] objectAtIndex:2]])
+        {
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Select Cost Center" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+        }
+        
+        else
+        {
+            if (createOrderFlag) {
+                
+                if(![self.operationDetailsArray count])
+                {
+                    [self showAlertMessageWithTitle:@"Information" message:@"Please enter at least 1 operation for order creation" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+                }
+                else
+                {
+                    
+                    [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to submit for Order creation?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Create Order"];
+                }
+            }
+            
+            else{
+                
+                [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to submit for Change Order?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Change Order"];
+            }
+        }
+
+    }
+    
 }
 
 

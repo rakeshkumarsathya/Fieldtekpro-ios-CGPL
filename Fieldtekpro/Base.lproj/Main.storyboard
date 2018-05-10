@@ -2224,12 +2224,14 @@
                         <outlet property="MyOrdersTableView" destination="ck0-Cf-6TF" id="Qqa-Pu-g62"/>
                         <outlet property="addMDocScrollview" destination="I22-Pi-p2F" id="Yez-Vq-sPc"/>
                         <outlet property="addMeasurePointView" destination="FLq-T3-LtC" id="MNh-SI-ich"/>
+                        <outlet property="alarmBtn" destination="Zym-ef-fA0" id="cCm-f8-l3e"/>
                         <outlet property="attachView" destination="dWJ-Ei-fdB" id="bUe-gb-36N"/>
                         <outlet property="attachmentsTableView" destination="guT-ek-ZPT" id="qNQ-Gu-cXy"/>
                         <outlet property="confirmOperationsView" destination="Hob-q5-mqe" id="1PG-bA-lrM"/>
                         <outlet property="confirmScrollview" destination="MsD-B4-6br" id="R9E-FL-MbT"/>
                         <outlet property="confirmationTextview" destination="r9x-H8-dEI" id="GvE-BA-F52"/>
                         <outlet property="confirmationView" destination="RAk-b3-lOW" id="ZeN-4G-TU9"/>
+                        <outlet property="criticalBtn" destination="wmS-2M-JUq" id="U6e-xW-5NC"/>
                         <outlet property="employeeTextField" destination="wEN-Uj-Kzy" id="W7b-sj-gfO"/>
                         <outlet property="endDatetTextfield" destination="xkB-6k-gSU" id="p3x-V9-W3R"/>
                         <outlet property="endTimeTextField" destination="p1q-W1-x7c" id="Xjt-8u-Ceo"/>
@@ -2253,6 +2255,7 @@
                         <outlet property="mvaluationTextField" destination="cZv-pJ-arB" id="3GE-53-hdT"/>
                         <outlet property="mvaluationView" destination="15J-5s-PT3" id="fhf-mb-p5t"/>
                         <outlet property="myOrdersCountLabel" destination="5VY-L7-TIC" id="xJj-m0-mPt"/>
+                        <outlet property="normalBtn" destination="Fhx-7b-and" id="5D6-qk-3O5"/>
                         <outlet property="operationsTableView" destination="dLA-uj-jXO" id="er3-pV-Ire"/>
                         <outlet property="orderSearchBar" destination="FYK-Yg-RHX" id="rz6-cL-ufQ"/>
                         <outlet property="refreshBtn" destination="r5w-oa-j5R" id="b0T-Ww-0Ia"/>
@@ -2655,9 +2658,9 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DpV-dG-HmI">
-                                            <rect key="frame" x="175" y="10" width="25" height="25"/>
+                                            <rect key="frame" x="175" y="12" width="20" height="20"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="smW-GE-PFV"/>
+                                                <constraint firstAttribute="width" constant="20" id="smW-GE-PFV"/>
                                             </constraints>
                                             <state key="normal" image="radioselection.png"/>
                                             <connections>
@@ -2670,9 +2673,9 @@
                                         <constraint firstItem="DpV-dG-HmI" firstAttribute="leading" secondItem="XZc-Ia-x2f" secondAttribute="trailing" constant="15" id="1IA-9g-ZjL"/>
                                         <constraint firstAttribute="height" constant="46" id="Eo7-x1-Jkf"/>
                                         <constraint firstItem="XZc-Ia-x2f" firstAttribute="leading" secondItem="jQy-P1-Eab" secondAttribute="leading" constant="18" id="fVb-mK-PPL"/>
-                                        <constraint firstItem="DpV-dG-HmI" firstAttribute="top" secondItem="jQy-P1-Eab" secondAttribute="top" constant="10" id="flE-sQ-9tV"/>
+                                        <constraint firstItem="DpV-dG-HmI" firstAttribute="top" secondItem="jQy-P1-Eab" secondAttribute="top" constant="12" id="flE-sQ-9tV"/>
                                         <constraint firstItem="XZc-Ia-x2f" firstAttribute="centerY" secondItem="jQy-P1-Eab" secondAttribute="centerY" id="nGh-HW-iho"/>
-                                        <constraint firstItem="XZc-Ia-x2f" firstAttribute="centerY" secondItem="DpV-dG-HmI" secondAttribute="centerY" id="rN0-Ik-SyY"/>
+                                        <constraint firstItem="XZc-Ia-x2f" firstAttribute="centerY" secondItem="DpV-dG-HmI" secondAttribute="centerY" constant="1" id="rN0-Ik-SyY"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ht8-v6-8Sq">
@@ -2688,11 +2691,14 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fhx-7b-and">
-                                            <rect key="frame" x="8" y="34" width="25" height="25"/>
+                                            <rect key="frame" x="8" y="34" width="20" height="20"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="IRu-vQ-Je4"/>
+                                                <constraint firstAttribute="width" constant="20" id="IRu-vQ-Je4"/>
                                             </constraints>
-                                            <state key="normal" image="radioselection.png"/>
+                                            <state key="normal" image="radiounselection.png"/>
+                                            <connections>
+                                                <action selector="normalBtnClicked:" destination="Vh6-KV-kvb" eventType="touchUpInside" id="6DI-9A-BN1"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8G9-xC-MsE">
                                             <rect key="frame" x="39" y="32" width="57" height="28"/>
@@ -2704,27 +2710,33 @@
                                             </state>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zym-ef-fA0">
-                                            <rect key="frame" x="105" y="33" width="25" height="25"/>
+                                            <rect key="frame" x="105" y="33" width="20" height="20"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="yJP-RE-8y9"/>
+                                                <constraint firstAttribute="width" constant="20" id="yJP-RE-8y9"/>
                                             </constraints>
-                                            <state key="normal" image="radioselection.png"/>
+                                            <state key="normal" image="radiounselection.png"/>
+                                            <connections>
+                                                <action selector="alarmBtnClicked:" destination="Vh6-KV-kvb" eventType="touchUpInside" id="4w4-G3-N4M"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3A9-LA-6eF">
-                                            <rect key="frame" x="136" y="31" width="56" height="28"/>
+                                            <rect key="frame" x="136" y="31" width="56" height="30"/>
                                             <state key="normal" title="Alarm">
                                                 <color key="titleColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wmS-2M-JUq">
-                                            <rect key="frame" x="200" y="33" width="25" height="25"/>
+                                            <rect key="frame" x="200" y="33" width="20" height="20"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="bN3-o4-1q3"/>
+                                                <constraint firstAttribute="width" constant="20" id="bN3-o4-1q3"/>
                                             </constraints>
-                                            <state key="normal" image="radioselection.png"/>
+                                            <state key="normal" image="radiounselection.png"/>
+                                            <connections>
+                                                <action selector="criticalBtnClicked:" destination="Vh6-KV-kvb" eventType="touchUpInside" id="sRV-5O-igi"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3P-pB-V3q">
-                                            <rect key="frame" x="233" y="32" width="64" height="25"/>
+                                            <rect key="frame" x="233" y="32" width="64" height="27"/>
                                             <state key="normal" title="Critical">
                                                 <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
@@ -2732,27 +2744,27 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstItem="Fhx-7b-and" firstAttribute="bottom" secondItem="3A9-LA-6eF" secondAttribute="bottom" id="3On-pL-Tas"/>
-                                        <constraint firstItem="8G9-xC-MsE" firstAttribute="leading" secondItem="Fhx-7b-and" secondAttribute="trailing" constant="6" id="9WM-EQ-CQd"/>
-                                        <constraint firstItem="Fhx-7b-and" firstAttribute="centerY" secondItem="8G9-xC-MsE" secondAttribute="centerY" id="B0g-5i-8kM"/>
+                                        <constraint firstItem="Fhx-7b-and" firstAttribute="bottom" secondItem="3A9-LA-6eF" secondAttribute="bottom" constant="-7" id="3On-pL-Tas"/>
+                                        <constraint firstItem="8G9-xC-MsE" firstAttribute="leading" secondItem="Fhx-7b-and" secondAttribute="trailing" constant="11" id="9WM-EQ-CQd"/>
+                                        <constraint firstItem="Fhx-7b-and" firstAttribute="centerY" secondItem="8G9-xC-MsE" secondAttribute="centerY" constant="-2" id="B0g-5i-8kM"/>
                                         <constraint firstItem="z3P-pB-V3q" firstAttribute="top" secondItem="ht8-v6-8Sq" secondAttribute="top" constant="32" id="CkW-YW-0zC"/>
                                         <constraint firstItem="3A9-LA-6eF" firstAttribute="centerY" secondItem="z3P-pB-V3q" secondAttribute="centerY" id="Ilc-18-UvN"/>
                                         <constraint firstAttribute="bottom" secondItem="8G9-xC-MsE" secondAttribute="bottom" constant="12" id="JRW-59-g1j"/>
                                         <constraint firstItem="Zym-ef-fA0" firstAttribute="leading" secondItem="8G9-xC-MsE" secondAttribute="trailing" constant="9" id="Jj3-xd-i4m"/>
                                         <constraint firstItem="8G9-xC-MsE" firstAttribute="top" secondItem="IBQ-ql-gcF" secondAttribute="bottom" constant="7" id="Kll-aF-JyC"/>
-                                        <constraint firstItem="3A9-LA-6eF" firstAttribute="centerY" secondItem="wmS-2M-JUq" secondAttribute="centerY" id="MxI-zC-Sbc"/>
+                                        <constraint firstItem="3A9-LA-6eF" firstAttribute="centerY" secondItem="wmS-2M-JUq" secondAttribute="centerY" constant="3" id="MxI-zC-Sbc"/>
                                         <constraint firstItem="3A9-LA-6eF" firstAttribute="top" secondItem="IBQ-ql-gcF" secondAttribute="bottom" constant="6" id="Nba-uc-Q8c"/>
                                         <constraint firstItem="z3P-pB-V3q" firstAttribute="leading" secondItem="3A9-LA-6eF" secondAttribute="trailing" constant="41" id="OQD-ys-bbG"/>
                                         <constraint firstAttribute="height" constant="72" id="S7E-M1-521"/>
                                         <constraint firstItem="Zym-ef-fA0" firstAttribute="bottom" secondItem="wmS-2M-JUq" secondAttribute="bottom" id="XjM-Jr-2cR"/>
-                                        <constraint firstItem="wmS-2M-JUq" firstAttribute="leading" secondItem="Zym-ef-fA0" secondAttribute="trailing" constant="70" id="bVO-5s-cW8"/>
+                                        <constraint firstItem="wmS-2M-JUq" firstAttribute="leading" secondItem="Zym-ef-fA0" secondAttribute="trailing" constant="75" id="bVO-5s-cW8"/>
                                         <constraint firstItem="Zym-ef-fA0" firstAttribute="top" secondItem="wmS-2M-JUq" secondAttribute="top" id="gwf-wD-sO0"/>
                                         <constraint firstItem="IBQ-ql-gcF" firstAttribute="leading" secondItem="ht8-v6-8Sq" secondAttribute="leading" constant="20" id="hb8-EI-hK1"/>
                                         <constraint firstItem="8G9-xC-MsE" firstAttribute="top" secondItem="z3P-pB-V3q" secondAttribute="top" id="hqv-29-n86"/>
-                                        <constraint firstItem="8G9-xC-MsE" firstAttribute="centerY" secondItem="Zym-ef-fA0" secondAttribute="centerY" id="ifP-Yc-lxt"/>
-                                        <constraint firstItem="z3P-pB-V3q" firstAttribute="leading" secondItem="wmS-2M-JUq" secondAttribute="trailing" constant="8" symbolic="YES" id="ipb-QZ-wnF"/>
+                                        <constraint firstItem="8G9-xC-MsE" firstAttribute="centerY" secondItem="Zym-ef-fA0" secondAttribute="centerY" constant="3" id="ifP-Yc-lxt"/>
+                                        <constraint firstItem="z3P-pB-V3q" firstAttribute="leading" secondItem="wmS-2M-JUq" secondAttribute="trailing" constant="13" id="ipb-QZ-wnF"/>
                                         <constraint firstItem="z3P-pB-V3q" firstAttribute="trailing" secondItem="ht8-v6-8Sq" secondAttribute="trailingMargin" constant="3" id="r9T-i4-rYl"/>
-                                        <constraint firstItem="3A9-LA-6eF" firstAttribute="leading" secondItem="Zym-ef-fA0" secondAttribute="trailing" constant="6" id="x94-Ef-QjJ"/>
+                                        <constraint firstItem="3A9-LA-6eF" firstAttribute="leading" secondItem="Zym-ef-fA0" secondAttribute="trailing" constant="11" id="x94-Ef-QjJ"/>
                                         <constraint firstItem="Fhx-7b-and" firstAttribute="leading" secondItem="ht8-v6-8Sq" secondAttribute="leadingMargin" id="yx4-vW-UaN"/>
                                         <constraint firstItem="Zym-ef-fA0" firstAttribute="top" secondItem="IBQ-ql-gcF" secondAttribute="bottom" constant="8" symbolic="YES" id="zRo-Tk-OaZ"/>
                                     </constraints>
@@ -2794,6 +2806,9 @@
                                     <state key="normal" title="ADD">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
+                                    <connections>
+                                        <action selector="addMeasureDocumentDetails:" destination="Vh6-KV-kvb" eventType="touchUpInside" id="DGq-6A-hlQ"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3kT-OY-xet">
                                     <rect key="frame" x="8" y="544" width="139" height="49"/>
@@ -2802,6 +2817,9 @@
                                     <state key="normal" title="Cancel">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
+                                    <connections>
+                                        <action selector="cancelMdocsClicked:" destination="Vh6-KV-kvb" eventType="touchUpInside" id="GI2-lJ-kqr"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -2883,7 +2901,7 @@
                             </subviews>
                             <color key="backgroundColor" red="0.14901960780000001" green="0.33333333329999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2BF-2B-Mwg">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2BF-2B-Mwg">
                             <rect key="frame" x="0.0" y="54" width="320" height="414"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.94109421969999996" green="0.94122928380000004" blue="0.9410645366" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

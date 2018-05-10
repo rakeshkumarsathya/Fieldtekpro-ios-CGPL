@@ -2595,7 +2595,7 @@
                 [orderCreate setObject:@"" forKey:@"Udid"];
                 [orderCreate setObject:[requestData objectForKey:@"TRANSMITTYPE"] forKey:@"IvTransmitType"];
                 [orderCreate setObject:[NSNumber numberWithBool:isCommit] forKey:@"IvCommit"];
-                [orderCreate setObject:@"CHORD" forKey:@"Operation"];
+                [orderCreate setObject:@"CRORD" forKey:@"Operation"];
                 
                 //For Response Data need to send  empty in ETformat
                 [orderCreate setObject:etOrderHeaderItems forKey:@"EtOrderHeader"];
@@ -2854,7 +2854,7 @@
                         
 //                        [soapMessage appendFormat:@"<item><Qmnum></Qmnum><Aufnr></Aufnr><Vornr></Vornr><Equnr>%@</Equnr><Mdocm></Mdocm><Point>%@</Point><Mpobj></Mpobj><Mpobt></Mpobt><Psort></Psort><Pttxt></Pttxt><Atinn></Atinn><Idate>%@</Idate><Itime>%@</Itime><Mdtxt>%@</Mdtxt><Readr></Readr><Atbez></Atbez><Msehi></Msehi><Msehl></Msehl><Readc>%@</Readc><Desic></Desic><Prest></Prest><Docaf>%@</Docaf><Codct></Codct><Codgr></Codgr><Vlcod>%@</Vlcod><Action>I</Action></item>",[[objectIds objectAtIndex:i] objectAtIndex:2],[[objectIds objectAtIndex:i] objectAtIndex:3],convertedDateString,[[objectIds objectAtIndex:i] objectAtIndex:5],[[objectIds objectAtIndex:i] objectAtIndex:6],[[objectIds objectAtIndex:i] objectAtIndex:7],vlocdString,[[objectIds objectAtIndex:i] objectAtIndex:9]];
                         
-                         [mdocsItemsArray addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[objectIds objectAtIndex:i] objectAtIndex:2],[[objectIds objectAtIndex:i] objectAtIndex:3],convertedDateString,[[objectIds objectAtIndex:i] objectAtIndex:5],[[objectIds objectAtIndex:i] objectAtIndex:6],[[objectIds objectAtIndex:i] objectAtIndex:7],vlocdString,[[objectIds objectAtIndex:i] objectAtIndex:9],@"I", nil] forKeys:[NSArray arrayWithObjects:@"Equnr",@"Point",@"Idate",@"Itime",@"Mdtxt",@"Readc",@"Docaf",@"Vlcod",@"Action", nil]]];
+                         [mdocsItemsArray addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[objectIds objectAtIndex:i] objectAtIndex:2],[[objectIds objectAtIndex:i] objectAtIndex:3],convertedDateString,[[objectIds objectAtIndex:i] objectAtIndex:5],[[objectIds objectAtIndex:i] objectAtIndex:6],[[objectIds objectAtIndex:i] objectAtIndex:7],vlocdString,[[objectIds objectAtIndex:i] objectAtIndex:10],@"I",[[objectIds objectAtIndex:i] objectAtIndex:9], nil] forKeys:[NSArray arrayWithObjects:@"Equnr",@"Point",@"Idate",@"Itime",@"Mdtxt",@"Readc",@"Docaf",@"Vlcod",@"Action",@"Atbez", nil]]];
                         
                     }
                     

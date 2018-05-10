@@ -6178,13 +6178,10 @@ static dispatch_once_t onceToken;
     
     //    CREATE TABLE "ORDER_HEADER" ("orderh_id" VARCHAR,"orderh_type_id" VARCHAR,"orderh_type_name" VARCHAR,"orderh_shorttext" VARCHAR,"orderh_longtext" VARCHAR,"orderh_funcloc_id" VARCHAR,"orderh_funcloc_name" VARCHAR,"orderh_euipno_id" VARCHAR,"orderh_euipno_name" VARCHAR,"orderh_accindicator_id" VARCHAR,"orderh_accindicator_name" VARCHAR,"orderh_priority_id" VARCHAR,"orderh_priority_name" VARCHAR,"orderh_startdate" DATETIME,"orderh_enddate" DATETIME,"orderh_plant_id" VARCHAR,"orderh_plant_name" VARCHAR,"orderh_workcenter_id" VARCHAR,"orderh_workcenter_name" VARCHAR,"orderh_latitudes" VARCHAR,"orderh_longitudes" VARCHAR,"orderh_altitudes" VARCHAR,"orderh_reported_by" VARCHAR,"orderh_status" VARCHAR,"oh_objectID" VARCHAR,"oh_upadated_Date" DATETIME,"oh_docs" VARCHAR,"oh_sync_status" VARCHAR,"orderh_kokrs" VARCHAR,"orderh_kostl" VARCHAR,"orderh_qmnum" VARCHAR,"orderh_malf_sdate" VARCHAR,"orderh_malf_edate" VARCHAR,"orderh_effect_id" VARCHAR DEFAULT (null) ,"orderh_msaus" VARCHAR,"orderh_Nreported_by" VARCHAR,"orderh_effect_name" VARCHAR,"orderh_systemcondition_id" VARCHAR,"orderh_systemcondition_text" VARCHAR, "orderh_wsm" VARCHAR, "orderh_wcm" VARCHAR, "orderh_user01" VARCHAR, "orderh_user02" VARCHAR, "orderh_user03" VARCHAR, "orderh_user04" VARCHAR, "orderh_user05" VARCHAR)
     
-    
-    
+ 
     [queryString appendFormat:@"insert into ORDER_HEADER values('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@')",[headerDetails objectForKey:@"ID"],[headerDetails objectForKey:@"OID"],[headerDetails objectForKey:@"ONAME"],[headerDetails objectForKey:@"SHORTTEXT"],[headerDetails objectForKey:@"LONGTEXT"],[headerDetails objectForKey:@"FID"],[headerDetails objectForKey:@"FNAME"],[headerDetails objectForKey:@"EQID"],[headerDetails objectForKey:@"EQNAME"],[headerDetails objectForKey:@"ACCINCID"],[headerDetails objectForKey:@"ACCINCNAME"],[headerDetails objectForKey:@"OPID"],[headerDetails objectForKey:@"OPNAME"],[headerDetails objectForKey:@"SDATE"],[headerDetails objectForKey:@"EDATE"],[headerDetails objectForKey:@"PLANTID"],[headerDetails objectForKey:@"PLANTNAME"],[headerDetails objectForKey:@"WORKCENTERID"],[headerDetails objectForKey:@"WORKCENTERNAME"],[headerDetails objectForKey:@"LATITUDE"],[headerDetails objectForKey:@"LONGITUDE"],[headerDetails objectForKey:@"ALTITUDE"],[headerDetails objectForKey:@"REPORTEDBY"],[headerDetails objectForKey:@"OSTATUS"],objectIDStr,[nowDate stringFromDate:[NSDate date]],[headerDetails objectForKey:@"DOCS"],[headerDetails objectForKey:@"OSYNCSTATUS"],[headerDetails objectForKey:@"workarea"],[headerDetails objectForKey:@"costcenter"],[headerDetails objectForKey:@"QMNUM"],[headerDetails objectForKey:@"MALFUNCTIONSTARTDATE"],[headerDetails objectForKey:@"MALFUNCTIONENDDATE"],[headerDetails objectForKey:@"EFFECTID"],[headerDetails objectForKey:@"BREAKDOWN"],[headerDetails objectForKey:@"NREPORTEDBY"],[headerDetails objectForKey:@"EFFECTNAME"],[headerDetails objectForKey:@"SYSTEMCONDITIONID"],[headerDetails objectForKey:@"SYSTEMCONDITIONTEXT"],[headerDetails objectForKey:@"WSM"],[headerDetails objectForKey:@"WCM"],[headerDetails objectForKey:@"usr01"],[headerDetails objectForKey:@"usr02"],[headerDetails objectForKey:@"usr03"],[headerDetails objectForKey:@"usr04"],[headerDetails objectForKey:@"usr05"],[headerDetails objectForKey:@"PARNRID"],[headerDetails objectForKey:@"NAMEVW"],[headerDetails objectForKey:@"PLANNERGROUP"],[headerDetails objectForKey:@"PLANNERGROUPNAME"]];
     
-    
-    
-    
+ 
     if ([self set_query:queryString]) {
         if (![self run_Queries_NODATA]) {
             return @"Cannot update the Order";
@@ -6569,8 +6566,7 @@ static dispatch_once_t onceToken;
     for (int i=0; i<[partsDetails count]; i++) {
         
         [queryString setString:@""];
-        
-        
+ 
         //        CREATE TABLE "ORDER_PARTS" ("ordert_header_id" VARCHAR, "ordert_vornr_operation" VARCHAR, "ordert_quantity" INTEGER, "ordert_lgort" VARCHAR, "ordert_lgorttext" VARCHAR, "ordert_matnr" VARCHAR, "ordert_matnrtext" VARCHAR, "ordert_meins" VARCHAR, "ordert_posnr" VARCHAR, "ordert_postp" VARCHAR, "ordert_postptext" VARCHAR, "ordert_rsnum" VARCHAR, "ordert_rspos" VARCHAR, "ordert_werks" VARCHAR, "ordert_werkstext" VARCHAR, "ordert_componentaction" VARCHAR, "ordert_receipt" VARCHAR, "ordert_unload" VARCHAR)
         
         /*
@@ -8605,17 +8601,21 @@ static dispatch_once_t onceToken;
     }
     
     [queryString setString:@""];
-    [queryString appendFormat:@"SELECT * from ORDER_PARTS where ordert_header_id = '%@' ORDER BY ordert_vornr_operation ASC",uuid];
-    NSMutableArray *tempPartDetails = [NSMutableArray new];
-    if ([self set_query:queryString]) {
-        [tempPartDetails addObjectsFromArray:[self run_Queries_WITHDATA]];
-    }
     
-    for (int x = 0; x <[tempPartDetails count]; x ++) {
+    
+//    CREATE TABLE "ORDER_PARTS" ("ordert_header_id" VARCHAR, "ordert_vornr_operation" VARCHAR, "ordert_quantity" INTEGER, "ordert_lgort" VARCHAR, "ordert_lgorttext" VARCHAR, "ordert_matnr" VARCHAR, "ordert_matnrtext" VARCHAR, "ordert_meins" VARCHAR, "ordert_posnr" VARCHAR, "ordert_postp" VARCHAR, "ordert_postptext" VARCHAR, "ordert_rsnum" VARCHAR, "ordert_rspos" VARCHAR, "ordert_werks" VARCHAR, "ordert_werkstext" VARCHAR, "ordert_componentaction" VARCHAR, "ordert_receipt" VARCHAR, "ordert_unload" VARCHAR)
+    
+    [queryString appendFormat:@"SELECT distinct ordert_header_id,ordert_vornr_operation,ordert_quantity, ordert_lgort,ordert_lgorttext,ordert_matnr,ordert_matnrtext,ordert_meins,ordert_posnr,ordert_postp,ordert_postptext,ordert_rsnum,ordert_rspos,ordert_werks,ordert_werkstext,ordert_componentaction,ordert_receipt,ordert_unload from ORDER_PARTS where ordert_header_id = '%@' ORDER BY ordert_vornr_operation ASC",uuid];
+    
+      NSMutableArray *tempPartDetails = [NSMutableArray new];
+      if ([self set_query:queryString]) {
+        [tempPartDetails addObjectsFromArray:[self run_Queries_WITHDATA]];
+       }
+    
+      for (int x = 0; x <[tempPartDetails count]; x ++) {
         
-        NSMutableArray *customComponentCodeFields;
-        
-        customComponentCodeFields = [NSMutableArray new];
+         NSMutableArray *customComponentCodeFields;
+         customComponentCodeFields = [NSMutableArray new];
         
         [queryString setString:@""];
         [queryString appendFormat:@"SELECT doctype, doctypeitem, tabname, fieldname, value, label, datatype, sequence, length from ORDER_TRANSACTION_CUSTOMFIELDS where ordert_header_id = '%@' and ordert_vornr_operation= '%@' and ordert_posnr = '%@' and doctypeitem = 'WC'",uuid,[[tempPartDetails objectAtIndex:x] objectAtIndex:1],[[tempPartDetails objectAtIndex:x] objectAtIndex:8]];
@@ -8624,10 +8624,10 @@ static dispatch_once_t onceToken;
             [customComponentCodeFields addObjectsFromArray:[self run_Queries_WITHDATA]];
         }
         
-        [partDetails addObject:[NSArray arrayWithObjects:[tempPartDetails objectAtIndex:x],customComponentCodeFields,nil]];
-    }
+         [partDetails addObject:[NSArray arrayWithObjects:[tempPartDetails objectAtIndex:x],customComponentCodeFields,nil]];
+       }
     
-    [queryString setString:@""];
+       [queryString setString:@""];
     [queryString appendFormat:@"SELECT * from ORDER_WSM_SAFETYMEASURES where orderwsm_header_id = '%@'",uuid];
     if ([self set_query:queryString]) {
         [wsmDetails addObjectsFromArray:[self run_Queries_WITHDICTIONARY]];
@@ -10335,11 +10335,20 @@ static dispatch_once_t onceToken;
 //add MDocs
 -(NSMutableArray *)insertMeasurementDocs:(NSDictionary *)MdocsDetails{
     
-    //CREATE TABLE "ORDER_MEASUREMENT_DOCUMENTS" ("orderm_header_id" VARCHAR, "orderm_qmnum" VARCHAR, "orderm_aufnr" VARCHAR, "orderm_vornr" VARCHAR, "orderm_mdoc" VARCHAR, "orderm_point" VARCHAR, "orderm_mpobj" VARCHAR,"orderm_mpobt" VARCHAR, "orderm_psort" VARCHAR, "orderm_pttxt" VARCHAR, "orderm_atinn" VARCHAR, "orderm_idate" VARCHAR, "orderm_itime" VARCHAR, "orderm_mdtxt" VARCHAR, "orderm_readr" VARCHAR, "orderm_atbez" VARCHAR, "orderm_msehi" VARCHAR, "orderm_msehl" VARCHAR, "orderm_readc" VARCHAR, "orderm_desic" VARCHAR, "orderm_prest" VARCHAR, "orderm_docaf" VARCHAR, "orderm_action" VARCHAR)
+   //CREATE TABLE "ORDER_MEASUREMENT_DOCUMENTS" ("orderm_header_id" VARCHAR, "orderm_qmnum" VARCHAR, "orderm_aufnr" VARCHAR, "orderm_vornr" VARCHAR, "orderm_mdoc" VARCHAR, "orderm_point" VARCHAR, "orderm_mpobj" VARCHAR,"orderm_mpobt" VARCHAR, "orderm_psort" VARCHAR, "orderm_pttxt" VARCHAR, "orderm_atinn" VARCHAR, "orderm_idate" VARCHAR, "orderm_itime" VARCHAR, "orderm_mdtxt" VARCHAR, "orderm_readr" VARCHAR, "orderm_atbez" VARCHAR, "orderm_msehi" VARCHAR, "orderm_msehl" VARCHAR, "orderm_readc" VARCHAR, "orderm_desic" VARCHAR, "orderm_prest" VARCHAR, "orderm_docaf" VARCHAR, "orderm_action" VARCHAR)
+    
+    
+//    [addMdocsDictionary setObject:@"" forKey:@"MVALUATION"];
+//
+//    if (resultString.length) {
+//
+//        [addMdocsDictionary setObject:[resultString copy] forKey:@"RESULT"];
+//
+//    }
     
     NSMutableString *queryString = [[NSMutableString alloc]initWithString:@""];
     
-    [queryString appendFormat:@"insert into ORDER_MEASUREMENT_DOCUMENTS(orderm_header_id, orderm_qmnum, orderm_aufnr, orderm_vornr, orderm_mdoc, orderm_point, orderm_mpobj, orderm_mpobt, orderm_psort, orderm_pttxt, orderm_atinn, orderm_idate,orderm_itime, orderm_mdtxt, orderm_readr, orderm_atbez,  orderm_msehi, orderm_msehl, orderm_readc, orderm_desic, orderm_prest, orderm_docaf, orderm_action) values('%@','','','','','%@','','','','%@','','%@','%@','','','%@','','','','','','A','')",[MdocsDetails objectForKey:@"ID"],[MdocsDetails objectForKey:@"MEASUREMENTPOINTNAME"],[MdocsDetails objectForKey:@"MEASUREMENTDESCRIPTION"],[MdocsDetails objectForKey:@"MEASUREMENTDATE"],[MdocsDetails objectForKey:@"MEASUREMENTTIME"],[MdocsDetails objectForKey:@"MEASUREMENTREADING"]];
+    [queryString appendFormat:@"insert into ORDER_MEASUREMENT_DOCUMENTS(orderm_header_id, orderm_qmnum, orderm_aufnr, orderm_vornr, orderm_mdoc, orderm_point, orderm_mpobj, orderm_mpobt, orderm_psort, orderm_pttxt, orderm_atinn, orderm_idate,orderm_itime, orderm_mdtxt, orderm_readr, orderm_atbez,  orderm_msehi, orderm_msehl, orderm_readc, orderm_desic, orderm_prest, orderm_docaf, orderm_action) values('%@','','','','','%@','','','','%@','','%@','%@','','%@','%@','','','','','','','A')",[MdocsDetails objectForKey:@"ID"],[MdocsDetails objectForKey:@"MEASUREMENTPOINTNAME"],[MdocsDetails objectForKey:@"MEASUREMENTDESCRIPTION"],[MdocsDetails objectForKey:@"MEASUREMENTDATE"],[MdocsDetails objectForKey:@"MEASUREMENTTIME"],[MdocsDetails objectForKey:@"MVALUATION"],[MdocsDetails objectForKey:@"MEASUREMENTREADING"]];
     
     if ([self set_query:queryString]) {
         [self run_Queries_NODATA];
