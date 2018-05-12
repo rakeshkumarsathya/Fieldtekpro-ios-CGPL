@@ -33,7 +33,7 @@
      decryptedUserName = [str_UserNameDep AES128DecryptWithKey:key];
     
     NSMutableArray *tempSortDescriptionTexts=[NSMutableArray new];
-    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT A-Z",@"SORT Z-A", nil]];
+    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT A to Z",@"SORT Z to A", nil]];
     [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"",@"", nil]];
     
     NSMutableArray *tempSortStatusTexts=[NSMutableArray new];
@@ -81,14 +81,24 @@
     [sortView removeFromSuperview];
  }
 
--(IBAction)submitSortButtonClicked:(id)sender{
-    [blackView removeFromSuperview];
-    [sortView removeFromSuperview];
-}
 
--(IBAction)cancelSortButtonClicked:(id)sender{
+-(IBAction)cancelSortButtonClicked:(id)sender
+{
+    
     [blackView removeFromSuperview];
     [sortView removeFromSuperview];
+    
+    for (int i=0; i<[[self.structuredFilterSortedArray objectAtIndex:0] count]; i++) {
+        
+        for (int j=0; j<[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:i] objectAtIndex:1]count];j++)
+        {
+            [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:i] objectAtIndex:1] replaceObjectAtIndex:j withObject:@""];
+            
+        }
+    }
+    
+    [self searchForstockOverviewLook:nil];
+
 }
 
 
@@ -103,6 +113,164 @@
     [self.window addSubview:sortView];
 }
 
+-(IBAction)filterBackgroundClicked:(id)sender
+{
+    [sortView removeFromSuperview];
+    [blackView removeFromSuperview];
+    [self sortPredicateValues];
+}
+
+-(void)sortBackground
+{
+    NSMutableString *queryStringDescription = [NSMutableString new];
+    NSMutableString *queryStringPlant = [NSMutableString new];
+    NSMutableString *queryStringMaterial = [NSMutableString new];
+    
+    NSMutableString *queryString = [NSMutableString new];
+    
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:0] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        [queryStringDescription appendFormat:@" Maktx ASC "];
+    }
+    
+    else if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        [queryStringDescription appendFormat:@" Maktx DESC "];
+        
+    }
+    
+    if ([queryStringDescription length]) {
+        
+        [queryString appendFormat:@"%@",queryStringDescription];
+    }
+    
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        [queryStringPlant appendFormat:@" Werks ASC "];
+    }
+    
+    else  if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        [queryStringPlant appendFormat:@" Werks DESC "];
+        
+    }
+    
+    if ([queryStringPlant length]) {
+        
+        if ([queryString length]) {
+            [queryString appendFormat:@",%@",queryStringPlant];
+        }
+        else{
+            
+            [queryString appendFormat:@"%@",queryStringPlant];
+        }
+    }
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:2] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        [queryStringMaterial appendFormat:@" Matnr ASC "];
+    }
+    
+    else  if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        [queryStringMaterial appendFormat:@" Matnr DESC "];
+        
+    }
+    
+    if ([queryStringMaterial length]) {
+        
+        if ([queryString length]) {
+            [queryString appendFormat:@",%@",queryStringMaterial];
+        }
+        else{
+            
+            [queryString appendFormat:@"%@",queryStringMaterial];
+        }
+    }
+    
+    NSArray *filtersArray=[[DataBase sharedInstance] getMaterialSortedList:queryString];
+    [self.stockListArray removeAllObjects];
+    [self.stockListArray addObjectsFromArray:filtersArray];
+    stockOverviewCountLabel.text = [NSString stringWithFormat:@"My Stock (%i)",(int)[self.stockListArray count]];
+    
+    [stockTableview scrollRectToVisible:CGRectMake(0, 0, 0, 0) animated:YES];
+    [stockTableview reloadData];
+    
+}
+
+
+
+-(void)sortPredicateValues{
+ 
+    NSSortDescriptor *sortDescriptor ;
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:0] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"maktx"
+                                                     ascending:YES];
+        
+        
+    }
+    else if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"maktx"
+                                                     ascending:NO];
+    }
+    
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"werks"
+                                                     ascending:YES];
+        
+        
+        
+    }
+    else if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"werks"
+                                                     ascending:NO];
+    }
+    
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:2] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"matnr"
+                                                     ascending:YES];
+        
+    }
+    else if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"matnr"
+                                                     ascending:NO];
+    }
+ 
+    
+    
+    if (filterArray == nil) {
+        filterArray = [[NSArray alloc]init];
+    }
+    
+    
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+     filterArray=[[DataBase sharedInstance] getStocksSortedList:sortDescriptors];
+    
+     [self.stockListArray removeAllObjects];
+    [self.stockListArray addObjectsFromArray:filterArray];
+    
+    stockOverviewCountLabel.text = [NSString stringWithFormat:@"My Stock (%i)",(int)[self.stockListArray count]];
+    
+    [stockTableview scrollRectToVisible:CGRectMake(0, 0, 0, 0) animated:YES];
+    [stockTableview reloadData];
+    
+ 
+}
 
 #pragma mark-
 #pragma mark- Void Methods
@@ -129,13 +297,109 @@
     }
 }
 
+
+-(void)showAlertMessageWithTitle:(NSString*)title message:(NSString*)message cancelButtonTitle:(NSString *)cancelBtnTitle withactionType:(NSString *)actionString forMethod:(NSString *)methodNameString
+{
+    
+    UIAlertController * alert=[UIAlertController alertControllerWithTitle:title
+                                                                  message:message
+                                                           preferredStyle:UIAlertControllerStyleAlert];
+    
+    if ([actionString isEqualToString:@"Multiple"]) {
+        
+        
+        UIAlertAction* yesButton = [UIAlertAction actionWithTitle:@"Yes"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action)
+                                    {
+                                        if ([methodNameString isEqualToString:@"Stock Refresh"]) {
+                                            
+                                            hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                                            hud.mode = MBProgressHUDModeIndeterminate;
+                                            hud.label.text = @"Data refresh in progress...";
+ 
+                                            [self getLoadSettings];
+                                        
+                                        }
+                                        
+                                    }];
+        
+        UIAlertAction* noButton = [UIAlertAction actionWithTitle:cancelBtnTitle
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action)
+                                   {
+                                       
+                                       if ([methodNameString isEqualToString:@"addMoreCauseCode"]) {
+                                           
+                                           
+                                       }
+                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                       
+                                   }];
+        
+        [alert addAction:noButton];
+        [alert addAction:yesButton];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    
+    else{
+        
+        UIAlertAction* okButton = [UIAlertAction actionWithTitle:cancelBtnTitle
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action)
+                                   {
+                                       
+                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                       
+                                       if ([methodNameString isEqualToString:@"Notif Success"]) {
+                                           
+                                           [self.navigationController popViewControllerAnimated:YES];
+                                           
+                                       }
+ 
+                                   }];
+        
+        [alert addAction:okButton];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }
+}
+
+
+#pragma mark-
+#pragma mark- Iphone Button Actions
+
+-(IBAction)refreshBtn:(id)sender{
+    
+    if ([[ConnectionManager defaultManager] isReachable]) {
+        
+        [defaults setObject:@"REFRESH" forKey:@"REFRESH"];
+        [defaults synchronize];
+        
+         [self showAlertMessageWithTitle:@"Refresh" message:@"All Relavent Data will be loaded from server.\nDo you want to continue?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Stock Refresh"];
+      }
+    else{
+        
+        if ([[defaults objectForKey:@"ACTIVATELOGS"] isEqualToString:@"X"])
+        {
+            [[DataBase sharedInstance] writToLogFile:[NSString stringWithFormat:@"#INFO#.com.enstrapp.fieldtekpro #Activity:Refresh   #Class: Very Important #MUser:%@ #DeviceId:%@",decryptedUserName,[defaults objectForKey:@"edeviceid"]]];
+        }
+        
+      
+        [self showAlertMessageWithTitle:@"No Network Available" message:@"Refresh cannot be performed!" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+        
+    }
+}
+
 -(void)getLoadSettings{
     
     NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc]init];
     NSMutableDictionary *endPointDictionary = [NSMutableDictionary new];
     [endPointDictionary setObject:@"F4" forKey:@"ACTIVITY"];
     [endPointDictionary setObject:@"D1" forKey:@"DOCTYPE"];
-    [endPointDictionary setObject:@"SOAP" forKey:@"ENDPOINT"];
+    [endPointDictionary setObject:[defaults objectForKey:@"ENDPOINT"] forKey:@"ENDPOINT"];
     NSArray *endPointArray = [[DataBase sharedInstance] getEndPointURL:endPointDictionary];
     NSLog(@"endPoint :%@",[[endPointArray objectAtIndex:0] objectAtIndex:0]);
     [dataDictionary setObject:[[endPointArray objectAtIndex:0] objectAtIndex:0] forKey:@"URL_ENDPOINT"];
@@ -157,7 +421,7 @@
     NSMutableDictionary *endPointDictionary = [NSMutableDictionary new];
     [endPointDictionary setObject:@"SD" forKey:@"ACTIVITY"];
     [endPointDictionary setObject:@"C8" forKey:@"DOCTYPE"];
-    [endPointDictionary setObject:@"SOAP" forKey:@"ENDPOINT"];
+    [endPointDictionary setObject:[defaults objectForKey:@"ENDPOINT"] forKey:@"ENDPOINT"];
     NSArray *endPointArray = [[DataBase sharedInstance] getEndPointURL:endPointDictionary];
     
     [searchDictionary setObject:[[endPointArray objectAtIndex:0] objectAtIndex:0] forKey:@"URL_ENDPOINT"];
@@ -232,8 +496,7 @@
     
     [self searchForstockOverviewLook:inputsDictionary];
     
-    
-}
+ }
 
 -(IBAction)storLocnSelected:(id)sender
 {
@@ -308,9 +571,9 @@
         storageBinselected = YES;
     }
     
-    [inputsDictionary setObject:@"Werks" forKey:@"COLOUMN"];
+     [inputsDictionary setObject:@"Werks" forKey:@"COLOUMN"];
+     [self searchForstockOverviewLook:inputsDictionary];
     
-    [self searchForstockOverviewLook:inputsDictionary];
 }
 
 -(void)searchForstockOverviewLook :(NSMutableDictionary *)actions{
@@ -471,6 +734,7 @@
             cell.unresrictedLabel.text=[[filterArray objectAtIndex:indexPath.row]objectForKey:@"labst"];
             cell.blockedstockLabel.text=[[filterArray objectAtIndex:indexPath.row]objectForKey:@"speme"];
             cell.storagebinLabel.text=[[filterArray objectAtIndex:indexPath.row]objectForKey:@"lgpbe"];
+             cell.valuationTypeLabel.text=[[filterArray objectAtIndex:indexPath.row]objectForKey:@"bwtar"];
             
         }
         else{
@@ -489,6 +753,8 @@
             
             cell.storagebinLabel.text=[[self.stockListArray objectAtIndex:indexPath.row]objectForKey:@"lgpbe"];
             
+            cell.valuationTypeLabel.text=[[self.stockListArray objectAtIndex:indexPath.row]objectForKey:@"bwtar"];
+ 
         }
         
         return cell;
@@ -498,8 +764,7 @@
         static NSString *CellIdentifier = @"CustomCell";
         
         FilterSortTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        
+ 
         if (cell==nil) {
             cell=[[FilterSortTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
@@ -517,9 +782,9 @@
         {
             
             [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"CheckBoxSelection"]   forState:UIControlStateNormal];
+             cell.headerlabelValue.textColor= [UIColor colorWithRed:38.0/255.0 green:85.0/255.0 blue:157.0/255.0 alpha:5.0];
             
-            cell.headerlabelValue.textColor= [UIColor colorWithRed:59.0/255.0 green:187.0/255.0 blue:196.0/255.0 alpha:5.0];
-        }
+         }
         else
         {
             [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"checkBoxUnSelection"]   forState:UIControlStateNormal];
@@ -536,31 +801,182 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    ReservationViewController *resVc = [self.storyboard instantiateViewControllerWithIdentifier:@"ReserveView"];
+    if (tableView==stockTableview) {
+        
+        ReservationViewController *resVc = [self.storyboard instantiateViewControllerWithIdentifier:@"ReserveView"];
+        
+        NSMutableArray *tempArray=[NSMutableArray new];
+        
+        if (stockTableview.tag==1)
+        {
+            [tempArray addObject:[filterArray objectAtIndex:indexPath.row]];
+            resVc.plantValueString=[[filterArray objectAtIndex:indexPath.row] objectForKey:@"werks"];
+            
+        }
+        else{
+            
+            [tempArray addObject:[self.stockListArray objectAtIndex:indexPath.row]];
+             resVc.plantValueString=[[self.stockListArray objectAtIndex:indexPath.row] objectForKey:@"werks"];
+         }
+        
+        resVc.stockSelectedString=@"X";
+        resVc.detailBomDetailsArray=[tempArray copy];
+        [self showViewController:resVc sender:self];
+        
+    }
     
-    NSMutableArray *tempArray=[NSMutableArray new];
-    
-    if (stockTableview.tag==1)
+   else if (tableView==sortTableView)
     {
-        [tempArray addObject:[filterArray objectAtIndex:indexPath.row]];
+        if (indexPath.row==0)
+        {
+            
+            if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] objectAtIndex:indexPath.row] isEqualToString:@"X"]) {
+                
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:indexPath.row withObject:@""];
+            }
+            else
+            {
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:0 withObject:@"X"];
+            }
+            
+            
+            if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"]) {
+                
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:1 withObject:@""];
+            }
+            
+        }
         
-        resVc.plantValueString=[[filterArray objectAtIndex:indexPath.row] objectForKey:@"werks"];
+        else  if (indexPath.row==1)
+        {
+            
+            if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] objectAtIndex:indexPath.row] isEqualToString:@"X"]) {
+                
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:indexPath.row withObject:@""];
+            }
+            else
+            {
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:1 withObject:@"X"];
+            }
+            
+            if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+                
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:0 withObject:@""];
+            }
+        }
+        
+        [sortTableView reloadData];
+    }
+    
+}
 
-    }
-    else{
-        
-        [tempArray addObject:[self.stockListArray objectAtIndex:indexPath.row]];
-        
-        resVc.plantValueString=[[self.stockListArray objectAtIndex:indexPath.row] objectForKey:@"werks"];
+#pragma mark-
+#pragma mark- request Delegate
+
+- (void)resultData:(NSDictionary *)resultData withErrorDescription:(NSString *)errorDescription requestID:(WebServiceRequest)requestID :(int)statusCode
+{
+    switch (requestID) {
+            
+        case GET_SYNC_MAP_DATA:
+            
+            if (statusCode == 401) {
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                [self showAlertMessageWithTitle:@"Authentication Failed!!" message:@"kindly check your password" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+                
+             }
+            
+            if (!errorDescription.length) {
+                
+                [[Response sharedInstance] parseForSyncMapData:resultData];
+                
+                [self functionForSyncMapData];
+            }
+            else{
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+               
+                [self showAlertMessageWithTitle:@"FieldTekPro" message:errorDescription cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+
+            }
+            
+            break;
+            
  
-    }
-    
-    resVc.stockSelectedString=@"X";
-    
-    resVc.detailBomDetailsArray=[tempArray copy];
+        case GET_LOAD_SETTINGS:
+            
+            if (statusCode == 401) {
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
  
-    [self showViewController:resVc sender:self];
+                [self showAlertMessageWithTitle:@"Authentication Failed!!" message:@"kindly check your password" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+                
+                return;
+            }
+            
+            if (!errorDescription.length) {
+                
+                NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForLoadSettings:resultData];
+                
+                if ([parsedDictionary objectForKey:@"resultRefresh"]) {
+                    if ([[parsedDictionary objectForKey:@"resultRefresh"] isKindOfClass:[NSArray class]]) {
+                        if ([[parsedDictionary objectForKey:@"resultRefresh"] objectAtIndex:0]) {
+                            
+                            if ([[[parsedDictionary objectForKey:@"resultRefresh"] objectAtIndex:0] objectForKey:@"Stock"]) {
+                                if ([[[[parsedDictionary objectForKey:@"resultRefresh"] objectAtIndex:0] objectForKey:@"Stock"] isEqualToString:@"X"]) {
+                                    [self getStockData];
+                                }
+                                else{
+
+                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                                    [self showAlertMessageWithTitle:@"Info" message:@"No changes for you." cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+
+                                }
+                            }
+                            else{
+                                
+                                [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                            }
+                        }
+                    }
+                    else if ([[parsedDictionary objectForKey:@"resultRefresh"] isKindOfClass:[NSDictionary class]]){
+                        
+                        if ([[parsedDictionary objectForKey:@"resultRefresh"] objectForKey:@"Stock"]) {
+                            if ([[[parsedDictionary objectForKey:@"resultRefresh"] objectForKey:@"Stock"] isEqualToString:@"X"]) {
+                                
+                                [self getStockData];
+                            }
+                            else{
+
+                              
+                                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                
+                                [self showAlertMessageWithTitle:@"Info" message:@"No changes for you." cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+
+                                
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                [self showAlertMessageWithTitle:@"Info" message:@"No changes for you." cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+
+             }
+            
+            break;
     
+ 
+        default:break;
+    }
 }
 
 /*

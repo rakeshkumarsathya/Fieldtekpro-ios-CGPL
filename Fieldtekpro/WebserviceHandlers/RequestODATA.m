@@ -112,8 +112,7 @@
                 [requestString appendFormat:@"%@:%@%@/%@",URL_HOST,URL_PORT,URL_PATH_ODATA,[parameters objectForKey:@"URL_ENDPOINT"]];
                 
                 self.connectionRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:180.0];
-
-                
+ 
                 [self decryptforBasicAuth];
                 
                 [self.connectionRequest setValue:[NSString stringWithFormat:@"%@",[parameters objectForKey:@"TRANSMITTYPE"]] forHTTPHeaderField:@"IvTransmitType"];
@@ -121,10 +120,8 @@
                 [self.connectionRequest setValue:[[parameters objectForKey:@"REPORTEDBY"] uppercaseString] forHTTPHeaderField:@"Muser"];
                 
                 [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Devicesno"];
-                
-                [self.connectionRequest setValue:[NSString stringWithFormat:@"%@",decryptedUserName] forHTTPHeaderField:@"ivuser"];
- 
-                [self.connectionRequest setValue:@"18523416-177F-4B9B-9250-4F7A90A89537" forHTTPHeaderField:@"Deviceid"];
+                 [self.connectionRequest setValue:[NSString stringWithFormat:@"%@",decryptedUserName] forHTTPHeaderField:@"ivuser"];
+                 [self.connectionRequest setValue:@"18523416-177F-4B9B-9250-4F7A90A89537" forHTTPHeaderField:@"Deviceid"];
                 [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Udid"];
                 
                 NSString *authStr = [NSString stringWithFormat:@"%@:%@",decryptedUserName,decryptedPassword];
@@ -134,9 +131,7 @@
                 NSString *authValue = [authData base64EncodedStringWithOptions:0];
                 
                 [self.connectionRequest addValue:[NSString stringWithFormat:@"Basic %@",authValue] forHTTPHeaderField:@"Authorization"];
-                
-                NSLog(@"Request is %@",self.connectionRequest);
-
+ 
             }
  
             self.resultDelegate = delegate;
@@ -178,7 +173,6 @@
                 NSString *authValue = [authData base64EncodedStringWithOptions:0];
                  [self.connectionRequest addValue:[NSString stringWithFormat:@"Basic %@",authValue] forHTTPHeaderField:@"Authorization"];
                 
-                NSLog(@"Request is %@",self.connectionRequest);
  
             }
             
@@ -222,8 +216,7 @@
                 
                 [self.connectionRequest addValue:[NSString stringWithFormat:@"Basic %@",authValue] forHTTPHeaderField:@"Authorization"];
                 
-                NSLog(@"Request is %@",self.connectionRequest);
-
+ 
             }
             
             self.resultDelegate = delegate;
@@ -1160,7 +1153,7 @@
                 
                 [self.connectionRequest setValue:[NSString stringWithFormat:@"%@",decryptedUserName] forHTTPHeaderField:@"Muser"];
                 
-                [self.connectionRequest setValue:@"12345" forHTTPHeaderField:@"Devicesno"];
+                [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Devicesno"];
                 
                 [self.connectionRequest setValue:@"18523416-177F-4B9B-9250-4F7A90A89537" forHTTPHeaderField:@"Deviceid"];
                 [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Udid"];
@@ -1178,7 +1171,6 @@
                 NSString *authValue = [authData base64EncodedStringWithOptions:0];
                 
                 [self.connectionRequest addValue:[NSString stringWithFormat:@"Basic %@",authValue] forHTTPHeaderField:@"Authorization"];
-                
  
             }
             
@@ -1186,7 +1178,7 @@
  
             break;
             
-        case JSA_VALUE_HELPS:
+         case JSA_VALUE_HELPS:
             
             self.dataType = NORMAL_DATA;
             self.requestType = requestId;
@@ -1340,7 +1332,7 @@
  
                 [self.connectionRequest setValue:[NSString stringWithFormat:@"%@",decryptedUserName] forHTTPHeaderField:@"Muser"];
                 
-                [self.connectionRequest setValue:@"12345" forHTTPHeaderField:@"Devicesno"];
+                [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Devicesno"];
                 
                 [self.connectionRequest setValue:@"18523416-177F-4B9B-9250-4F7A90A89537" forHTTPHeaderField:@"Deviceid"];
                 [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Udid"];

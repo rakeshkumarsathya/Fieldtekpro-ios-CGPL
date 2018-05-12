@@ -17,18 +17,14 @@
 {
     NSString *databasePath;
     UILocalNotification *localNotification ;
-     NSTimer* dataTimer;
+    NSTimer* dataTimer;
 }
 @property (strong, nonatomic) UIWindow *window;
-
 @property (nonatomic, strong) CoreDataHelper *coreDataControlObject;
-
 @property (nonatomic, strong) NSString *deviceTokenString;
 @property (nonatomic, strong) NSUserDefaults *defaults;
-
 @property (strong, nonatomic) UIViewController *viewController;
 
- 
 
 
 +(NSDictionary *)fetchingPathForPlist;

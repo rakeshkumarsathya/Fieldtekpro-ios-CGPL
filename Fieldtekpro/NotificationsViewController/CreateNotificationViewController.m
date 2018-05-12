@@ -2609,7 +2609,7 @@
  
                 if (plantID.length) {
                     
-                      [self.dropDownArray addObjectsFromArray:[[DataBase sharedInstance] getPersonResonsibleMasterforPlant:plantID forWorkcenter:@""]];
+                      [self.dropDownArray addObjectsFromArray:[[DataBase sharedInstance] getPersonResonsibleMasterforPlant:iwerkString forWorkcenter:@""]];
                 }
                 else{
                     
@@ -2733,9 +2733,9 @@
                 textField.inputView = self.dropDownTableView;
                 textField.inputAccessoryView = self.mypickerToolbar;
                 
-                 if (res_obj.plantIdString.length) {
+                 if (res_obj.iwerkString.length) {
  
-                     [self.dropDownArray addObjectsFromArray:[[DataBase sharedInstance] getPersonResonsibleMasterforPlant:res_obj.plantIdString forWorkcenter:res_obj.workcenterString]];
+                     [self.dropDownArray addObjectsFromArray:[[DataBase sharedInstance] getPersonResonsibleMasterforPlant:res_obj.iwerkString forWorkcenter:res_obj.workcenterString]];
 
                  }
                  else{
@@ -4491,6 +4491,29 @@
     
     [pickerAlert addAction:cancelButton];
     
+    [cameraButton setValue:[[UIImage imageNamed:@"camera-image.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
+    
+    [galleryButton setValue:[[UIImage imageNamed:@"gallery-image.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
+    
+    [cancelButton setValue:[[UIImage imageNamed:@"cancel-image.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
+    
+     UIBarButtonItem *button;
+
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        
+        pickerAlert.popoverPresentationController.barButtonItem = button;
+        
+        [pickerAlert setModalPresentationStyle:UIModalPresentationPopover];
+        
+        UIPopoverPresentationController *popPresenter = [pickerAlert
+                                                         popoverPresentationController];
+        popPresenter.sourceView = self.view;
+        pickerAlert.popoverPresentationController.barButtonItem = button;
+        
+    }
+    
+    
     [self presentViewController:pickerAlert animated:YES completion:nil];
     
 }
@@ -5473,7 +5496,6 @@
                         cell.madatoryLabel.hidden=NO;
 
                     }
-                    
  
                     cell.scanBtn.hidden=NO;
                     cell.historyBtn.hidden=NO;
@@ -6293,8 +6315,7 @@
            
         cell.attachmentImage.image=ret;
 
- 
-       return cell;
+        return cell;
    }
     
       return nil;

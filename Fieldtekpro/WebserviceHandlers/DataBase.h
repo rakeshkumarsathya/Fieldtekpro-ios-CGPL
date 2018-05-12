@@ -68,6 +68,10 @@
 //Stocks sort
 - (NSArray *)getMaterialSortedList:(NSString *)getSortedList;
 - (NSArray *)getAllMaterials;
+- (NSMutableArray *)getStocksSortedList:(NSArray *)localConditions;
+
+- (NSMutableArray *)getBomsSortedList:(NSArray *)localConditions;
+
 
 - (BOOL)deleteRecordinOrderForUUID:(NSString *)orderH_ID ObjectcID:(NSString *)objectID ReportedBY:(NSString *)reportedPerson;
 - (BOOL)deleteRecordinNotificationForUUID:(NSString *)notificationH_ID ObjectcID:(NSString *)objectID ReportedBY:(NSString *)reportedPerson;
@@ -159,6 +163,8 @@
 - (NSMutableArray *)getSyncLogsDetails:(NSString *)userName;
 - (NSMutableArray *)getListOfControlKeys;
 - (NSMutableArray *)getPersonResonsibleMaster;
+
+-(NSMutableArray *)getPernrFromMasterData;
 
 //- (NSMutableArray *)getPersonResonsibleMasterforPlant:(NSString *)plantID;
 
@@ -377,6 +383,7 @@
 
 - (NSMutableArray *)getListOfWorkCenter;
 - (NSMutableArray *)getListOfWorkCenter:(NSString *)SelectedPlant;
+- (NSMutableArray *)getListOfWorkCenterwithKeys;
 
 - (BOOL)insertintoListOfWorkCenter :(NSArray *)arr_WorkCenterData;
 

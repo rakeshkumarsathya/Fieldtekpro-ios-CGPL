@@ -223,6 +223,9 @@
 
 -(void)refrshLoadCheckMark{
     
+    
+    
+    
     if (refreshCheckBoxSeleted == NO)
     {
         refreshCheckBoxSeleted = YES;
@@ -241,19 +244,39 @@
 
 -(IBAction)resetSettingsToServer:(id)sender{
     
-    intialdataLoadCheckBoxSeleted = YES;
-    [self initialDataLoadCheckMark];
+    refreshCheckBoxSeleted=NO;
+    refreshCheckBoxString=@"";
+    [refreshCheck setImage:[UIImage imageNamed:@"checkBoxUnSelection"] forState:UIControlStateNormal];
+
+    intialdataLoadCheckBoxString = @" ";
+    [intialdataLoadCheck setImage:[UIImage imageNamed:@"checkBoxUnSelection"] forState:UIControlStateNormal];
+    intialdataLoadCheckBoxSeleted = NO;
     
-    refreshCheckBoxSeleted = YES;
-    [self refrshLoadCheckMark];
+    _pushIntervalTextField.text=@"30";
     
-    appSetttingsArray = nil;
-    appSetttingsArray = [[NSMutableArray alloc]init];
-    [appSetttingsArray addObjectsFromArray:[[DataBase sharedInstance] getAppSettingsData]];
-   
-    [defaults synchronize];
+    [defaults removeObjectForKey:@"Intial_Data_Load_Check"];
+    [defaults removeObjectForKey:@"Refresh_Check"];
+    [defaults removeObjectForKey:@"PushInterval"];
+
+      [defaults synchronize];
+
  
-    [self defaultApplicationSettingsData];
+     settingsUpdateAlert = [[UIAlertView alloc]initWithTitle:@"Information" message:@"Application Settings has been Updated" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [settingsUpdateAlert show];
+    
+//    intialdataLoadCheckBoxSeleted = YES;
+//    [self initialDataLoadCheckMark];
+//
+//    refreshCheckBoxSeleted = YES;
+//    [self refrshLoadCheckMark];
+//
+//    appSetttingsArray = nil;
+//    appSetttingsArray = [[NSMutableArray alloc]init];
+//    [appSetttingsArray addObjectsFromArray:[[DataBase sharedInstance] getAppSettingsData]];
+//
+//    [defaults synchronize];
+//
+//    [self defaultApplicationSettingsData];
 
 
 }

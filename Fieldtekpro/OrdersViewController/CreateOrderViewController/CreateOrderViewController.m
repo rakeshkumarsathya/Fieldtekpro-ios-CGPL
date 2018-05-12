@@ -5570,7 +5570,7 @@
                         cell.historyBtn.hidden=NO;
                         cell.scanLabel.hidden=NO;
                         
-                        if (indexPath.row==2||indexPath.row==10) {
+                        if (indexPath.row==3||indexPath.row==10) {
                             cell.scanBtn.hidden=YES;
                             cell.historyBtn.hidden=YES;
                             cell.scanLabel.hidden=YES;
@@ -5651,6 +5651,14 @@
                         cell.InputTextField.delegate = self;
                         
                         cell.dropDownImageView.hidden=NO;
+                        
+                        cell.InputTextField.userInteractionEnabled=YES;
+
+                        
+                        if (indexPath.row==0) {
+                            
+                            cell.InputTextField.userInteractionEnabled=NO;
+                        }
                         
                         cell.notifView.layer.cornerRadius = 2.0f;
                         cell.notifView.layer.masksToBounds = YES;
@@ -7396,6 +7404,28 @@
 }
 
 
+-(void)detailOperationCheckBoxSelected:(id)sender
+{
+    submitResetView.hidden = YES;
+    
+    NSIndexPath *ip = [self GetCellFromTableView:commonlistTableView Sender:sender];
+    NSInteger i = ip.row;
+    
+    DetailOrderConfirmationViewController *operationVc = [self.storyboard instantiateViewControllerWithIdentifier:@"detailCOrderVC"];
+    
+    NSMutableArray *tempArray=[NSMutableArray new];
+    
+    [tempArray addObject:[self.operationDetailsArray objectAtIndex:i]];
+    
+    if ([tempArray count])
+    {
+        operationVc.detailOperationsArray=[tempArray copy];
+    }
+    
+    [self showViewController:operationVc sender:self];
+    
+}
+
 -(void)notiNoButtonClicked:(id)sender{
     
     CreateNotificationViewController *createVc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateNotifIdentifier"];
@@ -7413,8 +7443,6 @@
          [self showViewController:createVc sender:self];
 
       }
- 
-    
 }
 
 -(void)radioBoxYesClicked:(id)sender{

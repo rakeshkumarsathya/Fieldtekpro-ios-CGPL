@@ -25,9 +25,7 @@
     bomTableview.tag=0;
     
     self.bomHeaderArray = [NSMutableArray new];
-    
     defaults=[NSUserDefaults standardUserDefaults];
-
     inputsDictionary = [NSMutableDictionary new];
  
     NSString *key = @"";
@@ -47,11 +45,10 @@
     refreshBtn.imageEdgeInsets = UIEdgeInsetsMake(-10,20, 10, 0);
     refreshBtn.titleEdgeInsets = UIEdgeInsetsMake(30, -20, 0, 0);
     
- 
-    self.structuredFilterSortedArray = [NSMutableArray new];
+     self.structuredFilterSortedArray = [NSMutableArray new];
  
     NSMutableArray *tempSortDescriptionTexts=[NSMutableArray new];
-    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT A-Z",@"SORT Z-A", nil]];
+    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT A to Z",@"SORT Z to A", nil]];
     [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"",@"", nil]];
     
     NSMutableArray *tempSortStatusTexts=[NSMutableArray new];
@@ -89,6 +86,7 @@
         }
         else{
             
+           
             NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"bomcomponent contains[c] %@ or comptext contains[c] %@",searchText,searchText];
             
             filterArray = [self.bomDetailListArray filteredArrayUsingPredicate:bPredicate];
@@ -102,7 +100,7 @@
         
         if (searchText.length) {
             
-            NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"bomheader contains[c] %@",searchText];
+            NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"bomheader contains[c] %@ or bomdesc contains[c] %@",searchText,searchText];
             
             filterArray = [self.bomHeaderArray filteredArrayUsingPredicate:bPredicate];
             
@@ -270,6 +268,17 @@
     [blackView removeFromSuperview];
     [sortView removeFromSuperview];
     
+    for (int i=0; i<[[self.structuredFilterSortedArray objectAtIndex:0] count]; i++) {
+        
+        for (int j=0; j<[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:i] objectAtIndex:1]count];j++)
+        {
+            [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:i] objectAtIndex:1] replaceObjectAtIndex:j withObject:@""];
+         }
+    }
+    
+    [self searchForBOMOverviewLook:nil];
+    
+    
 }
 
 -(IBAction)sortButtonClicked:(id)sender
@@ -282,6 +291,275 @@
     [sortView setFrame:CGRectMake(blackView.frame.size.width-260, 57, 260, self.window.frame.size.height-57)];
     [self.window addSubview:sortView];
  }
+
+
+-(void)sortBackground
+{
+    NSMutableString *queryStringDescription = [NSMutableString new];
+    NSMutableString *queryStringPlant = [NSMutableString new];
+    NSMutableString *queryStringBom = [NSMutableString new];
+    
+    NSMutableString *queryString = [NSMutableString new];
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:0] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        [queryStringDescription appendFormat:@" BomDesc ASC "];
+    }
+    
+    else if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        [queryStringDescription appendFormat:@" BomDesc DESC "];
+        
+    }
+    
+    if ([queryStringDescription length]) {
+        
+        [queryString appendFormat:@"%@",queryStringDescription];
+    }
+    
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        [queryStringPlant appendFormat:@" Plant ASC "];
+    }
+    
+    else  if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        [queryStringPlant appendFormat:@" Plant DESC "];
+        
+    }
+    
+    
+    if ([queryStringPlant length]) {
+        
+        if ([queryString length]) {
+            [queryString appendFormat:@",%@",queryStringPlant];
+        }
+        else{
+            
+            [queryString appendFormat:@"%@",queryStringPlant];
+        }
+    }
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:2] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        [queryStringBom appendFormat:@" Bom ASC "];
+    }
+    else  if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:2] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+        [queryStringBom appendFormat:@" Bom DESC "];
+        
+    }
+    
+    if ([queryStringBom length]) {
+        
+        if ([queryString length]) {
+            [queryString appendFormat:@",%@",queryStringBom];
+        }
+        else{
+            
+            [queryString appendFormat:@"%@",queryStringBom];
+        }
+    }
+    
+    NSArray *filtersArray=[[DataBase sharedInstance] getBOMSortedList:queryString];
+    [self.bomHeaderArray removeAllObjects];
+    [self.bomHeaderArray addObjectsFromArray:filtersArray];
+    bomLookupCountLabel.text = [NSString stringWithFormat:@"My BOM (%i)",(int)[self.bomHeaderArray count]];
+    //  [self.bomLookupTableview scrollRectToVisible:CGRectMake(0, 0, 0, 0) animated:YES];
+    
+    [bomTableview reloadData];
+}
+
+
+-(IBAction)filterBackgroundClicked:(id)sender
+{
+    [sortView removeFromSuperview];
+    [blackView removeFromSuperview];
+    [self sortPredicateValues];
+    
+}
+
+-(IBAction)cancelSortButtonClicked:(id)sender
+{
+    
+    [blackView removeFromSuperview];
+    [sortView removeFromSuperview];
+    
+    for (int i=0; i<[[self.structuredFilterSortedArray objectAtIndex:0] count]; i++) {
+        
+        for (int j=0; j<[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:i] objectAtIndex:1]count];j++)
+        {
+            [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:i] objectAtIndex:1] replaceObjectAtIndex:j withObject:@""];
+            
+        }
+    }
+    
+    [self searchForBOMOverviewLook:nil];
+    
+}
+
+
+
+-(void)sortPredicateValues
+{
+    
+    NSSortDescriptor *sortDescriptor ;
+ 
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:0] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"bomdesc"
+                                                     ascending:YES];
+ 
+        
+    }
+    
+    else if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+         sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"bomdesc"
+                                                     ascending:NO];
+    }
+    
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"plant"
+                                                     ascending:YES];
+    }
+    
+    else  if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:1] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"plant"
+                                                     ascending:NO];
+    }
+    
+    
+    
+    if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:2] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+        
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"bomheader"
+                                                     ascending:YES];
+
+    }
+    else  if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:2] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"])
+    {
+
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"bomheader"
+                                                     ascending:NO];
+     }
+    
+     if (filterArray == nil) {
+        filterArray = [[NSArray alloc]init];
+     }
+ 
+ 
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    filterArray=[[DataBase sharedInstance] getBomsSortedList:sortDescriptors];
+    
+    [self.bomHeaderArray removeAllObjects];
+    [self.bomHeaderArray addObjectsFromArray:filterArray];
+ 
+      bomLookupCountLabel.text = [NSString stringWithFormat:@"My BOM (%i)",(int)[self.bomHeaderArray count]];
+      [bomTableview scrollRectToVisible:CGRectMake(0, 0, 0, 0) animated:YES];
+    
+     [bomTableview reloadData];
+ 
+}
+
+-(IBAction)refreshBtn:(id)sender{
+    
+    if ([[ConnectionManager defaultManager] isReachable]) {
+        
+        [defaults setObject:@"REFRESH" forKey:@"REFRESH"];
+        [defaults synchronize];
+        
+         [self showAlertMessageWithTitle:@"Refresh" message:@"All Relavent Data will be loaded from server.\nDo you want to continue?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Bom Refresh"];
+     }
+    else{
+        
+        if ([[defaults objectForKey:@"ACTIVATELOGS"] isEqualToString:@"X"])
+        {
+            [[DataBase sharedInstance] writToLogFile:[NSString stringWithFormat:@"#INFO#.com.enstrapp.fieldtekpro #Activity:Refresh  #Class: Very Important #MUser:%@ #DeviceId:%@",decryptedUserName,[defaults objectForKey:@"edeviceid"]]];
+        }
+        
+        [self showAlertMessageWithTitle:@"Refresh" message:@"Refresh cannot be performed!" cancelButtonTitle:@"No" withactionType:@"Single" forMethod:nil];
+     }
+}
+
+
+-(void)showAlertMessageWithTitle:(NSString*)title message:(NSString*)message cancelButtonTitle:(NSString *)cancelBtnTitle withactionType:(NSString *)actionString forMethod:(NSString *)methodNameString
+{
+    
+    UIAlertController * alert=[UIAlertController alertControllerWithTitle:title
+                                                                  message:message
+                                                           preferredStyle:UIAlertControllerStyleAlert];
+    
+    if ([actionString isEqualToString:@"Multiple"]) {
+        
+        
+        UIAlertAction* yesButton = [UIAlertAction actionWithTitle:@"Yes"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action)
+                                    {
+                                        if ([methodNameString isEqualToString:@"Bom Refresh"]) {
+                                            
+                                            isRefresh=YES;
+                                            selectedBOM = NO;
+ 
+                                            hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                                            hud.mode = MBProgressHUDModeIndeterminate;
+                                            hud.label.text = @"Data refresh in progress...";
+                                            
+                                            [self getLoadSettings];
+                                        }
+ 
+                                    }];
+        
+        UIAlertAction* noButton = [UIAlertAction actionWithTitle:cancelBtnTitle
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action)
+                                   {
+                                       
+                                       if ([methodNameString isEqualToString:@"addMoreCauseCode"]) {
+                                           
+ 
+                                       }
+                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                       
+                                   }];
+        
+        [alert addAction:noButton];
+        [alert addAction:yesButton];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    
+    else{
+        
+        UIAlertAction* okButton = [UIAlertAction actionWithTitle:cancelBtnTitle
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action)
+                                   {
+                                       
+                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                       
+                                       if ([methodNameString isEqualToString:@"Notif Success"]) {
+                                           
+                                           [self.navigationController popViewControllerAnimated:YES];
+                                           
+                                       }
+                                       
+                                       
+                                   }];
+        
+        [alert addAction:okButton];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }
+}
+
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;              // Default is 1 if not implemented
@@ -351,7 +629,7 @@
         }
         else
         {
-            [label setText:@"BOM #"];
+            [label setText:@"Bom #"];
             
         }
         [view addSubview:label];
@@ -508,7 +786,6 @@
         cell.dateTextfield.hidden = YES;
         cell.dateImageView.hidden = YES;
         cell.filterSortCheckBoxButton.hidden = NO;
-        
         cell.filterSortCheckBoxButton.adjustsImageWhenHighlighted = YES;
         
         cell.headerlabelValue.text=[[[[self.structuredFilterSortedArray objectAtIndex:0]objectAtIndex:indexPath.section] objectAtIndex:0] objectAtIndex:indexPath.row];
@@ -517,8 +794,9 @@
         {
             
             [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"CheckBoxSelection"]   forState:UIControlStateNormal];
-            
-            cell.headerlabelValue.textColor= [UIColor colorWithRed:38.0/255.0 green:85.0/255.0 blue:153.0/255.0 alpha:5.0];
+ 
+            cell.headerlabelValue.textColor= [UIColor colorWithRed:38.0/255.0 green:85.0/255.0 blue:157.0/255.0 alpha:5.0];
+
         }
         else
         {
@@ -587,6 +865,48 @@
     [bomDetailView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.view addSubview:bomDetailView];
     
+    }
+    
+    else if (tableView==sortTableView)
+    {
+        if (indexPath.row==0)
+        {
+            
+            if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] objectAtIndex:indexPath.row] isEqualToString:@"X"]) {
+                
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:indexPath.row withObject:@""];
+            }
+            else
+            {
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:0 withObject:@"X"];
+            }
+            
+            
+            if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] objectAtIndex:1] isEqualToString:@"X"]) {
+                
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:1 withObject:@""];
+            }
+        }
+        else  if (indexPath.row==1)
+        {
+            
+            if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] objectAtIndex:indexPath.row] isEqualToString:@"X"]) {
+                
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:indexPath.row withObject:@""];
+            }
+            else
+            {
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:1 withObject:@"X"];
+            }
+            
+            if ([[[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] objectAtIndex:0] isEqualToString:@"X"]) {
+                
+                [[[[self.structuredFilterSortedArray objectAtIndex:0] objectAtIndex:indexPath.section] objectAtIndex:1] replaceObjectAtIndex:0 withObject:@""];
+            }
+            
+        }
+        
+        [sortTableView reloadData];
     }
 }
 
@@ -664,12 +984,14 @@
     NSMutableDictionary *endPointDictionary = [NSMutableDictionary new];
     [endPointDictionary setObject:@"F4" forKey:@"ACTIVITY"];
     [endPointDictionary setObject:@"D1" forKey:@"DOCTYPE"];
-    [endPointDictionary setObject:@"SOAP" forKey:@"ENDPOINT"];
+    [endPointDictionary setObject:[defaults objectForKey:@"ENDPOINT"] forKey:@"ENDPOINT"];
+    
     NSArray *endPointArray = [[DataBase sharedInstance] getEndPointURL:endPointDictionary];
     NSLog(@"endPoint :%@",[[endPointArray objectAtIndex:0] objectAtIndex:0]);
     [dataDictionary setObject:[[endPointArray objectAtIndex:0] objectAtIndex:0] forKey:@"URL_ENDPOINT"];
     [dataDictionary setObject:decryptedUserName forKey:@"REPORTEDBY"];
     [dataDictionary setObject:@"REFR" forKey:@"TRANSMITTYPE"];
+    
     [Request makeWebServiceRequest:GET_LOAD_SETTINGS parameters:dataDictionary delegate:self];
     
     
@@ -684,7 +1006,7 @@
     NSMutableDictionary *endPointDictionary = [NSMutableDictionary new];
     [endPointDictionary setObject:@"EQ" forKey:@"ACTIVITY"];
     [endPointDictionary setObject:@"C5" forKey:@"DOCTYPE"];
-    [endPointDictionary setObject:@"SOAP" forKey:@"ENDPOINT"];
+    [endPointDictionary setObject:[defaults objectForKey:@"ENDPOINT"] forKey:@"ENDPOINT"];
     
     NSArray *endPointArray = [[DataBase sharedInstance] getEndPointURL:endPointDictionary];
     NSLog(@"endPoint :%@",[[endPointArray objectAtIndex:0] objectAtIndex:0]);
@@ -734,9 +1056,9 @@
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-                UIAlertView *authenticationFailedAlert = [[UIAlertView alloc] initWithTitle:@"Authentication Failed!!" message:@"kindly check your password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                 UIAlertView *authenticationFailedAlert = [[UIAlertView alloc] initWithTitle:@"Authentication Failed!!" message:@"kindly check your password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
                 
-                [authenticationFailedAlert show];
+                 [authenticationFailedAlert show];
                 
                 return;
             }
@@ -772,7 +1094,7 @@
             
             if (statusCode == 401) {
                 
-                [MBProgressHUD hideHUDForView:bomDetailView animated:YES];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
 
                  [detailBomtableview reloadData];
                 
@@ -851,11 +1173,12 @@
                     }
                 }
                 
-                [MBProgressHUD hideHUDForView:bomDetailView animated:YES];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             }
             else{
                 
-                [MBProgressHUD hideHUDForView:bomDetailView animated:YES];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
             }
             
             break;
@@ -940,10 +1263,10 @@
                                 [self getlistofBoms];
                             }
                             else{
+                                
                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-                                UIAlertView *noChangesalert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"No changes for you." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-                                [noChangesalert show];
+ 
+                                [self showAlertMessageWithTitle:@"Info" message:@"No changes for you" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
                             }
                         }
                     }
@@ -953,9 +1276,7 @@
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"FieldTekPro" message:errorDescription delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-                
-                [alert show];
+                 [self showAlertMessageWithTitle:@"FieldTekPro" message:errorDescription cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
                 
             }
             
@@ -966,15 +1287,11 @@
             if (statusCode == 401) {
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-               // [reserveView removeFromSuperview];
                 [detailBomtableview reloadData];
+ 
+                [self showAlertMessageWithTitle:@"Authentication Failed!!" message:@"kindly check your password" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+                  return;
                 
-                UIAlertView *authenticationFailedAlert = [[UIAlertView alloc] initWithTitle:@"Authentication Failed!!" message:@"kindly check your password" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-                
-                [authenticationFailedAlert show];
-                
-                return;
             }
             
             if (!errorDescription.length) {
@@ -1002,8 +1319,7 @@
                         [searchListArray addObject:[NSMutableArray arrayWithObjects:[str_Btext copy],[str_Bwart copy], nil]];
                     }
                     
-                    //  [[DataBase sharedInstance] insert_ListOfMovementTypes];
-                }
+                 }
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
             }

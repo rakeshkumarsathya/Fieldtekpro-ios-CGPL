@@ -15,11 +15,9 @@
 }
 @end
 
-
 @implementation ViewController
 
 @synthesize defaults;
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,11 +32,10 @@
 //    NSArray *tempArray=[[DataBase sharedInstance] testEntityData:@""];
 //    NSLog(@"test data is %@",tempArray);
     
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self setRightView:userNameTextField withImage:@"username"];
-    [self setRightView:passwordTextField withImage:@"password"];
- 
-}
+      [self.navigationController setNavigationBarHidden:YES animated:YES];
+      [self setRightView:userNameTextField withImage:@"username"];
+      [self setRightView:passwordTextField withImage:@"password"];
+  }
  
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

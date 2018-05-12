@@ -4107,14 +4107,12 @@ static Response *sharedInstance = nil;
                     {
                         [[DataBase sharedInstance] writToLogFile:[NSString stringWithFormat:@"#INFO#.com.enstrapp.fieldtekpro#Stock Data received"]];
                     }
-                    
-                    
+ 
                     NSMutableArray *stockMasterDataArray = [NSMutableArray new];
                     
-                    
                     [stockMasterDataArray addObjectsFromArray:[xmlDoc objectForKey:@"resultStock"]];
-                    
-                    
+                     NSLog(@"stock data is %@",stockMasterDataArray);
+ 
                     AppDelegate *tempDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                     
                     

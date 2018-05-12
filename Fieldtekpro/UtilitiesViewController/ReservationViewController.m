@@ -194,14 +194,14 @@
                 
                 [movementTypeID setString:[[self.dropDownArray objectAtIndex:indexPath.row] objectAtIndex:NAME_INDEX]];
                 
-                if ([movementTypeID isEqualToString:@"201"]) {
-                    
-                    orderNumberView.hidden=YES;
-                   }
-                
-                else{
-                     orderNumberView.hidden=NO;
-                 }
+//                if ([movementTypeID isEqualToString:@"201"]) {
+//
+//                    orderNumberView.hidden=YES;
+//                   }
+//
+//                else{
+//                     orderNumberView.hidden=NO;
+//                 }
  
                 [movementTypeTextfield resignFirstResponder];
                 

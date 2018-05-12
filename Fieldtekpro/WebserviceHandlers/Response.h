@@ -117,13 +117,12 @@
 - (NSMutableDictionary *)parseForJSAValueHelps:(NSDictionary *)resultDictionary;
 
 
-
 @property (nonatomic, retain) NSString *idString,*nameString,*ingrpString,*workcenterString,*plantIdString,*iwerkString,*catalogProfileIdstring,*applicationTypeString,*applicationObjArt,*equipFunLocString,*longTextString;
 
 @property (nonatomic) int selectedIndex;
 
 @property (nonatomic, strong) NSUserDefaults *defaults;
-@property (nonatomic, retain)  NSArray *myArray,*permitTextArray,*permitSecondTextArray,*notifHeaderArray,*notifTypeArray,*functionLocationArray,*materialsSearchListArray;
+@property (nonatomic, retain)  NSArray *myArray,*permitTextArray,*permitSecondTextArray,*notifHeaderArray,*notifTypeArray,*functionLocationArray,*materialsSearchListArray,*workcenterArray,*selectedindexesArray;
 @property (nonatomic, retain) NSDictionary *misDictionary;
 
 - (NSMutableDictionary *)parseForMeasurementDocs:(NSDictionary *)resultDictionary;

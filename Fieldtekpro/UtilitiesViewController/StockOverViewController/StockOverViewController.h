@@ -12,6 +12,8 @@
 #import "ReservationViewController.h"
 #import "ConnectionManager.h"
 #import "DataBase.h"
+#import "MBProgressHUD.h"
+
 
 @interface StockOverViewController : UIViewController
 {
@@ -33,6 +35,8 @@
     IBOutlet UILabel *stockOverviewCountLabel;
     
     IBOutlet UIButton *searchBtn,*sortBtn,*refreshBtn;
+
+    MBProgressHUD *hud;
 
  
  }

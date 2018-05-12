@@ -29,6 +29,8 @@
 #import "ApllicationsDropDownViewController.h"
 #import "StandardCheckPointTableViewCell.h"
 
+#import "DetailOrderConfirmationViewController.h"
+
 #define ID_INDEX 0
 #define NAME_INDEX 1
 

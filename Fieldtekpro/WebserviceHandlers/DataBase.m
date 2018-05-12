@@ -355,9 +355,11 @@ static dispatch_once_t onceToken;
     
     //CREATE TABLE "PERSONRESPONSIBLEMASTER" ("Werks" VARCHAR, "Arbpl" VARCHAR, "Objid" VARCHAR, "Lastname" VARCHAR, "Firstname" VARCHAR)
     
-     if (plantID.length||workcenterid.length) {
+     if (plantID.length) {
         
-        [queryString appendFormat:@"select * from PERSONRESPONSIBLEMASTER where Werks='%@' or Arbpl='%@'",plantID,workcenterid];
+       // [queryString appendFormat:@"select * from PERSONRESPONSIBLEMASTER where Werks='%@' or Arbpl='%@'",plantID,workcenterid];
+         [queryString appendFormat:@"select * from PERSONRESPONSIBLEMASTER where Werks='%@' ORDER by Objid ASC ",plantID];
+
         
         }
     else{
@@ -483,6 +485,23 @@ static dispatch_once_t onceToken;
     
     return [NSMutableArray array];
 }
+
+-(NSMutableArray *)getPernrFromMasterData
+{
+    
+    NSMutableString *queryString = [[NSMutableString alloc] init];
+    
+    [queryString appendFormat:@"select Pernr from USERDATAMASTER"];
+    
+    if ([self set_query:queryString])
+    {
+        return [self run_Queries_WITHDATA];
+    }
+    
+    return [NSMutableArray array];
+}
+
+//
 
 - (NSMutableArray *)getNotifPriorityTypes
 {
@@ -697,6 +716,16 @@ static dispatch_once_t onceToken;
     [queryString appendFormat:@"select * from WORKCENTERMASTER"];
     if ([self set_query:queryString]) {
         return [self run_Queries_WITHDATA];
+    }
+    return [NSMutableArray array];
+}
+
+- (NSMutableArray *)getListOfWorkCenterwithKeys
+{
+    NSMutableString *queryString = [[NSMutableString alloc] init];
+    [queryString appendFormat:@"select * from WORKCENTERMASTER"];
+    if ([self set_query:queryString]) {
+        return [self run_Queries_WITHDICTIONARY];
     }
     return [NSMutableArray array];
 }
@@ -3509,22 +3538,32 @@ static dispatch_once_t onceToken;
     
     NSMutableString *conditionString = [[NSMutableString alloc] initWithString:@" "];
     
-    if ([keyArray containsObject:@"FILTER"]) {
-        [conditionString appendFormat:@" where %@",[conditionDictionary objectForKey:@"FILTER"]];
-    }
-    else
-        if ([keyArray containsObject:@"COLOUMN"]){
-            [conditionString appendFormat:@" ORDER BY %@ %@",[conditionDictionary objectForKey:@"COLOUMN"],[conditionDictionary objectForKey:@"SORT"]];
+      if ([conditionDictionary objectForKey:@"PERNR"]) {
+        
+         [conditionString appendFormat:@" where notificationh_personresponsible_id = %@",[conditionDictionary objectForKey:@"PERNR"]];
+          
+     }
+    else{
+        
+        if ([keyArray containsObject:@"FILTER"]) {
+            [conditionString appendFormat:@" where %@",[conditionDictionary objectForKey:@"FILTER"]];
         }
-        else if ([keyArray containsObject:@"RECENT"]) {
-            [conditionString appendFormat:@"%@",[conditionDictionary objectForKey:@"RECENT"]];
-        }
-        else{
-            
-            //            [conditionString appendFormat:@" ORDER BY nh_upadated_Date DESC"];
-            [conditionString appendFormat:@" ORDER BY notificationh_startdate DESC"];
-        }
+        
+        else
+            if ([keyArray containsObject:@"COLOUMN"]){
+                [conditionString appendFormat:@" ORDER BY %@ %@",[conditionDictionary objectForKey:@"COLOUMN"],[conditionDictionary objectForKey:@"SORT"]];
+            }
+            else if ([keyArray containsObject:@"RECENT"]) {
+                [conditionString appendFormat:@"%@",[conditionDictionary objectForKey:@"RECENT"]];
+            }
+            else{
+                
+                //            [conditionString appendFormat:@" ORDER BY nh_upadated_Date DESC"];
+                [conditionString appendFormat:@" ORDER BY notificationh_startdate DESC"];
+            }
+      }
     
+   
     [queryString appendFormat:@" %@",conditionString];
     
     if([self set_query:queryString])
@@ -5510,32 +5549,97 @@ static dispatch_once_t onceToken;
 }
 
 
+- (NSMutableArray *)getBomsSortedList:(NSArray *)localConditions
+{
+    
+    NSManagedObjectContext *context = [[(AppDelegate *)[[UIApplication sharedApplication] delegate] coreDataControlObject] context];
+    
+    NSMutableArray *dataArray = [NSMutableArray new];
+    
+    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"EquipmentBOMHeader"];
+    
+    [materialsRequest setSortDescriptors:localConditions];
+    
+    [materialsRequest setResultType:NSDictionaryResultType];
+    
+    NSError *error = nil;
+    NSArray *objs = [context executeFetchRequest:materialsRequest error:&error];
+    if (error) {
+        [NSException raise:@"no Building find" format:@"%@", [error localizedDescription]];
+    }
+    if (objs.count > 0) {
+        // there is a Matnr with same id exsist. Use update method
+        
+        [dataArray addObjectsFromArray:objs];
+        
+    }else {
+        
+    }
+    
+    return dataArray;
+}
+
+- (NSMutableArray *)getStocksSortedList:(NSArray *)localConditions
+{
+ 
+    NSManagedObjectContext *context = [[(AppDelegate *)[[UIApplication sharedApplication] delegate] coreDataControlObject] context];
+ 
+    NSMutableArray *dataArray = [NSMutableArray new];
+    
+    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"StockOverView"];
+    
+    [materialsRequest setSortDescriptors:localConditions];
+    
+    [materialsRequest setResultType:NSDictionaryResultType];
+    
+    NSError *error = nil;
+    NSArray *objs = [context executeFetchRequest:materialsRequest error:&error];
+    if (error) {
+        [NSException raise:@"no Building find" format:@"%@", [error localizedDescription]];
+    }
+    if (objs.count > 0) {
+        // there is a Matnr with same id exsist. Use update method
+        
+        [dataArray addObjectsFromArray:objs];
+        
+    }else {
+        
+    }
+    
+    return dataArray;
+}
 
 //For Bom Sorting
 - (NSArray *)getMaterialSortedList:(NSString *)getSortedList
 {
-    NSMutableString *queryString = [[NSMutableString alloc] init];
-    
-    NSMutableArray *statusFilters;
-    
-    statusFilters = [NSMutableArray new];
-    
-    [queryString appendFormat:@"select * from STOCKOVERVIEWMASTER"];
-    
-    if ([getSortedList length]) {
-        
-        [queryString appendFormat:@" ORDER BY %@",getSortedList];
-    }
-    
-    if ([self set_query:queryString]) {
-        
-        [statusFilters addObjectsFromArray:[self run_Queries_WITHDICTIONARY]];
-    }
-    
-    [queryString setString:@""];
-    
-    
-    return statusFilters;
+//    AppDelegate   *appdelgate = (AppDelegate *)[[UIApplication
+//                                                 sharedApplication]delegate];
+//
+//    NSManagedObjectContext *context = [[(AppDelegate *)[[UIApplication sharedApplication] delegate] coreDataControlObject] context];
+//
+//    NSMutableArray *dataArray = [NSMutableArray new];
+//
+//    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"Incidents"];
+//
+//    [materialsRequest setSortDescriptors:localConditions];
+//
+//    [materialsRequest setResultType:NSDictionaryResultType];
+//
+//    NSError *error = nil;
+//    NSArray *objs = [context executeFetchRequest:materialsRequest error:&error];
+//    if (error) {
+//        [NSException raise:@"no Building find" format:@"%@", [error localizedDescription]];
+//    }
+//    if (objs.count > 0) {
+//        // there is a Matnr with same id exsist. Use update method
+//
+//        [dataArray addObjectsFromArray:objs];
+//
+//    }else {
+//
+//    }
+//
+    return [NSMutableArray array];
 }
 
 - (NSArray *)getAllMaterials
@@ -5577,7 +5681,7 @@ static dispatch_once_t onceToken;
     
     stockOverviewRequest.resultType = NSDictionaryResultType;
     
-    stockOverviewRequest.propertiesToFetch = [NSArray arrayWithObjects:[[entity propertiesByName] objectForKey:@"labst"],[[entity propertiesByName] objectForKey:@"lgort"],[[entity propertiesByName] objectForKey:@"lgpbe"],[[entity propertiesByName] objectForKey:@"maktx"],[[entity propertiesByName] objectForKey:@"matnr"],[[entity propertiesByName] objectForKey:@"speme"],[[entity propertiesByName] objectForKey:@"werks"], nil];
+    stockOverviewRequest.propertiesToFetch = [NSArray arrayWithObjects:[[entity propertiesByName] objectForKey:@"labst"],[[entity propertiesByName] objectForKey:@"lgort"],[[entity propertiesByName] objectForKey:@"lgpbe"],[[entity propertiesByName] objectForKey:@"maktx"],[[entity propertiesByName] objectForKey:@"matnr"],[[entity propertiesByName] objectForKey:@"speme"],[[entity propertiesByName] objectForKey:@"werks"],[[entity propertiesByName] objectForKey:@"bwtar"], nil];
     
     if ([plantDictionary objectForKey:@"PlantID"]) {
         
@@ -11126,7 +11230,7 @@ static dispatch_once_t onceToken;
     
     NSMutableArray *dataArray = [NSMutableArray new];
     
-    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"EquipMptt"];
+    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"StockOverView"];
     
     [materialsRequest setResultType:NSDictionaryResultType];
     
@@ -11360,15 +11464,14 @@ static dispatch_once_t onceToken;
         stockOverView = [NSEntityDescription insertNewObjectForEntityForName:@"StockOverView" inManagedObjectContext:delegate.coreDataControlObject.context];
         
         stockOverView.lgpbe = [stockOverViewDictoinary objectForKey:@"Lgpbe"];
-        
         stockOverView.lgort = [stockOverViewDictoinary objectForKey:@"Lgort"];
         stockOverView.labst = [stockOverViewDictoinary objectForKey:@"Labst"];
-        
         stockOverView.werks = [stockOverViewDictoinary objectForKey:@"Werks"];
-        
+        stockOverView.bwtar = [stockOverViewDictoinary objectForKey:@"Bwtar"];
         stockOverView.speme = [stockOverViewDictoinary objectForKey:@"Speme"];
         stockOverView.matnr = [stockOverViewDictoinary objectForKey:@"Matnr"];
         stockOverView.maktx = [stockOverViewDictoinary objectForKey:@"Maktx"];
+        
     }
     
     [delegate.coreDataControlObject saveContext];

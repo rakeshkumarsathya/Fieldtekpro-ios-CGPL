@@ -130,8 +130,21 @@
         [equipmentNumberdetailsArray addObject:res_obj.iwerkString];
         
         [equipmentNumberdetailsArray addObject:res_obj.catalogProfileIdstring];
+        
+         funcLocnTextfield.text=res_obj.equipFunLocString;
+
  
-        collectionViewVc.hidden=NO;
+//            NSArray *tempArray=[[DataBase sharedInstance] fetchNotificationLocationName:res_obj.equipFunLocString];
+//
+//            functionalLocationID =res_obj.equipFunLocString;
+//
+//              if ([tempArray count]) {
+//
+//                funcLocnTextfield.text=[[tempArray objectAtIndex:0] objectForKey:@"locationName"];
+//
+//               }
+ 
+            collectionViewVc.hidden=NO;
 
       }
     
@@ -152,9 +165,7 @@
         static NSString *identifier = @"Cell";
         
         CollectionViewCell *cell = (CollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-        
-        
-        
+ 
         cell.imageView.image=[UIImage imageNamed:[[imagesArray objectAtIndex:indexPath.row] objectAtIndex:0]];
         cell.textLabel.text=[[imagesArray objectAtIndex:indexPath.row] objectAtIndex:1];
         

@@ -10,7 +10,8 @@
 #import "CreateNotificationViewController.h"
 #import "NotificationObjects.h"
 #import "MBProgressHUD.h"
-
+#import "FilterWorkcenterTableViewCell.h"
+#import "WorkcenterViewController.h"
 
 //#import "ScanBarcodeViewController.h"
 
@@ -104,5 +105,6 @@ typedef enum HEADERDETAILSMAPPING{
 
 -(void)poptoMyNotificationsViewController;
 -(void)dismissMyNotificationsViewController;
+-(void)dismissWorkcenterView;
 
 @end

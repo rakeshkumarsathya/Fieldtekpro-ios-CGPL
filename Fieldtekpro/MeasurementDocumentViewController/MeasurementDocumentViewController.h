@@ -32,9 +32,11 @@
     int textfieldTag,tag,currentFlocTag;
     
     BOOL measurementTaskCheckBoxFlag,dropDowndismissFlag;
-
-    
+ 
     NSUInteger selectedInspectionIndex,funcLocTag,selectedDismissFlocIndex,selectedDropwnTag;
+    
+    IBOutlet UIButton *submitIClistBtn,*cancelBtn;
+    
  
 }
 

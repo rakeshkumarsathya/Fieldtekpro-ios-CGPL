@@ -1278,7 +1278,7 @@ static dispatch_once_t onceToken;
         if (![self.OrderListArray count])
         {
  
-            [self showAlertMessageWithTitle:@"Information" message:@"No Data found" cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
+           // [self showAlertMessageWithTitle:@"Information" message:@"No Data found" cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
             
         }
         else{
@@ -4538,13 +4538,13 @@ static dispatch_once_t onceToken;
                 if ([[[[[structuredFilterSortedArray firstObject] objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectAtIndex:1] isEqualToString:@"X"])
                 {
                     
-                    [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"radioselection.png"]   forState:UIControlStateNormal];
-                     cell.headerlabelValue.textColor= [UIColor colorWithRed:59.0/255.0 green:187.0/255.0 blue:196.0/255.0 alpha:5.0];
+                    [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"CheckBoxSelection"]   forState:UIControlStateNormal];
+                     cell.headerlabelValue.textColor= [UIColor colorWithRed:38.0/255.0 green:85.0/255.0 blue:157.0/255.0 alpha:5.0];
                     
                 }
                 else
                 {
-                    [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+                    [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"checkBoxUnSelection"]   forState:UIControlStateNormal];
                     
                     cell.headerlabelValue.textColor=[UIColor lightGrayColor];
                 }
@@ -4557,12 +4557,12 @@ static dispatch_once_t onceToken;
                 
                 if ([[[[[structuredFilterSortedArray lastObject]objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectAtIndex:1] isEqualToString:@"X"])
                 {
-                    [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"radioselection.png"]   forState:UIControlStateNormal];
-                     cell.headerlabelValue.textColor= [UIColor colorWithRed:59.0/255.0 green:187.0/255.0 blue:196.0/255.0 alpha:5.0];
+                    [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"CheckBoxSelection"]   forState:UIControlStateNormal];
+                     cell.headerlabelValue.textColor= [UIColor colorWithRed:38.0/255.0 green:85.0/255.0 blue:157.0/255.0 alpha:5.0];
                 }
                 else
                 {
-                     [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+                     [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"checkBoxUnSelection"]   forState:UIControlStateNormal];
                       cell.headerlabelValue.textColor=[UIColor lightGrayColor];
                  }
             }

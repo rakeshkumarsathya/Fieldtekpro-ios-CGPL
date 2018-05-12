@@ -22,6 +22,12 @@
 		141885762060AFF800C5CE0F /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 141885752060AFF700C5CE0F /* search.png */; };
 		141C18E92054128E00AF28E8 /* InspectionChecklistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141C18E82054128E00AF28E8 /* InspectionChecklistViewController.m */; };
 		141D282B2089C37E00E31BA3 /* splashscreen_activity_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 141D282A2089C37E00E31BA3 /* splashscreen_activity_background.png */; };
+		141F11BD20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F11BB20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.m */; };
+		141F11BE20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141F11BC20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.xib */; };
+		141F11C120A6CEDD00CCCBA6 /* WorkcenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F11C020A6CEDD00CCCBA6 /* WorkcenterViewController.m */; };
+		142CEFE720A4B6E300DA5E9E /* gallery-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CEFE420A4B6E200DA5E9E /* gallery-image.png */; };
+		142CEFE820A4B6E300DA5E9E /* cancel-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CEFE520A4B6E300DA5E9E /* cancel-image.png */; };
+		142CEFE920A4B6E300DA5E9E /* camera-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CEFE620A4B6E300DA5E9E /* camera-image.png */; };
 		14362A9D2024C54C009CA858 /* IsolationListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14362A9B2024C54C009CA858 /* IsolationListTableViewCell.m */; };
 		14362A9E2024C54C009CA858 /* IsolationListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14362A9C2024C54C009CA858 /* IsolationListTableViewCell.xib */; };
 		1452697220639F450011932A /* notification-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 1452697120639F450011932A /* notification-white.png */; };
@@ -32,6 +38,7 @@
 		14AA2F361FD8471900F354DC /* StockOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14AA2F351FD8471900F354DC /* StockOverViewController.m */; };
 		14AA2F391FD849A200F354DC /* BOMOverViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14AA2F381FD849A100F354DC /* BOMOverViewTableViewCell.m */; };
 		14AA2F3C1FD8590100F354DC /* StockOverViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14AA2F3B1FD8590000F354DC /* StockOverViewTableViewCell.m */; };
+		14B5DDAA20A417E00051BB10 /* DetailOrderConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5DDA920A417E00051BB10 /* DetailOrderConfirmationViewController.m */; };
 		14C0E94E205FF1FE00EBDA12 /* systemStatus.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C0E94D205FF1FE00EBDA12 /* systemStatus.png */; };
 		14C0E950206015F100EBDA12 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C0E94F206015E800EBDA12 /* add.png */; };
 		14C0E9522060170400EBDA12 /* addContact.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C0E951206016FC00EBDA12 /* addContact.png */; };
@@ -261,6 +268,14 @@
 		141C18E72054128E00AF28E8 /* InspectionChecklistViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspectionChecklistViewController.h; sourceTree = "<group>"; };
 		141C18E82054128E00AF28E8 /* InspectionChecklistViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspectionChecklistViewController.m; sourceTree = "<group>"; };
 		141D282A2089C37E00E31BA3 /* splashscreen_activity_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splashscreen_activity_background.png; sourceTree = "<group>"; };
+		141F11BA20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilterWorkcenterTableViewCell.h; sourceTree = "<group>"; };
+		141F11BB20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilterWorkcenterTableViewCell.m; sourceTree = "<group>"; };
+		141F11BC20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterWorkcenterTableViewCell.xib; sourceTree = "<group>"; };
+		141F11BF20A6CEDD00CCCBA6 /* WorkcenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkcenterViewController.h; sourceTree = "<group>"; };
+		141F11C020A6CEDD00CCCBA6 /* WorkcenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkcenterViewController.m; sourceTree = "<group>"; };
+		142CEFE420A4B6E200DA5E9E /* gallery-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery-image.png"; sourceTree = "<group>"; };
+		142CEFE520A4B6E300DA5E9E /* cancel-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel-image.png"; sourceTree = "<group>"; };
+		142CEFE620A4B6E300DA5E9E /* camera-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-image.png"; sourceTree = "<group>"; };
 		14362A9A2024C54C009CA858 /* IsolationListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IsolationListTableViewCell.h; sourceTree = "<group>"; };
 		14362A9B2024C54C009CA858 /* IsolationListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IsolationListTableViewCell.m; sourceTree = "<group>"; };
 		14362A9C2024C54C009CA858 /* IsolationListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IsolationListTableViewCell.xib; sourceTree = "<group>"; };
@@ -279,6 +294,8 @@
 		14AA2F381FD849A100F354DC /* BOMOverViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOMOverViewTableViewCell.m; sourceTree = "<group>"; };
 		14AA2F3A1FD8590000F354DC /* StockOverViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockOverViewTableViewCell.h; sourceTree = "<group>"; };
 		14AA2F3B1FD8590000F354DC /* StockOverViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockOverViewTableViewCell.m; sourceTree = "<group>"; };
+		14B5DDA820A417E00051BB10 /* DetailOrderConfirmationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailOrderConfirmationViewController.h; sourceTree = "<group>"; };
+		14B5DDA920A417E00051BB10 /* DetailOrderConfirmationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailOrderConfirmationViewController.m; sourceTree = "<group>"; };
 		14C0E94D205FF1FE00EBDA12 /* systemStatus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = systemStatus.png; sourceTree = "<group>"; };
 		14C0E94F206015E800EBDA12 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		14C0E951206016FC00EBDA12 /* addContact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addContact.png; sourceTree = "<group>"; };
@@ -644,6 +661,18 @@
 			path = InspectionChecklistViewcontroller;
 			sourceTree = "<group>";
 		};
+		141F11B420A6C14D00CCCBA6 /* WorkcenterTableviewcell */ = {
+			isa = PBXGroup;
+			children = (
+				141F11BA20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.h */,
+				141F11BB20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.m */,
+				141F11BC20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.xib */,
+				141F11BF20A6CEDD00CCCBA6 /* WorkcenterViewController.h */,
+				141F11C020A6CEDD00CCCBA6 /* WorkcenterViewController.m */,
+			);
+			path = WorkcenterTableviewcell;
+			sourceTree = "<group>";
+		};
 		145FA0F71FA0E56D0031355E /* TaskCodeTableviewcell */ = {
 			isa = PBXGroup;
 			children = (
@@ -707,6 +736,15 @@
 			path = StockOverViewController;
 			sourceTree = "<group>";
 		};
+		14B5DDA720A4170D0051BB10 /* DetailOrderConfirmationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				14B5DDA820A417E00051BB10 /* DetailOrderConfirmationViewController.h */,
+				14B5DDA920A417E00051BB10 /* DetailOrderConfirmationViewController.m */,
+			);
+			path = DetailOrderConfirmationViewController;
+			sourceTree = "<group>";
+		};
 		14E49C201FDCEC2400960748 /* ViewHistoryViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -763,6 +801,8 @@
 				E10141491F8B472A0025DC49 /* ViewController.h */,
 				E101414A1F8B472A0025DC49 /* ViewController.m */,
 				E1689B3A1FDE55610018C261 /* PlantMaintenance.sqlite */,
+				141F11B420A6C14D00CCCBA6 /* WorkcenterTableviewcell */,
+				14B5DDA720A4170D0051BB10 /* DetailOrderConfirmationViewController */,
 				141482D4206364DF00B974BF /* LongtextViewController */,
 				E155A3011FE3A3C50092AE65 /* FunctionLocationViewController */,
 				141C18E62054124400AF28E8 /* InspectionChecklistViewcontroller */,
@@ -788,6 +828,9 @@
 				E127A9F01FE2A928005B2050 /* fieldtekpro_launch_icon.png */,
 				140558291FE4F293006B8449 /* radioselection.png */,
 				140558281FE4F293006B8449 /* radiounselection.png */,
+				142CEFE620A4B6E300DA5E9E /* camera-image.png */,
+				142CEFE520A4B6E300DA5E9E /* cancel-image.png */,
+				142CEFE420A4B6E200DA5E9E /* gallery-image.png */,
 				E14A3C401FF6115C00A3AABB /* cr_sp_co11.png */,
 				E14A3C3F1FF6115C00A3AABB /* cr_sp_co22.png */,
 				E14A3C431FF61CB100A3AABB /* cr_sp_co33.png */,
@@ -1479,6 +1522,7 @@
 				E15BA156200F1BEA00BBA7DD /* FilterTableViewCell_iPhone6.xib in Resources */,
 				141539B72088A04A00A9FCCA /* GoogleService-Info.plist in Resources */,
 				E15C9D301FFE52480017AFB7 /* ELCAlbumPickerController.xib in Resources */,
+				141F11BE20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.xib in Resources */,
 				E1633E311FFA160F0003F523 /* ObjectTableViewCell_IPhone5.xib in Resources */,
 				E14A3C4B1FF61CFF00A3AABB /* yes_icon.png in Resources */,
 				E14A3C4C1FF61CFF00A3AABB /* yellow_traffic.png in Resources */,
@@ -1493,6 +1537,7 @@
 				141885762060AFF800C5CE0F /* search.png in Resources */,
 				14C0E950206015F100EBDA12 /* add.png in Resources */,
 				E15BA15E200F1BEA00BBA7DD /* AvailabilityDetailTableViewCell_iPhone5.xib in Resources */,
+				142CEFE820A4B6E300DA5E9E /* cancel-image.png in Resources */,
 				E1871F93200DC943001B2141 /* Menu.png in Resources */,
 				E1689B571FDE7DB00018C261 /* PlantMaintenance.sqlite in Resources */,
 				14C0E94E205FF1FE00EBDA12 /* systemStatus.png in Resources */,
@@ -1541,6 +1586,7 @@
 				E14548D61FE8E0C000723372 /* ListOfAttachmentsCustomTableViewCell_iPhone6.xib in Resources */,
 				14E49C1F1FDCE12A00960748 /* DetailMaintenancePlantTableViewCell.xib in Resources */,
 				E11BE1F01FF512FA003BD130 /* PartTableViewCell~iPhone.xib in Resources */,
+				142CEFE720A4B6E300DA5E9E /* gallery-image.png in Resources */,
 				E18B79D71FDFE0A60070BB5F /* EquipmentNumberDescriptionTableViewCell_IPhone.xib in Resources */,
 				14C0E9522060170400EBDA12 /* addContact.png in Resources */,
 				E18B79D21FDFE09A0070BB5F /* EquipmentNumberTableViewCell-iPhone.xib in Resources */,
@@ -1549,6 +1595,7 @@
 				E155C1D41FF387420028931E /* OperationTableViewCell-iPhone.xib in Resources */,
 				E157D52D1F8C9249006879C4 /* InputDropDownTableViewCell.xib in Resources */,
 				E15BA12E200F164800BBA7DD /* NotificationReport.png in Resources */,
+				142CEFE920A4B6E300DA5E9E /* camera-image.png in Resources */,
 				14FF30582007B3960077F438 /* availabilitycheck_icon.png in Resources */,
 				E15BA12A200F163A00BBA7DD /* Breakdown.png in Resources */,
 				E1572A7B1FFF87420012ABDE /* Checked-Icon.png in Resources */,
@@ -1789,6 +1836,7 @@
 				E101417E1F8B5CDC0025DC49 /* CollectionViewCell.m in Sources */,
 				14362A9D2024C54C009CA858 /* IsolationListTableViewCell.m in Sources */,
 				E10141561F8B472B0025DC49 /* main.m in Sources */,
+				14B5DDAA20A417E00051BB10 /* DetailOrderConfirmationViewController.m in Sources */,
 				E155A3001FE3A1BB0092AE65 /* EquipmentNumberViewController.m in Sources */,
 				14AA2F361FD8471900F354DC /* StockOverViewController.m in Sources */,
 				E127A9E91FE29F53005B2050 /* MyNotifcationsViewController.m in Sources */,
@@ -1810,6 +1858,7 @@
 				14E49C261FDCEE4800960748 /* HistoryTableViewCell.m in Sources */,
 				E1689B321FDE4DAE0018C261 /* Model.xcdatamodel in Sources */,
 				E1689B0C1FDE4CD60018C261 /* DataBase.m in Sources */,
+				141F11BD20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.m in Sources */,
 				E15C9D261FFE52320017AFB7 /* ELCAssetCell.m in Sources */,
 				E10141481F8B47290025DC49 /* AppDelegate.m in Sources */,
 				E18B79D61FDFE0A60070BB5F /* EquipmentNumberDescriptionTableViewCell.m in Sources */,
@@ -1822,6 +1871,7 @@
 				E11BE1EE1FF51149003BD130 /* PartTableViewCell.m in Sources */,
 				E15BA15B200F1BEA00BBA7DD /* EquipNumberTableViewCell.m in Sources */,
 				140812301FF548EF003D8543 /* XMLDictionary.m in Sources */,
+				141F11C120A6CEDD00CCCBA6 /* WorkcenterViewController.m in Sources */,
 				E1871F96200DEE1D001B2141 /* MeasurementDocumentViewController.m in Sources */,
 				E15BA157200F1BEA00BBA7DD /* AvailabilityDetailTableViewCell.m in Sources */,
 				E15BA161200F1BEA00BBA7DD /* NotifDescriptionTableViewCell.m in Sources */,

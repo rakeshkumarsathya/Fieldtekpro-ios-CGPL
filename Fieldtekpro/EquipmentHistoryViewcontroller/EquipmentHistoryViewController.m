@@ -206,7 +206,7 @@
         }
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"yyyyMMdd"];
         NSDate *startDate = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@",[[self.equipmentHistoryDataArray  objectAtIndex:indexPath.row] objectAtIndex:4]]];
         NSDate *endDate = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@",[[self.equipmentHistoryDataArray  objectAtIndex:indexPath.row] objectAtIndex:3]]];
         // Convert date object into desired format
@@ -235,11 +235,11 @@
         
         if ([[[self.equipmentHistoryDataArray objectAtIndex:indexPath.row] objectAtIndex:8] isEqualToString:@"X"]) {
             
-            [cell.breakdownCheck setImage:[UIImage imageNamed:@"checkbox_selected.png"]];
+            [cell.breakdownCheck setImage:[UIImage imageNamed:@"radioselection.png"]];
         }
         else{
             
-            [cell.breakdownCheck setImage:[UIImage imageNamed:@"checkbox_unselected.png"]];
+            [cell.breakdownCheck setImage:[UIImage imageNamed:@"radiounselection.png"]];
             
         }
         

@@ -173,7 +173,7 @@
     
     //  [imagesArray addObject:[NSArray arrayWithObjects:@"Maint_check_list",@"Maintainance Checklist", nil]];
     
-    [imagesArray addObject:[NSArray arrayWithObjects:@"History",@"History", nil]];
+    [imagesArray addObject:[NSArray arrayWithObjects:@"History",@"User Log", nil]];
     
     [imagesArray addObject:[NSArray arrayWithObjects:@"Change-Log",@"Alert Log", nil]];
     
@@ -909,9 +909,6 @@
 //        }
 //    });
 
-  
-    
-  
  
         dispatch_sync(fetchData, ^{
             
@@ -1097,6 +1094,8 @@
                 
                 [[Response sharedInstance] parseForSyncMapData:resultData];
                 
+                NSLog(@"Syncmap called");
+                
                 [self functionForSyncMapData];
             }
             
@@ -1117,6 +1116,9 @@
             if (!errorDescription.length) {
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForLoadSettings:resultData];
+                
+                NSLog(@"load settings called");
+
                 
                 [defaults removeObjectForKey:@"AUTH_LOAD"];
                 [defaults removeObjectForKey:@"SETT_LOAD"];
@@ -1393,8 +1395,10 @@
                             if ([defaults objectForKey:@"AUTH_REFRESH"] || [defaults objectForKey:@"SETT_REFRESH"] || [defaults objectForKey:@"VHLP_REFRESH"] || [defaults objectForKey:@"FLOCEQUIP_REFRESH"] || [defaults objectForKey:@"MAT_REFRESH"] || [defaults objectForKey:@"STOCK_REFRESH"] || [defaults objectForKey:@"BOM_REFRESH"] || [defaults objectForKey:@"DNOT_REFRESH"] || [defaults objectForKey:@"DORD_REFRESH"] || [defaults objectForKey:@"NFC_REFRESH"]) {
                                 
                                     [self performSelectorOnMainThread:@selector(dispatchQueueForEquipments) withObject:nil waitUntilDone:YES];
+                                
+                                
                                     [self performSelectorOnMainThread:@selector(dispatchQueuesForValueHelps) withObject:nil waitUntilDone:YES];
-                                    [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
+                                  //  [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
                                    // [self performSelectorOnMainThread:@selector(dispatchQueuesForJSAValueHelps) withObject:nil waitUntilDone:YES];
                             
                        //     [self performSelectorOnMainThread:@selector(dispatchQueuesForMeasurementDocuments) withObject:nil waitUntilDone:YES];
@@ -1413,18 +1417,20 @@
                         }
                         else{
                             
+                           
                             if ([defaults objectForKey:@"AUTH_LOAD"] || [defaults objectForKey:@"SETT_LOAD"] || [defaults objectForKey:@"VHLP_LOAD"] || [defaults objectForKey:@"FLOCEQUIP_LOAD"] || [defaults objectForKey:@"MAT_LOAD"] || [defaults objectForKey:@"STOCK_LOAD"] || [defaults objectForKey:@"BOM_LOAD"] || [defaults objectForKey:@"DNOT_LOAD"] || [defaults objectForKey:@"DORD_LOAD"]) {
                                 
                                 [self performSelectorOnMainThread:@selector(dispatchQueueForEquipments) withObject:nil waitUntilDone:YES];
+ 
+                                [self performSelectorOnMainThread:@selector(disPatchQueuesForAuthorization) withObject:nil waitUntilDone:YES];
+                                
+                                [self performSelectorOnMainThread:@selector(dispatchQueuesForMeasurementDocuments) withObject:nil waitUntilDone:YES];
                                 
                                 [self performSelectorOnMainThread:@selector(dispatchQueuesForValueHelps) withObject:nil waitUntilDone:YES];
                                 
-                                [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
+                              //  [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
                                 
-                                [self performSelectorOnMainThread:@selector(disPatchQueuesForAuthorization) withObject:nil waitUntilDone:YES];
-
-                            [self performSelectorOnMainThread:@selector(dispatchQueuesForMeasurementDocuments) withObject:nil waitUntilDone:YES];
-                                
+ 
                              //   [self performSelectorOnMainThread:@selector(dispatchQueuesForJSAValueHelps) withObject:nil waitUntilDone:YES];
                                 
                                 [self performSelectorOnMainThread:@selector(dispatchQueues) withObject:nil waitUntilDone:YES];
@@ -1452,8 +1458,8 @@
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForValueHelps:resultData];
                 
-             //   NSLog(@" wcm value helps is %@",resultData);
- 
+                NSLog(@"get value help called");
+
                 [DashBoardViewController functionForActivityTypeData:[parsedDictionary objectForKey:@"resultLstar"]];
                 [DashBoardViewController functionForNotifType:[parsedDictionary objectForKey:@"resultNotifTypes"]];
                 [DashBoardViewController functionForNotifPriority:[parsedDictionary objectForKey:@"resultNotifPriority"]];
@@ -1498,6 +1504,8 @@
  
                  NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForWCMValueHelps:resultData];
                 
+                NSLog(@"wcm value called");
+
                 [DashBoardViewController functionForWsmDocument:[parsedDictionary objectForKey:@"resultWSMDocument"]];
                 
                 //WCM
@@ -1536,6 +1544,8 @@
                 
             NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForJSAValueHelps:resultData];
                 
+              NSLog(@"jsa value called");
+ 
             [DashBoardViewController functionForJSAEHSOpstat:[parsedDictionary objectForKey:@"resultEHSOpstat"]];
                 
             [DashBoardViewController functionForJSAShazcat:[parsedDictionary objectForKey:@"resultEHSHazcat"]];
@@ -1567,6 +1577,8 @@
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForAuthData:resultData];
                 
+                 NSLog(@"auth data called");
+ 
                 [self functionForAutherization:parsedDictionary];
             }
             
@@ -1578,6 +1590,8 @@
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForSettingsData:resultData];
                 
+                 NSLog(@"Syncmap called");
+ 
                 [DashBoardViewController functionForSettings:parsedDictionary];
             }
             
@@ -1597,6 +1611,8 @@
         case GET_NFC_SETTINGS:
             
             if (!errorDescription.length) {
+                
+                NSLog(@"nfc settings called");
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForNFCSettings:resultData];
                 
@@ -1785,8 +1801,8 @@
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForSearchFunclocEquipments:resultData];
                 
-                NSLog(@"funcLocns:%@",parsedDictionary);
-                
+                NSLog(@"function location called");
+
                 if ([parsedDictionary objectForKey:@"resultFloc"]) {
                     
                     NSArray *arr_searchFuncLocResponse = [parsedDictionary objectForKey:@"resultFloc"];
@@ -1826,7 +1842,11 @@
             
             if (!errorDescription.length) {
                 
-                if ([resultData count])
+              //  NSLog(@"PmBoms Called");
+                
+                NSLog(@"stock response is%@",resultData);
+
+                 if ([resultData count])
                 {
                      AppDelegate *tempDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                      [tempDelegate.coreDataControlObject removeContextForEquipmentBOM:@""];
@@ -1842,8 +1862,11 @@
         case GET_LIST_OF_COMPONENTS:
             
             if (!errorDescription.length) {
+                
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance]parseForListOfComponents:resultData];
                 
+               // NSLog(@"components called");
+
                 if ([parsedDictionary objectForKey:@"result"]) {
                     NSArray *arr_ComponentsResponse = [parsedDictionary objectForKey:@"result"];
                     if ([arr_ComponentsResponse count]) {
@@ -1862,6 +1885,9 @@
             
             if (!errorDescription.length) {
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForListOfDueNotification:resultData];
+                
+                NSLog(@"Due Notifications called");
+
                 //  if ([parsedDictionary count] == 0) {
                 [[DataBase sharedInstance] deleteinsertDataIntoHeader:@"N"];
                 // }
@@ -3752,7 +3778,7 @@
             
             if (!errorDescription.length) {
                 
-               //  NSLog(@"Result Data is %@",resultData);
+                NSLog(@"Due orders called");
 
                  NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForListOfDueOrders:resultData];
                 
@@ -7706,6 +7732,9 @@
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForStockOverView:resultData];
                 
+                NSLog(@"Stock data  called");
+
+                
                 if ([parsedDictionary objectForKey:@"ERROR"]) {
                     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"ERROR" message:[parsedDictionary objectForKey:@"ERROR"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     [alert show];
@@ -7821,6 +7850,8 @@
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForMeasurementDocs:resultData];
                 
+                 NSLog(@"MDocs called");
+
                 [DashBoardViewController functionForMDocs:[parsedDictionary objectForKey:@"resultMDocs"]];
                 
              }
@@ -7921,7 +7952,7 @@
     [[DataBase sharedInstance] insertintoEtTq80:orderEtTq80Array];
 }
 
-
+ 
 +(void)functionForPlannerGroupMaster :(id)resultIngrp{
     
     NSMutableArray *vhlpInGrpArray = [NSMutableArray new];
@@ -8640,7 +8671,7 @@
             [busfResultArray removeAllObjects];
         }
         
-        busfResult = [[busfResult objectAtIndex:0] objectForKey:@"item"];
+      //  busfResult = [[busfResult objectAtIndex:0] objectForKey:@"item"];
         
         if ([busfResult isKindOfClass:[NSDictionary class]]) {
             
@@ -8665,7 +8696,7 @@
             [mUserFResultArray removeAllObjects];
         }
         
-        mUserResult = [[mUserResult objectAtIndex:0] objectForKey:@"item"];
+       // mUserResult = [[mUserResult objectAtIndex:0] objectForKey:@"item"];
         
         if ([mUserResult isKindOfClass:[NSDictionary class]]) {
             
@@ -8689,7 +8720,7 @@
             [screenUserresultArray removeAllObjects];
         }
         
-        scrfResult = [[scrfResult objectAtIndex:0] objectForKey:@"item"];
+       // scrfResult = [[scrfResult objectAtIndex:0] objectForKey:@"item"];
         
         if ([scrfResult isKindOfClass:[NSDictionary class]]) {
             [screenUserresultArray addObject:[NSMutableArray arrayWithObject:scrfResult]];
@@ -8708,7 +8739,7 @@
         
         id usrfResult = [resultUser objectForKey:@"Usrfresult"];
         
-        usrfResult = [[usrfResult objectAtIndex:0] objectForKey:@"item"];
+      //  usrfResult = [[usrfResult objectAtIndex:0] objectForKey:@"item"];
         
         if ([usrfResult isKindOfClass:[NSDictionary class]]) {
             [activityDocTypeArray addObjectsFromArray:[NSMutableArray arrayWithObject:usrfResult]];

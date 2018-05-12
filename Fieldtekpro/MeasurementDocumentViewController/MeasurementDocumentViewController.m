@@ -477,6 +477,17 @@
     
     [self.inspectionCheckListDataArray addObjectsFromArray:[[DataBase sharedInstance] getMeasurementDocumentPoints:[NSString stringWithFormat:@"%@",self.equipmentId]]];
     
+      submitIClistBtn.hidden=NO;
+      cancelBtn.hidden=NO;
+
+ 
+    if (![self.inspectionCheckListDataArray count]) {
+        
+        submitIClistBtn.hidden=YES;
+        cancelBtn.hidden=YES;
+
+    }
+    
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate date]];
     NSInteger currentHour = [components hour];
     NSInteger currentMinute = [components minute];
@@ -578,6 +589,11 @@
 
     [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to submit inspection checklist data ?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"SetMeasDoc"];
     
+}
+
+-(IBAction)cancelBtn:(id)sender{
+    
+    [startInspectionView removeFromSuperview];
 }
 
 -(void)setMeasurementDocMethod{

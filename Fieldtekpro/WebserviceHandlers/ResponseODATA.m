@@ -2604,22 +2604,38 @@
     
      NSMutableDictionary *xmlDoc = [NSMutableDictionary dictionary];
       NSDictionary *parseDictionary;
+    
+    id responseDictionary;
+    
      if ([resultDictionary objectForKey:@"d"]) {
         
-        parseDictionary = [resultDictionary copy];
+          responseDictionary = [[resultDictionary objectForKey:@"d"] copy];
         
-        if ([parseDictionary objectForKey:@"d"]){
+          if ([responseDictionary objectForKey:@"results"]){
+              
+              responseDictionary= [[responseDictionary objectForKey:@"results"] copy];
             
+              if ([responseDictionary isKindOfClass:[NSArray class]]) {
+                 
+                   parseDictionary = [[responseDictionary  objectAtIndex:0] copy];
+ 
+              }
+              else if ([responseDictionary isKindOfClass:[NSDictionary class]]){
+ 
+                  parseDictionary = [[responseDictionary objectForKey:@"results"] copy];
+                 
+              }
+ 
              if ([parseDictionary objectForKey:@"EsUser"]) {
                 
-                if (![NullChecker isNull:[parseDictionary objectForKey:@"EsUser"]]||[[parseDictionary objectForKey:@"EsUser"] objectForKey:@"results"]) {
+             if (![NullChecker isNull:[parseDictionary objectForKey:@"EsUser"]]||[[parseDictionary objectForKey:@"EsUser"] objectForKey:@"results"]) {
  
                 if ([[[parseDictionary objectForKey:@"EsUser"] objectForKey:@"results"] isKindOfClass:[NSDictionary class]])
                 {
                     [xmlDoc setObject:[NSMutableArray arrayWithObject:[[parseDictionary objectForKey:@"EsUser"] objectForKey:@"results"]] forKey:@"resultUser"];
                 }
-                else if([[parseDictionary objectForKey:@"EsUser"] isKindOfClass:[NSArray class]])
-                {
+                else if([[[parseDictionary objectForKey:@"EsUser"] objectForKey:@"results"] isKindOfClass:[NSArray class]])
+                 {
                     [xmlDoc setObject:[[parseDictionary objectForKey:@"EsUser"] objectForKey:@"results"] forKey:@"resultUser"];
                   }
                 }
@@ -2634,7 +2650,7 @@
                     {
                         [xmlDoc setObject:[NSMutableArray arrayWithObject:[[parseDictionary objectForKey:@"EtBusf"] objectForKey:@"results"]] forKey:@"Busfresult"];
                     }
-                    else if([[parseDictionary objectForKey:@"EtBusf"] isKindOfClass:[NSArray class]])
+                    else if([[[parseDictionary objectForKey:@"EtBusf"] objectForKey:@"results"] isKindOfClass:[NSArray class]])
                     {
                         [xmlDoc setObject:[[parseDictionary objectForKey:@"EtBusf"] objectForKey:@"results"] forKey:@"Busfresult"];
                     }
@@ -2649,7 +2665,7 @@
                     {
                         [xmlDoc setObject:[NSMutableArray arrayWithObject:[[parseDictionary objectForKey:@"EtMusrf"] objectForKey:@"results"]] forKey:@"MUserresult"];
                     }
-                    else if([[parseDictionary objectForKey:@"EtMusrf"] isKindOfClass:[NSArray class]])
+                    else if([[[parseDictionary objectForKey:@"EtMusrf"] objectForKey:@"results"] isKindOfClass:[NSArray class]])
                     {
                         [xmlDoc setObject:[[parseDictionary objectForKey:@"EtMusrf"] objectForKey:@"results"] forKey:@"MUserresult"];
                     }
@@ -2665,7 +2681,7 @@
                     {
                         [xmlDoc setObject:[NSMutableArray arrayWithObject:[[parseDictionary objectForKey:@"EtScrf"] objectForKey:@"results"]] forKey:@"Scrfresult"];
                     }
-                    else if([[parseDictionary objectForKey:@"EtScrf"] isKindOfClass:[NSArray class]])
+                    else if([[[parseDictionary objectForKey:@"EtScrf"] objectForKey:@"results"] isKindOfClass:[NSArray class]])
                     {
                         [xmlDoc setObject:[[parseDictionary objectForKey:@"EtScrf"] objectForKey:@"results"] forKey:@"Scrfresult"];
                     }
@@ -2681,7 +2697,7 @@
                     {
                         [xmlDoc setObject:[NSMutableArray arrayWithObject:[[parseDictionary objectForKey:@"EtUsrf"] objectForKey:@"results"]] forKey:@"Usrfresult"];
                     }
-                    else if([[parseDictionary objectForKey:@"EtUsrf"] isKindOfClass:[NSArray class]])
+                    else if([[[parseDictionary objectForKey:@"EtUsrf"] objectForKey:@"results"] isKindOfClass:[NSArray class]])
                     {
                         [xmlDoc setObject:[[parseDictionary objectForKey:@"EtUsrf"] objectForKey:@"results"] forKey:@"Usrfresult"];
                     }

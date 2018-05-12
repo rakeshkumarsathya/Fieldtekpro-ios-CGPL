@@ -28,6 +28,8 @@
     NSMutableArray *equipmentNumberdetailsArray;
     
     Response *res_obj;
+    
+    NSString   *functionalLocationID;
 }
     
 -(void)dismissToCheckListView;

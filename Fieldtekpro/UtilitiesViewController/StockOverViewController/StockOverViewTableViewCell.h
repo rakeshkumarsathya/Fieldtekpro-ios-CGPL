@@ -10,7 +10,7 @@
 
 @interface StockOverViewTableViewCell : UITableViewCell
 
-@property (nonatomic, retain) IBOutlet UILabel *materialLabel,*descriptionLabel,*plantLabel,*StorlocnLabel,*StatusCodeLabel,*unresrictedLabel,*blockedstockLabel,*storagebinLabel,*countLabel;
+@property (nonatomic, retain) IBOutlet UILabel *materialLabel,*descriptionLabel,*plantLabel,*StorlocnLabel,*StatusCodeLabel,*unresrictedLabel,*blockedstockLabel,*storagebinLabel,*countLabel,*valuationTypeLabel;
 
 
 @property IBOutlet UIView *stockContentView;

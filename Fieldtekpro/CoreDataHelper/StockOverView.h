@@ -10,6 +10,6 @@
 
 @interface StockOverView : NSManagedObject
 
-@property (nonatomic, retain) NSString *labst,*lgort,*lgpbe,*maktx,*matnr,*speme,*werks;
+@property (nonatomic, retain) NSString *labst,*lgort,*lgpbe,*maktx,*matnr,*speme,*werks,*bwtar;
 
 @end
