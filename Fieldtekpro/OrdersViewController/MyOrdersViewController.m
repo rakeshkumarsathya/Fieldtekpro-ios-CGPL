@@ -5045,7 +5045,7 @@ static dispatch_once_t onceToken;
                 
                 relAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"REL" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
                     //insert your editAction here
-                    
+ 
                     [self releasevalidationAlert];
                     
                 }];
@@ -5098,6 +5098,31 @@ static dispatch_once_t onceToken;
                     tecoAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"TECO" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
                         //insert your editAction here
                         
+                        NSMutableArray *orderSystemArray=[NSMutableArray new];
+                        
+                        [orderSystemArray addObjectsFromArray:[[DataBase sharedInstance] fetchOrderSystemStatus :[[self.OrderListArray objectAtIndex:indexPath.row] objectForKey:@"orderh_id"]]];
+                        
+                        if ([[[[[orderSystemArray objectAtIndex:2] firstObject] objectAtIndex:18] objectForKey:@"orders_txt04"] isEqualToString:@"UMNA"]){
+                            
+                            if ([[[[[orderSystemArray objectAtIndex:2] firstObject] objectAtIndex:10] objectForKey:@"orders_act"] isEqualToString:@""]) {
+                                
+                                [self showAlertMessageWithTitle:@"Info" message:@"Please set UMMA  for this order" cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
+                                
+                                return;
+                                
+                            }
+                        }
+                        else if ([[[[[orderSystemArray objectAtIndex:2] firstObject] objectAtIndex:indexPath.row] objectForKey:@"orders_txt04"] isEqualToString:@"UMBRA"]){
+                            
+                            if ([[[[[orderSystemArray objectAtIndex:2] firstObject] objectAtIndex:10] objectForKey:@"orders_act"] isEqualToString:@""]) {
+                                
+                                [self showAlertMessageWithTitle:@"Info" message:@"Please set  UMBRA for this order" cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
+                                
+                                return;
+                                
+                            }
+                         }
+ 
                         [self confirmOrder];
                         
                         
@@ -5118,7 +5143,7 @@ static dispatch_once_t onceToken;
                     
                     relAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"REL" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
                         //insert your editAction here
-                        
+ 
                         [self releasevalidationAlert];
                         
                     }];
@@ -5151,8 +5176,7 @@ static dispatch_once_t onceToken;
                         confirmAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"CNF" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
                             //insert your editAction here
                             
-                            
-                            [self confirmOrderAlert];
+                             [self confirmOrderAlert];
                             
                             
                         }];
@@ -5171,6 +5195,33 @@ static dispatch_once_t onceToken;
                         tecoAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"TECO" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
                             //insert your editAction here
                             
+                            NSMutableArray *orderSystemArray=[NSMutableArray new];
+                            
+                            [orderSystemArray addObjectsFromArray:[[DataBase sharedInstance] fetchOrderSystemStatus :[[filteredArray objectAtIndex:indexPath.row] objectForKey:@"orderh_id"]]];
+                            
+                            if ([[[[[orderSystemArray objectAtIndex:2] firstObject] objectAtIndex:18] objectForKey:@"orders_txt04"] isEqualToString:@"UMNA"]){
+                                
+                                if ([[[[[orderSystemArray objectAtIndex:2] firstObject] objectAtIndex:10] objectForKey:@"orders_act"] isEqualToString:@""]) {
+                                    
+                                    [self showAlertMessageWithTitle:@"Info" message:@"Please set UMMA  for this order" cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
+                                    
+                                    return;
+                                    
+                                }
+                            }
+                            else if ([[[[[orderSystemArray objectAtIndex:2] firstObject] objectAtIndex:indexPath.row] objectForKey:@"orders_txt04"] isEqualToString:@"UMBRA"]){
+                                
+                                if ([[[[[orderSystemArray objectAtIndex:2] firstObject] objectAtIndex:10] objectForKey:@"orders_act"] isEqualToString:@""]) {
+                                    
+                                    [self showAlertMessageWithTitle:@"Info" message:@"Please set  UMBRA for this order" cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
+                                    
+                                    return;
+                                    
+                                }
+                                
+                            }
+                            
+ 
                             [self confirmOrder];
  
                         }];

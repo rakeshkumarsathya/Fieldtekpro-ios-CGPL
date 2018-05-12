@@ -2510,7 +2510,6 @@
 
 
 -(IBAction)systemStatusButton:(id)sender{
-    
  
      notifSystemStatusTableView.tag = 0;
     
@@ -7139,8 +7138,30 @@
     }
     else if (notifSystemStatusTableView.tag == 2) {
         
-   
-         NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+        if ([[[[[self.notifSystemStatusArray objectAtIndex:2] firstObject] objectAtIndex:ip.row] objectForKey:@"notifications_txt04"] isEqualToString:@"MJCO"]) {
+            
+            if (![self.causeCodeDetailsArray count]) {
+                
+                [self showAlertMessageWithTitle:@"Info" message:@"Please Enter Object Part Code for this Notification" cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
+                
+                return;
+                
+             }
+            
+         }
+            if ([[[[[self.notifSystemStatusArray objectAtIndex:2] firstObject] objectAtIndex:ip.row] objectForKey:@"notifications_txt04"] isEqualToString:@"MJCO"]||[[[[[self.notifSystemStatusArray objectAtIndex:2] firstObject] objectAtIndex:ip.row] objectForKey:@"notifications_txt04"] isEqualToString:@"IDCO"]){
+                
+                if ([[[[[self.notifSystemStatusArray objectAtIndex:2] firstObject] objectAtIndex:10] objectForKey:@"notifications_act"] isEqualToString:@"X"]) {
+                    
+                    [self showAlertMessageWithTitle:@"Info" message:@"Please remove user status NODF" cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
+                    
+                    return;
+                    
+                }
+            }
+ 
+ 
+        NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
         NSDictionary *oldDict = (NSDictionary *)[[[self.notifSystemStatusArray objectAtIndex:2] firstObject] objectAtIndex:ip.row];
         [newDict addEntriesFromDictionary:oldDict];
         
@@ -7154,9 +7175,10 @@
             
             [newDict setObject:@"" forKey:@"notifications_act"];
         }
+ 
+            [[[self.notifSystemStatusArray objectAtIndex:2] firstObject] replaceObjectAtIndex:ip.row withObject:newDict];
         
-        [[[self.notifSystemStatusArray objectAtIndex:2] firstObject] replaceObjectAtIndex:ip.row withObject:newDict];
-    }
+     }
 }
 
 -(void)breakDownBtnClicked:(id)sender {

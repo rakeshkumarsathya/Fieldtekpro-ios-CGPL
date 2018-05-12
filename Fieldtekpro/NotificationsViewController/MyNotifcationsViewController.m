@@ -191,17 +191,7 @@
     
     [super viewWillAppear:animated];
  
-     NSArray *parnerDataArray=[[DataBase sharedInstance] getPernrFromMasterData];
-    
-    NSMutableDictionary *actions=[NSMutableDictionary new];
-    
-    if ([parnerDataArray count]) {
-        
-        [actions setObject:[[parnerDataArray objectAtIndex:0] objectAtIndex:0] forKey:@"PERNR"];
-        
-    }
-    
-     [self searchMyNotificationsFromSqlite:actions];
+      [self searchMyNotificationsFromSqlite:nil];
  
 }
 
@@ -217,8 +207,21 @@
     
     // filterCall
     [self.notificationListArray removeAllObjects];
+    
+    NSArray *parnerDataArray=[[DataBase sharedInstance] getPernrFromMasterData];
+    
+    NSMutableDictionary *conditions=[NSMutableDictionary new];
+    
+    if ([parnerDataArray count]) {
+        
+        [conditions setObject:[[parnerDataArray objectAtIndex:0] objectAtIndex:0] forKey:@"PERNR"];
+        
+    }
+    
+    [conditions setObject:@"ORDER BY nh_upadated_Date DESC" forKey:@"RECENT"];
+
  
-    [self.notificationListArray addObjectsFromArray:[[DataBase sharedInstance] getLocalNotificationForCondition:actions]];
+    [self.notificationListArray addObjectsFromArray:[[DataBase sharedInstance] getLocalNotificationForCondition:conditions]];
     
     [myNotificationsTableView scrollRectToVisible:CGRectMake(0, 0, 0, 0) animated:YES];
     
@@ -227,6 +230,7 @@
      myNotificationsTableView.tag=0;
     
     [myNotificationsTableView reloadData];
+    
 }
 
 #pragma mark-
@@ -393,8 +397,7 @@
             [selectedCheckBoxArray removeAllObjects];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [inputsDictionary removeAllObjects];
-            [inputsDictionary setObject:@"ORDER BY nh_upadated_Date DESC" forKey:@"RECENT"];
-            [self searchMyNotificationsFromSqlite:inputsDictionary];
+            [self searchMyNotificationsFromSqlite:nil];
             
         }
 }
@@ -478,8 +481,7 @@
             [selectedCheckBoxArray removeAllObjects];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [inputsDictionary removeAllObjects];
-            [inputsDictionary setObject:@"ORDER BY nh_upadated_Date DESC" forKey:@"RECENT"];
-            [self searchMyNotificationsFromSqlite:inputsDictionary];
+            [self searchMyNotificationsFromSqlite:nil];
             
         }
  }
@@ -550,8 +552,7 @@
             [selectedCheckBoxArray removeAllObjects];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [inputsDictionary removeAllObjects];
-            [inputsDictionary setObject:@"ORDER BY nh_upadated_Date DESC" forKey:@"RECENT"];
-            [self searchMyNotificationsFromSqlite:inputsDictionary];
+            [self searchMyNotificationsFromSqlite:nil];
             
         }
  }
@@ -625,8 +626,7 @@
         [selectedCheckBoxArray removeAllObjects];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [inputsDictionary removeAllObjects];
-        [inputsDictionary setObject:@"ORDER BY nh_upadated_Date DESC" forKey:@"RECENT"];
-        [self searchMyNotificationsFromSqlite:inputsDictionary];
+        [self searchMyNotificationsFromSqlite:nil];
         
     }
 }
@@ -1281,9 +1281,8 @@
         filterBackgroundClicked.hidden=YES;
         [filterSortTableView reloadData];
         [blackView removeFromSuperview];
- 
-       [self searchMyNotificationsFromSqlite:nil];
-
+    
+    [self searchMyNotificationsFromSqlite:nil];
     
 }
 
@@ -5067,15 +5066,23 @@
                             [[DataBase sharedInstance] insertDataIntoNotificationHeader:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] firstObject] withAttachments:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:1] withTransaction:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:2] withActivityCodes:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:3] withTaskcodes:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:4] withInspectionResult:[inspectionResultDataArray copy] withNotifStatusCode:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:5]];
                          }
                         
-                        [self searchMyNotificationsFromSqlite:nil];
+                        NSArray *parnerDataArray=[[DataBase sharedInstance] getPernrFromMasterData];
+                        
+                        NSMutableDictionary *actions=[NSMutableDictionary new];
+                        
+                        if ([parnerDataArray count]) {
+                             [actions setObject:[[parnerDataArray objectAtIndex:0] objectAtIndex:0] forKey:@"PERNR"];
+                         }
+                        
+                        [self searchMyNotificationsFromSqlite:actions];
+                        
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                         
                     }
                     
                     else{
                         
-                        [self searchMyNotificationsFromSqlite:nil];
-
+                         [self searchMyNotificationsFromSqlite:nil];
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
 
                     }
