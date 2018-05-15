@@ -41,6 +41,8 @@
     BOOL allCheckBoxSeelcted;
     NSMutableArray *mapDataMainArray;
 
+    NSMutableString *wrckcenterStringl,*wrkcenterQueryString;
+
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *MyOrdersTableView,*filterSortTableView;
@@ -66,6 +68,9 @@ static dispatch_once_t onceToken;
     [super viewDidLoad];
     
     defaults=[NSUserDefaults standardUserDefaults];
+    
+    res_obj=[Response sharedInstance];
+    
     
     self.dropDownArray = [NSMutableArray new];
     self.orderHeaderDetails = [[NSMutableDictionary alloc] init];
@@ -164,77 +169,11 @@ static dispatch_once_t onceToken;
     
     inputsDictionary = [NSMutableDictionary new];
     
-    structuredFilterSortedArray = [NSMutableArray new];
     selectedFilterSortCheckBoxArray= [NSMutableArray new];
     self.selectedOperationsArray=[NSMutableArray new];
     
-    NSMutableArray *tempOrderTypeArray=[NSMutableArray new];
-    
-    NSArray *tempOrderTypeMaster = [[DataBase sharedInstance] getOrderTypesinSingleArray];
-    
-    if ([tempOrderTypeMaster count]) {
-        
-        [tempOrderTypeArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"", nil]];
-    }
-    
-    for (int i = 0; i<[tempOrderTypeMaster count]; i++) {
-        
-        [tempOrderTypeArray addObject:[NSMutableArray arrayWithObjects:[tempOrderTypeMaster objectAtIndex:i],@"", nil]];
-    }
-    
-    NSMutableArray *tempPrioritiesArray=[NSMutableArray new];
-    
-    NSArray *tempOrderPriorityMaster = [[DataBase sharedInstance] getOrderPriorityinSingleArray];
-    
-    if ([tempOrderPriorityMaster count]) {
-        
-        [tempPrioritiesArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"", nil]];
-    }
-    
-    for (int i = 0; i<[tempOrderPriorityMaster count]; i++) {
-        
-        [tempPrioritiesArray addObject:[NSMutableArray arrayWithObjects:[tempOrderPriorityMaster objectAtIndex:i],@"", nil]];
-    }
-    
-    NSMutableArray *dateArray=[NSMutableArray new];
-    
-    [dateArray addObject:[NSMutableArray arrayWithObjects:@"Start Date",@"X",nil]];
-    
-    [dateArray addObject:[NSMutableArray arrayWithObjects:@"From Date",@"",nil]];//for input field
-    [dateArray addObject:[NSMutableArray arrayWithObjects:@"To Date",@"",nil]];//for input field
-    
-    NSMutableArray *tempFilterArray=[NSMutableArray new];
-    
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"",nil]];
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"CRTD",@"",nil]];
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"REL",@"",nil]];
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"ISSU",@"",nil]];
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"CANC",@"",nil]];
-    
-    NSMutableArray *tempAttachmentArray=[NSMutableArray new];
-    [tempAttachmentArray addObject:[NSMutableArray arrayWithObjects:@"Yes",@"",nil]];
-    
-    [structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempOrderTypeArray,tempPrioritiesArray,dateArray,tempFilterArray,tempAttachmentArray, nil]];
-    
-    NSMutableArray *tempSortDescriptionTexts=[NSMutableArray new];
-    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT A-Z",@"", nil]];
-    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT Z-A",@"", nil]];
-    
-    NSMutableArray *tempSortStatusTexts=[NSMutableArray new];
-    [tempSortStatusTexts addObject:[NSMutableArray arrayWithObjects:@"CRITICAL TO lOW",@"",nil]];
-    [tempSortStatusTexts addObject:[NSMutableArray arrayWithObjects:@"LOW TO CRITICAL",@"", nil]];
-    
-    NSMutableArray *tempSortMalFuncStartDate=[NSMutableArray new];
-    [tempSortMalFuncStartDate addObject:[NSMutableArray arrayWithObjects:@"Ascending 1-9",@"", nil]];
-    [tempSortMalFuncStartDate addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
-    
-    
-    NSMutableArray *tempSortOrderNumber=[NSMutableArray new];
-    [tempSortOrderNumber addObject:[NSMutableArray arrayWithObjects:@"Ascending 1-9",@"", nil]];
-    [tempSortOrderNumber addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
-    
-    [structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempSortDescriptionTexts,tempSortStatusTexts,tempSortMalFuncStartDate,tempSortOrderNumber, nil]];
-    
+    [self loadFilterData];
+ 
     orderNoSortSelected = YES;
     statusSortSelected = NO;
     shortTextSortSelected = NO;
@@ -291,7 +230,86 @@ static dispatch_once_t onceToken;
         
         [self searchMyOrdersFromSqlite:nil];
      }
- 
+ }
+
+-(void)loadFilterData{
+    
+    structuredFilterSortedArray = [NSMutableArray new];
+
+    NSMutableArray *tempOrderTypeArray=[NSMutableArray new];
+    
+    NSArray *tempOrderTypeMaster = [[DataBase sharedInstance] getOrderTypesinSingleArray];
+    
+    if ([tempOrderTypeMaster count]) {
+        
+        [tempOrderTypeArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"", nil]];
+    }
+    
+    for (int i = 0; i<[tempOrderTypeMaster count]; i++) {
+        
+        [tempOrderTypeArray addObject:[NSMutableArray arrayWithObjects:[tempOrderTypeMaster objectAtIndex:i],@"", nil]];
+    }
+    
+    NSMutableArray *tempPrioritiesArray=[NSMutableArray new];
+    
+    NSArray *tempOrderPriorityMaster = [[DataBase sharedInstance] getOrderPriorityinSingleArray];
+    
+    if ([tempOrderPriorityMaster count]) {
+        
+        [tempPrioritiesArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"", nil]];
+    }
+    
+    for (int i = 0; i<[tempOrderPriorityMaster count]; i++) {
+        
+        [tempPrioritiesArray addObject:[NSMutableArray arrayWithObjects:[tempOrderPriorityMaster objectAtIndex:i],@"", nil]];
+    }
+    
+    NSMutableArray *dateArray=[NSMutableArray new];
+    
+    [dateArray addObject:[NSMutableArray arrayWithObjects:@"Start Date",@"X",nil]];
+    
+    [dateArray addObject:[NSMutableArray arrayWithObjects:@"From Date",@"",nil]];//for input field
+    [dateArray addObject:[NSMutableArray arrayWithObjects:@"To Date",@"",nil]];//for input field
+    
+    NSMutableArray *tempFilterArray=[NSMutableArray new];
+    
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"",nil]];
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"CRTD",@"",nil]];
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"REL",@"",nil]];
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"ISSU",@"",nil]];
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"CANC",@"",nil]];
+    
+    NSMutableArray *tempAttachmentArray=[NSMutableArray new];
+    [tempAttachmentArray addObject:[NSMutableArray arrayWithObjects:@"Yes",@"",nil]];
+    
+    NSMutableArray *personResonsibleArray=[NSMutableArray new];
+    [personResonsibleArray addObject:[NSMutableArray arrayWithObjects:@"Yes",@"X", nil]];
+    
+    NSMutableArray *WorkcenterArray=[NSMutableArray new];
+    [WorkcenterArray addObject:[NSMutableArray arrayWithObjects:@"Select Workcenter",@"", nil]];
+    
+    [structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempOrderTypeArray,tempPrioritiesArray,dateArray,tempFilterArray,tempAttachmentArray,personResonsibleArray,WorkcenterArray, nil]];
+    
+    NSMutableArray *tempSortDescriptionTexts=[NSMutableArray new];
+    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT A-Z",@"", nil]];
+    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT Z-A",@"", nil]];
+    
+    NSMutableArray *tempSortStatusTexts=[NSMutableArray new];
+    [tempSortStatusTexts addObject:[NSMutableArray arrayWithObjects:@"CRITICAL TO lOW",@"",nil]];
+    [tempSortStatusTexts addObject:[NSMutableArray arrayWithObjects:@"LOW TO CRITICAL",@"", nil]];
+    
+    NSMutableArray *tempSortMalFuncStartDate=[NSMutableArray new];
+    [tempSortMalFuncStartDate addObject:[NSMutableArray arrayWithObjects:@"Ascending 1-9",@"", nil]];
+    [tempSortMalFuncStartDate addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
+    
+    
+    NSMutableArray *tempSortOrderNumber=[NSMutableArray new];
+    [tempSortOrderNumber addObject:[NSMutableArray arrayWithObjects:@"Ascending 1-9",@"", nil]];
+    [tempSortOrderNumber addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
+    
+    [structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempSortDescriptionTexts,tempSortStatusTexts,tempSortMalFuncStartDate,tempSortOrderNumber, nil]];
+    
+    
 }
 
 -(void)setRightView:(UITextField *)textField withImage:(NSString *)imageview
@@ -2061,7 +2079,18 @@ static dispatch_once_t onceToken;
     [defaults synchronize];
     
     [self.OrderListArray removeAllObjects];
-    [self.OrderListArray addObjectsFromArray:[[DataBase sharedInstance] getLocalOrderForCondition:actions]];
+    
+    NSArray *parnerDataArray=[[DataBase sharedInstance] getPernrFromMasterData];
+    
+    NSMutableDictionary *conditions=[NSMutableDictionary new];
+    
+    if ([parnerDataArray count]) {
+        
+      //  [conditions setObject:[[parnerDataArray objectAtIndex:0] objectAtIndex:0] forKey:@"PERNR"];
+        
+    }
+    
+    [self.OrderListArray addObjectsFromArray:[[DataBase sharedInstance] getLocalOrderForCondition:conditions]];
     
     //    if ([self.OrderListArray count] ==0) {
     //        UIAlertView *alertListOfOpenNotifications = [[UIAlertView alloc]initWithTitle:@"Info" message:@"No suitable data found for the selected criteria!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
@@ -2340,6 +2369,21 @@ static dispatch_once_t onceToken;
         [myDatePickerToolBar setItems:barItems animated:YES];
         textField.inputAccessoryView = myDatePickerToolBar;
     }
+    
+    else if (textfieldTag==30){
+        
+        [blackView removeFromSuperview];
+        [filterView removeFromSuperview];
+        
+        WorkcenterViewController *equipVc = [self.storyboard instantiateViewControllerWithIdentifier:@"wrkcenterVC"];
+        equipVc.selectedClass=@"Orders";
+        equipVc.delegate=self;
+        [self showViewController:equipVc sender:self];
+        
+        return NO;
+        
+    }
+    
     
     else if (textField == mDatetextfield) {
         
@@ -3254,6 +3298,8 @@ static dispatch_once_t onceToken;
 -(IBAction)filterBackgroundClicked:(id)sender
 {
     [filterView removeFromSuperview];
+    [blackView removeFromSuperview];
+
     filterBackgroundClicked.hidden=YES;
     
     if (self.filterSortTableView.tag==0)
@@ -3427,6 +3473,40 @@ static dispatch_once_t onceToken;
         [queryString appendString:queryStringAttachments];
     }
     
+    if ([[[[structuredFilterSortedArray firstObject] objectAtIndex:5] firstObject] containsObject:@"X"]) {
+        
+        if ([queryString length]) {
+            
+            NSArray *parnerDataArray=[[DataBase sharedInstance] getPernrFromMasterData];
+            
+            if ([parnerDataArray count]) {
+                
+                [queryStringAttachments appendFormat:@" and (orderh_personresponsible_id = '%@')",[[parnerDataArray objectAtIndex:0] objectAtIndex:0]];
+            }
+            
+        }
+        else
+        {
+            [queryStringAttachments appendFormat:@" (orderh_personresponsible_id = '')"];
+            
+        }
+        
+        [queryString appendString:queryStringAttachments];
+    }
+    
+    if ([wrkcenterQueryString length]) {
+        
+        if ([queryString length]) {
+            
+            [queryString appendFormat:@" and (%@)",wrkcenterQueryString];
+        }
+        else
+        {
+            [queryString appendFormat:@" (%@)",wrkcenterQueryString];
+        }
+    }
+    
+    
     NSArray *filtersArray=[[DataBase sharedInstance] getPriorityListOrders:queryString];
     
     [self.OrderListArray removeAllObjects];
@@ -3438,6 +3518,45 @@ static dispatch_once_t onceToken;
     [MyOrdersTableView scrollRectToVisible:CGRectMake(0, 0, 0, 0) animated:YES];
     MyOrdersTableView.tag=0;
     [MyOrdersTableView reloadData];
+}
+
+-(void)dismissWorkcenterView {
+    
+    
+     wrckcenterStringl=[NSMutableString new];
+     wrkcenterQueryString=[NSMutableString new];
+ 
+    for (int i=0; i<[res_obj.workcenterArray count]; i++) {
+        
+        if (wrckcenterStringl.length) {
+            
+            [wrckcenterStringl appendString:@", "];
+        }
+        if (wrkcenterQueryString.length) {
+            
+            [wrkcenterQueryString appendString:@" or "];
+        }
+        [wrckcenterStringl appendString:[res_obj.workcenterArray objectAtIndex:i]];
+        
+        [wrkcenterQueryString appendFormat:@" notificationh_workcenterid = '%@'",[res_obj.workcenterArray objectAtIndex:i]];
+        
+    }
+    
+    filterByLabel.text=@"Filter BY:";
+    
+    self.window = [UIApplication sharedApplication].keyWindow;
+    blackView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.window.frame.size.height)];
+    [blackView setBackgroundColor:[UIColor blackColor]];
+    [blackView setAlpha:0.8];
+    [self.window addSubview:blackView];
+    [filterView setFrame:CGRectMake(blackView.frame.size.width-260, 57, 260, self.window.frame.size.height-57)];
+    [self.window addSubview:filterView];
+    self.filterSortTableView.tag = 0;
+    [self.filterSortTableView reloadData];
+    
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 -(void)sortBackGround
@@ -3573,26 +3692,33 @@ static dispatch_once_t onceToken;
 
 -(IBAction)clearAllFilterSortButtonClicked:(id)sender
 {
-    if (self.filterSortTableView.tag==0)
-    {
-        for (int i=0; i<[[structuredFilterSortedArray firstObject] count]; i++) {
-            
-            for (int j=0; j<[[[structuredFilterSortedArray firstObject] objectAtIndex:i] count];j++)
-            {
-                [[[[structuredFilterSortedArray firstObject] objectAtIndex:i] objectAtIndex:j] replaceObjectAtIndex:1 withObject:@""];
-            }
-        }
-    }
-    else if (self.filterSortTableView.tag==1)
-    {
-        for (int i=0; i<[[structuredFilterSortedArray lastObject] count]; i++) {
-            
-            for (int j=0; j<[[[structuredFilterSortedArray lastObject] objectAtIndex:i] count];j++)
-            {
-                [[[[structuredFilterSortedArray lastObject] objectAtIndex:i] objectAtIndex:j] replaceObjectAtIndex:1 withObject:@""];
-            }
-        }
-    }
+//    if (self.filterSortTableView.tag==0)
+//    {
+//        for (int i=0; i<[[structuredFilterSortedArray firstObject] count]; i++) {
+//
+//            for (int j=0; j<[[[structuredFilterSortedArray firstObject] objectAtIndex:i] count];j++)
+//            {
+//                [[[[structuredFilterSortedArray firstObject] objectAtIndex:i] objectAtIndex:j] replaceObjectAtIndex:1 withObject:@""];
+//            }
+//        }
+//    }
+//    else if (self.filterSortTableView.tag==1)
+//    {
+//        for (int i=0; i<[[structuredFilterSortedArray lastObject] count]; i++) {
+//
+//            for (int j=0; j<[[[structuredFilterSortedArray lastObject] objectAtIndex:i] count];j++)
+//            {
+//                [[[[structuredFilterSortedArray lastObject] objectAtIndex:i] objectAtIndex:j] replaceObjectAtIndex:1 withObject:@""];
+//            }
+//        }
+//    }
+    
+    res_obj.workcenterString=@"";
+    
+    [wrckcenterStringl setString:@""];
+
+    
+    [self loadFilterData];
     
     startDate = @"";
     endDate = @"";
@@ -3914,9 +4040,10 @@ static dispatch_once_t onceToken;
     if (tableView==self.filterSortTableView)
     {
         if (self.filterSortTableView.tag==0) {
-            return 5;
+            return 7;
         }
-        else{
+        else if (self.filterSortTableView.tag==1)
+        {
             return 4;
         }
     }
@@ -3981,6 +4108,7 @@ static dispatch_once_t onceToken;
         if (self.filterSortTableView.tag==0) {
             
             return [[[structuredFilterSortedArray firstObject] objectAtIndex:section] count];
+            
         }
         else if (self.filterSortTableView.tag==1)
         {
@@ -3999,7 +4127,7 @@ static dispatch_once_t onceToken;
             else
             {
                 return [[[structuredFilterSortedArray lastObject] objectAtIndex:3] count];
-             }
+            }
         }
     }
     else  if (tableView == self.dropDownTableView) {
@@ -4054,11 +4182,22 @@ static dispatch_once_t onceToken;
             {
                 [label setText:@"STATUS"];
             }
-            else
+            else if (section == 4)
             {
                 [label setText:@"ATTACHMENTS"];
             }
             
+            else if (section == 5){
+                
+                [label setText:@"Person Responsible"];
+                
+            }
+            else
+            {
+                [label setText:@"Work center"];
+                
+            }
+           
             [view addSubview:label];
             
             return view;
@@ -4497,7 +4636,8 @@ static dispatch_once_t onceToken;
         cell.dateImageView.hidden = YES;
         cell.filterSortCheckBoxButton.hidden = NO;
         
-        if (self.filterSortTableView.tag==0 && indexPath.section==2 && (indexPath.row == 1 || indexPath.row == 2))
+ 
+        if ((self.filterSortTableView.tag==0 && indexPath.section==2 && (indexPath.row == 1 || indexPath.row == 2))|| (self.filterSortTableView.tag==0 && indexPath.section==6 && indexPath.row==0))
         {
             cell.headerlabelValue.hidden = YES;
             cell.dateTextfield.hidden = NO;
@@ -4526,7 +4666,19 @@ static dispatch_once_t onceToken;
                     cell.dateTextfield.text=endDate;
                 }
             }
-        }
+            
+            
+            if (indexPath.section == 6){
+                
+                [cell.dateTextfield setTag:30];
+                
+                [cell.dateImageView setImage:[UIImage imageNamed:@"dropdown"]];
+                
+                if (wrckcenterStringl.length) {
+                    cell.dateTextfield.text=wrckcenterStringl;
+                }
+             }
+         }
         else
         {
             if (self.filterSortTableView.tag==0)
@@ -4537,11 +4689,9 @@ static dispatch_once_t onceToken;
                 
                 if ([[[[[structuredFilterSortedArray firstObject] objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectAtIndex:1] isEqualToString:@"X"])
                 {
-                    
-                    [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"CheckBoxSelection"]   forState:UIControlStateNormal];
-                     cell.headerlabelValue.textColor= [UIColor colorWithRed:38.0/255.0 green:85.0/255.0 blue:157.0/255.0 alpha:5.0];
-                    
-                }
+                     [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"CheckBoxSelection"]   forState:UIControlStateNormal];
+                    cell.headerlabelValue.textColor= [UIColor colorWithRed:38.0/255.0 green:85.0/255.0 blue:157.0/255.0 alpha:5.0];
+                 }
                 else
                 {
                     [cell.filterSortCheckBoxButton setImage:[UIImage imageNamed:@"checkBoxUnSelection"]   forState:UIControlStateNormal];
@@ -5330,7 +5480,16 @@ static dispatch_once_t onceToken;
     
     NSMutableArray *tempArray=[NSMutableArray new];
     
-    [tempArray addObject:[self.OrderListArray objectAtIndex:i]];
+    if (MyOrdersTableView.tag==0) {
+        
+        [tempArray addObject:[self.OrderListArray objectAtIndex:i]];
+
+    }
+    else if (MyOrdersTableView.tag==1){
+        
+        [tempArray addObject:[filteredArray objectAtIndex:i]];
+
+    }
     
     if ([tempArray count])
     {

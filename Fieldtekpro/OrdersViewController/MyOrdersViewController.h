@@ -21,7 +21,7 @@
 //for uploading attachments
 #import "ELCImagePickerController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-
+#import "WorkcenterViewController.h"
 
 
 typedef enum ORDERHEADERDETAILSMAPPING{
@@ -187,7 +187,8 @@ typedef enum ORDERHEADERDETAILSMAPPING{
     
     UIImageView  *arrow;
 
- 
+    Response *res_obj;
+
 }
 
 + (id)sharedInstance;
@@ -238,6 +239,8 @@ typedef enum ORDERHEADERDETAILSMAPPING{
 @property (strong, nonatomic) IBOutlet MKMapView *orderMapView;
     
 @property (strong, nonatomic) UIWindow *window;
+
+-(void)dismissWorkcenterView ;
 
 
 @end

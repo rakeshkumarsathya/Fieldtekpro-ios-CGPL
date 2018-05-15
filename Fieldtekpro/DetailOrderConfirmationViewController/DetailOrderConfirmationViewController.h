@@ -9,19 +9,39 @@
 #import <UIKit/UIKit.h>
 
 #import "InputDropDownTableViewCell.h"
+#import "BreakDownTableViewCell.h"
+#import "DurationTableViewCell.h"
 
-@interface DetailOrderConfirmationViewController : UIViewController
+
+@interface DetailOrderConfirmationViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
-    IBOutlet UITableView *commonListTableview;
+    IBOutlet UITableView *commonListTableview,*finalConfirmTableview;
     
-    NSMutableArray *headerDataArray;
+    NSMutableArray *headerDataArray,*finalHeaderDataArray;
     
     IBOutlet UIButton *startBtn,*stopBtn,*finishBtn;
-    
-    BOOL startFlag;
+     BOOL startFlag;
+     NSMutableArray *pcnfResetTimerArray;
+     IBOutlet UILabel *confirmOrderStatusLabel,*confirmOrderStatusLabelinFinish,*confirmOperationStatusLabel;
+     NSString *aueruid,*noremainingWork;
+     IBOutlet UIView *finalConfirmView;
+     int headerCommonIndex,headerFinalConfirmIndex;
+ 
 }
 
+@property (nonatomic, strong) UITableView *dropDownTableView;
+@property (nonatomic, strong) UIToolbar*  mypickerToolbar,*numberToolBar;
+
+@property (nonatomic, retain) NSMutableArray *dropDownArray;
+
+//Assigning Date Pickers
+@property (nonatomic, retain) UIDatePicker *startMalFunctionDatePicker,*EndMalFunctionDatePicker,*measurementDocDatePicker,*measurementDocTimePicker;
+
+@property (nonatomic, retain) NSDate *minStartDate,*minEndDate,*measureMentDocumentTime,*measureMentDocumentDate;
+
 @property(nonatomic,retain) NSArray *detailOperationsArray;
+
+@property(nonatomic,retain) NSString *orderNuber,*statusString;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 

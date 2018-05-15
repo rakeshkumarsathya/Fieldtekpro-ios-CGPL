@@ -51,8 +51,7 @@ typedef enum HEADERDETAILSMAPPING{
 
 @interface MyNotifcationsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIAlertViewDelegate,UITextFieldDelegate>
 {
-    CreateNotificationViewController *createNotification;
-    
+ 
     MyNotifcationsViewController *myNotifications;
     
     IBOutlet UIView *myNotificationsHeaderView,*myNotificationsTableHeaderView,*searchBarView,*headerView_iPhone,*filterView,*sortView,*filteredHeaderView,*filterSubView;
@@ -83,6 +82,9 @@ typedef enum HEADERDETAILSMAPPING{
     NSArray *filteredArray;
     
     NSString *aufnrString;
+    
+    Response *res_obj;
+    
 
 }
 

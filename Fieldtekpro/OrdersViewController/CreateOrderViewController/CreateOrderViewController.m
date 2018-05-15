@@ -2298,13 +2298,29 @@
  
     [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Priority",@"Select priority",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_priority_name"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_priority_id"], nil]];
     
-    [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Planner group",@"Select Planner Group",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_ingrp_name"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_ingrp"], nil]];
+    if (![NullChecker isNull:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_ingrp_name"]]) {
+        
+        [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Planner group",@"Select Planner Group",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_ingrp_name"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_ingrp"], nil]];
+
+    }
+    else{
+        [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Planner group",@"Select Planner Group",@"",@"", nil]];
+
+    }
     
     
+    if (![NullChecker isNull:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_text"]]) {
+        
+          [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Person Responsible",@"Select Person Responsible",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_text"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_id"], nil]];
+     }
+    
+    else{
+        
+          [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Person Responsible",@"Select Person Responsible",@"",@"", nil]];
+    }
   //  [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Reported By",@"Enter Reported By",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_reported_by"],@"", nil]];
     
-    [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Person Responsible",@"Select Person Responsible",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_text"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_id"], nil]];
-    
+ 
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
@@ -2646,8 +2662,7 @@
         }
 
         orderheaderStatusString=[NSString stringWithFormat:@"%@ %@",txt30StatusNumString,txt30WOStatusNumberString];
-
-    }
+     }
 
     systemLabel.text=orderheaderStatusString;
 
@@ -7415,6 +7430,9 @@
     
     NSMutableArray *tempArray=[NSMutableArray new];
     
+    operationVc.statusString=[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_status"];
+    operationVc.orderNuber=[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"oh_objectID"];
+
     [tempArray addObject:[self.operationDetailsArray objectAtIndex:i]];
     
     if ([tempArray count])

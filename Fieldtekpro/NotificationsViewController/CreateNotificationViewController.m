@@ -322,7 +322,7 @@
                                        else if ([methodNameString isEqualToString:@"AlertFail"])
                                        {
                                            
-                                           [self descriptionAlert];
+                                         //  [self descriptionAlert];
                                            
                                        }
                                         
@@ -483,13 +483,11 @@
     }
     
     [self.notificationHeaderDetails setObject:@"" forKey:@"PARNRTEXT"];
-
  
     if (personresponsibleNameString.length) {
         
         [self.notificationHeaderDetails setObject:personresponsibleNameString forKey:@"PARNRTEXT"];
-
-     }
+    }
  
     [self.notificationHeaderDetails setObject:@"OSNO" forKey:@"NSTATUS"];
     [self.notificationHeaderDetails setObject:@"" forKey:@"DOCS"];
@@ -1819,10 +1817,9 @@
     
     ////////
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+     [dateFormatter setDateFormat:@"yyyyMMdd"];
     
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    
-    NSDate *tempNotifDate = [dateFormatter dateFromString:[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_qmdat"]];
+     NSDate *tempNotifDate = [dateFormatter dateFromString:[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_qmdat"]];
     
     // Convert date object into desired format
     [dateFormatter setDateFormat:@"MMM dd, yyyy"];
@@ -2525,10 +2522,7 @@
 #pragma mark-
 #pragma mark- UITextField delegate
 
-
-
-
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+ -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     headerCommonIndex = (int)textField.superview.tag;
 
@@ -4585,7 +4579,7 @@
                                                                   message:@"Would you like to add this attachment to"
                                                            preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction* notifButton = [UIAlertAction actionWithTitle:@"Yes, please"
+    UIAlertAction* notifButton = [UIAlertAction actionWithTitle:@"Notification"
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action)
                                     {
@@ -4600,7 +4594,7 @@
  
                                      }];
     
-    UIAlertAction* equipmentButton = [UIAlertAction actionWithTitle:@"Yes, please"
+    UIAlertAction* equipmentButton = [UIAlertAction actionWithTitle:@"Equipment"
                                                         style:UIAlertActionStyleDefault
                                                       handler:^(UIAlertAction * action)
                                 {
@@ -4698,7 +4692,7 @@
         
         if ([NullChecker isNull:namefield.text]) {
  
-            [self showAlertMessageWithTitle:@"" message:@"Please Enter Description" cancelButtonTitle:@"Ok" withactionType:@"Multiple" forMethod:@"AlertFail"];
+          //  [self showAlertMessageWithTitle:@"" message:@"Please Enter Description" cancelButtonTitle:@"Ok" withactionType:@"Multiple" forMethod:@"AlertFail"];
         }
         else{
             if (!imageNameFlag) {
@@ -7181,7 +7175,8 @@
      }
 }
 
--(void)breakDownBtnClicked:(id)sender {
+-(void)breakDownBtnClicked:(id)sender
+{
  
     UIButton *tappedButton = (UIButton*)sender;
  

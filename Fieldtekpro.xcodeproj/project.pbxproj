@@ -16,6 +16,8 @@
 		140812301FF548EF003D8543 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1408122E1FF548EF003D8543 /* XMLDictionary.m */; };
 		1413DBDC206BCFC800A0E376 /* Meascodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 1413DBDB206BCFC800A0E376 /* Meascodes.m */; };
 		141482D72063652300B974BF /* LongtextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141482D62063652300B974BF /* LongtextViewController.m */; };
+		14149D3220A9838900FA71F3 /* DurationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14149D3120A9838900FA71F3 /* DurationTableViewCell.m */; };
+		14149D3420A9928100FA71F3 /* DurationTableviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14149D3320A9928100FA71F3 /* DurationTableviewCell.xib */; };
 		141539B72088A04A00A9FCCA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 141539B62088A04A00A9FCCA /* GoogleService-Info.plist */; };
 		1415FC11206D05650019A242 /* EquipmentFncLocDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1415FC10206D05650019A242 /* EquipmentFncLocDetailsViewController.m */; };
 		14160251204D103F002AB07C /* AttachmentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14160250204D103E002AB07C /* AttachmentsTableViewCell.m */; };
@@ -259,6 +261,9 @@
 		1413DBDB206BCFC800A0E376 /* Meascodes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Meascodes.m; sourceTree = "<group>"; };
 		141482D52063652300B974BF /* LongtextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LongtextViewController.h; sourceTree = "<group>"; };
 		141482D62063652300B974BF /* LongtextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LongtextViewController.m; sourceTree = "<group>"; };
+		14149D3020A9838900FA71F3 /* DurationTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DurationTableViewCell.h; sourceTree = "<group>"; };
+		14149D3120A9838900FA71F3 /* DurationTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DurationTableViewCell.m; sourceTree = "<group>"; };
+		14149D3320A9928100FA71F3 /* DurationTableviewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DurationTableviewCell.xib; sourceTree = "<group>"; };
 		141539B62088A04A00A9FCCA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1415FC0F206D05650019A242 /* EquipmentFncLocDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EquipmentFncLocDetailsViewController.h; sourceTree = "<group>"; };
 		1415FC10206D05650019A242 /* EquipmentFncLocDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EquipmentFncLocDetailsViewController.m; sourceTree = "<group>"; };
@@ -741,6 +746,9 @@
 			children = (
 				14B5DDA820A417E00051BB10 /* DetailOrderConfirmationViewController.h */,
 				14B5DDA920A417E00051BB10 /* DetailOrderConfirmationViewController.m */,
+				14149D3020A9838900FA71F3 /* DurationTableViewCell.h */,
+				14149D3120A9838900FA71F3 /* DurationTableViewCell.m */,
+				14149D3320A9928100FA71F3 /* DurationTableviewCell.xib */,
 			);
 			path = DetailOrderConfirmationViewController;
 			sourceTree = "<group>";
@@ -1559,6 +1567,7 @@
 				E15BA152200F1BEA00BBA7DD /* BrkDownDetailsTableViewCell_iPhone6.xib in Resources */,
 				E14A3C511FF6586D00A3AABB /* ApplicationTableViewCell_Iphone5.xib in Resources */,
 				E15BA12B200F163A00BBA7DD /* AvailabilityReport.png in Resources */,
+				14149D3420A9928100FA71F3 /* DurationTableviewCell.xib in Resources */,
 				E15C9D321FFE52480017AFB7 /* ELCAssetTablePicker.xib in Resources */,
 				E10141531F8B472A0025DC49 /* LaunchScreen.storyboard in Resources */,
 				E15BA134200F189B00BBA7DD /* PermitReport.png in Resources */,
@@ -1897,6 +1906,7 @@
 				E1689B4A1FDE5E5A0018C261 /* NullChecker.m in Sources */,
 				E101417B1F8B5A830025DC49 /* DashBoardViewController.m in Sources */,
 				E1689B101FDE4D070018C261 /* ConnectionManager.m in Sources */,
+				14149D3220A9838900FA71F3 /* DurationTableViewCell.m in Sources */,
 				E10141841F8B94AD0025DC49 /* CreateNotificationViewController.m in Sources */,
 				14C9D3CE20908C6C00C86CF4 /* StandardCheckPointTableViewCell.m in Sources */,
 				E15BA159200F1BEA00BBA7DD /* AvailabilityFunctionalLocationTableViewCell.m in Sources */,

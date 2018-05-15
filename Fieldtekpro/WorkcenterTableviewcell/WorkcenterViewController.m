@@ -28,7 +28,7 @@
  
      [workcenterArray addObjectsFromArray:[[DataBase sharedInstance] getListOfWorkCenterwithKeys]];
     
-     headerTitleLabel.text = [NSString stringWithFormat:@"Workcenter (%i)",(int)workcenterArray.count];
+     headerTitleLabel.text = [NSString stringWithFormat:@"Work Center (%i)",(int)workcenterArray.count];
 
       wrkCenterTableview.tag=0;
  
@@ -103,12 +103,23 @@
         res_obj.selectedindexesArray=[checkBoxSelectedArray copy];
     }
  
-    if ([(MyNotifcationsViewController *)self.delegate respondsToSelector:@selector(dismissWorkcenterView)]) {
+    if ([self.selectedClass isEqualToString:@"Orders"]) {
         
-        [(MyNotifcationsViewController *)self.delegate dismissWorkcenterView];
+        if ([(MyOrdersViewController *)self.delegate respondsToSelector:@selector(dismissWorkcenterView)]) {
+            
+            [(MyOrdersViewController *)self.delegate dismissWorkcenterView];
+            
+        }
+    }
+    else{
+        
+        if ([(MyNotifcationsViewController *)self.delegate respondsToSelector:@selector(dismissWorkcenterView)]) {
+            
+            [(MyNotifcationsViewController *)self.delegate dismissWorkcenterView];
+        }
     }
  
-}
+ }
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;              // Default is 1 if not implemented

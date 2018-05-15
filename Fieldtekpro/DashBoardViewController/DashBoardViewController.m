@@ -74,6 +74,32 @@
                                             [self.navigationController popToRootViewControllerAnimated:YES];
  
                                         }
+                                        else if ([methodNameString isEqualToString:@"Refresh"]){
+                                            
+                                            isRefresh = YES;
+                                            
+                                             hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                                            hud.mode = MBProgressHUDAnimationFade;
+                                            hud.label.text = @"Data refresh in progress...";
+                                            
+                                            NSMutableDictionary *dataDictionary = [[NSMutableDictionary alloc]init];
+                                            [dataDictionary setObject:@"REFR" forKey:@"TRANSMITTYPE"];
+                                            
+                                             [dataDictionary setObject:self.userNameString forKey:@"REPORTEDBY"];
+
+                                            
+                                            if ([[defaults objectForKey:@"ACTIVATELOGS"] isEqualToString:@"X"])
+                                            {
+                                                [[DataBase sharedInstance] writToLogFile:[NSString stringWithFormat:@"#INFO#.com.enstrapp.fieldtekpro #Activity:Refresh   #Class: Very Important #MUser:%@ #DeviceId:%@",self.userNameString,[defaults objectForKey:@"edeviceid"]]];
+                                            }
+                                            
+                                            [Request makeWebServiceRequest:GET_SYNC_MAP_DATA parameters:dataDictionary delegate:self];
+                                            
+                                            NSDateFormatter *dateformatter=[[NSDateFormatter alloc]init];
+                                            [dateformatter setDateFormat:@"MMM dd, yyyy HH:mm:ss"];
+                                            [defaults setObject:[dateformatter stringFromDate:[NSDate date]] forKey:@"LASTREFESHDATE"];
+                                            [defaults synchronize];
+                                        }
                                         
                                     }];
         
@@ -260,7 +286,38 @@
 }
 
 
+-(IBAction)refreshBtn:(id)sender{
+    
+    if ([[ConnectionManager defaultManager] isReachable]) {
+        
+        [defaults setObject:@"REFRESH" forKey:@"REFRESH"];
+        [defaults synchronize];
+        
+      //  NSString *lastRefreshedDateTime;
+        
+//        if ([defaults objectForKey:@"LASTREFESHDATE"] == nil) {
+//
+//            lastRefreshedDateTime = @"Data refresh in Progress";
+//        }
+//        else{
+//
+//            lastRefreshedDateTime = [NSString stringWithFormat:@"Data refresh in Progress"];
+//        }
+        
+ 
+        [self showAlertMessageWithTitle:@"Refresh" message:@"Do you want to Refresh?" cancelButtonTitle:@"NO" withactionType:@"Multiple" forMethod:@"Refresh"];
 
+    }
+    else{
+        
+        if ([[defaults objectForKey:@"ACTIVATELOGS"] isEqualToString:@"X"])
+        {
+            [[DataBase sharedInstance] writToLogFile:[NSString stringWithFormat:@"#INFO#.com.enstrapp.fieldtekpro #Activity:Refresh   #Class: Very Important #MUser:%@ #DeviceId:%@",self.userNameString,[defaults objectForKey:@"deviceid"]]];
+        }
+        
+         [self showAlertMessageWithTitle:@"No Network Available" message:@"Refresh cannot be performed!" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+    }
+}
 
 -(void)callServerToFetchSyncMapData
 {
@@ -274,6 +331,7 @@
             blackView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.window.frame.size.height)];
              [blackView setAlpha:0.8];
             [self.window addSubview:blackView];
+            
              hud = [MBProgressHUD showHUDAddedTo:self.window animated:YES];
              hud.mode = MBProgressHUDAnimationFade;
              hud.label.textColor=[UIColor whiteColor];
@@ -707,6 +765,7 @@
         // [dataDictionary setObject:[[syncMapDataMutableArray objectAtIndex:34] objectAtIndex:3] forKey:@"URL_ENDPOINT"];
         
         if (isRefresh) {
+            
             if ([[defaults objectForKey:@"VHLP_REFRESH"] isEqualToString:@"X"]) {
                 [dataDictionary setObject:@"REFR" forKey:@"TRANSMITTYPE"];
                 NSMutableDictionary *endPointDictionary = [NSMutableDictionary new];
@@ -1014,7 +1073,7 @@
         UtilitiesViewController *dashVc = [self.storyboard instantiateViewControllerWithIdentifier:@"MaintPlanView"];
         [self showViewController:dashVc sender:self];
     }
-    else if ([[[imagesArray objectAtIndex:indexPath.row] objectAtIndex:1] isEqualToString:@"History"]){
+    else if ([[[imagesArray objectAtIndex:indexPath.row] objectAtIndex:1] isEqualToString:@"User Log"]){
         
         ViewHistoryViewController *dashVc = [self.storyboard instantiateViewControllerWithIdentifier:@"HistoryView"];
         
@@ -1393,11 +1452,22 @@
                     {
                         if (isRefresh) {
                             if ([defaults objectForKey:@"AUTH_REFRESH"] || [defaults objectForKey:@"SETT_REFRESH"] || [defaults objectForKey:@"VHLP_REFRESH"] || [defaults objectForKey:@"FLOCEQUIP_REFRESH"] || [defaults objectForKey:@"MAT_REFRESH"] || [defaults objectForKey:@"STOCK_REFRESH"] || [defaults objectForKey:@"BOM_REFRESH"] || [defaults objectForKey:@"DNOT_REFRESH"] || [defaults objectForKey:@"DORD_REFRESH"] || [defaults objectForKey:@"NFC_REFRESH"]) {
-                                
-                                    [self performSelectorOnMainThread:@selector(dispatchQueueForEquipments) withObject:nil waitUntilDone:YES];
-                                
-                                
+ 
+                                if ([[defaults objectForKey:@"VHLP_REFRESH"] isEqualToString:@"X"]) {
+                                    
                                     [self performSelectorOnMainThread:@selector(dispatchQueuesForValueHelps) withObject:nil waitUntilDone:YES];
+
+                                }
+                                
+                                if ([[defaults objectForKey:@"FLOCEQUIP_REFRESH"] isEqualToString:@"X"]) {
+                                    
+                                    [self performSelectorOnMainThread:@selector(dispatchQueueForEquipments) withObject:nil waitUntilDone:YES];
+                                    
+
+                                }
+                               
+                                
+                                
                                   //  [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
                                    // [self performSelectorOnMainThread:@selector(dispatchQueuesForJSAValueHelps) withObject:nil waitUntilDone:YES];
                             
@@ -1489,6 +1559,13 @@
                  [DashBoardViewController functionForETUsers:[parsedDictionary objectForKey:@"resultEtUserTokenId"]];//ET
                 
                 [DashBoardViewController functionForEtMeasCodes:[parsedDictionary objectForKey:@"resultInpectionmeasDocs"]];//ET
+                
+                 if ([defaults objectForKey:@"VHLP_REFRESH"]) {
+                    
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                 }
+
  
                 [MBProgressHUD hideHUDForView:self.window animated:YES];
                 
@@ -1518,6 +1595,7 @@
                 [DashBoardViewController functionForUsagesMaster:[parsedDictionary objectForKey:@"resultUsages"]];//WCMUsage
                  [DashBoardViewController functionForWCMWork:[parsedDictionary objectForKey:@"resultWcmWork"]];//WCMWork
                  [DashBoardViewController functionForWCMRequirements:[parsedDictionary objectForKey:@"resultWcmRequirements"]];//WCMRequirements
+                
                 
                 //WSM
                 /*  [DashBoardViewController functionForWsmRisks:[parsedDictionary objectForKey:@"resultWSMRisks"]];
@@ -3768,8 +3846,7 @@
                         [[DataBase sharedInstance] insertDataIntoNotificationHeader:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] firstObject] withAttachments:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:1] withTransaction:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:2] withActivityCodes:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:3] withTaskcodes:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:4] withInspectionResult:[inspectionResultDataArray copy] withNotifStatusCode:[[notificationDetailDictionary objectForKey:[objectIds objectAtIndex:i]] objectAtIndex:5]];
                     }
                     
-                    
-                }
+                 }
             }
             
             break;
@@ -7716,11 +7793,14 @@
                     //                    }];
                 }
                 
-//                if (![defaults objectForKey:@"MUserAuth"]||![defaults objectForKey:@"UserFuncAuth"]) {
-//
-//                    [[DataBase sharedInstance] fetchAuthorizationData];
-//                }
  
+ 
+                if ([defaults objectForKey:@"DORD_REFRESH"]) {
+                    
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                }
+               
             }
  
             

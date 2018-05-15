@@ -105,7 +105,7 @@
             
             [self.equipmentNumberHierarchyArray addObjectsFromArray:[[DataBase sharedInstance] getFunctionLocations:inputParameters]];
             
-            equipmentHeaderlabel.text = [NSString stringWithFormat:@"Equipment Number (%lu)",(unsigned long)[self.equipmentNumberHierarchyArray count]];
+            equipmentHeaderlabel.text = [NSString stringWithFormat:@"Equipments (%lu)",(unsigned long)[self.equipmentNumberHierarchyArray count]];
             
         }
         else
@@ -119,7 +119,7 @@
             
             [self.equipmentNumberHierarchyArray addObjectsFromArray:[[DataBase sharedInstance] getFunctionLocations:inputParameters]];
             
-            equipmentHeaderlabel.text = [NSString stringWithFormat:@"Equipment Number (%lu)",(unsigned long)[self.equipmentNumberHierarchyArray count]];
+            equipmentHeaderlabel.text = [NSString stringWithFormat:@"Equipments (%lu)",(unsigned long)[self.equipmentNumberHierarchyArray count]];
             
         }
         
@@ -177,7 +177,7 @@
         
     }
     
-    equipmentHeaderlabel.text = [NSString stringWithFormat:@"Equipment Number (%lu)",(unsigned long)[self.equipmentNumberHierarchyArray count]];
+    equipmentHeaderlabel.text = [NSString stringWithFormat:@"Equipments (%lu)",(unsigned long)[self.equipmentNumberHierarchyArray count]];
     
     
     if (![self.equipmentNumberHierarchyArray count]) {

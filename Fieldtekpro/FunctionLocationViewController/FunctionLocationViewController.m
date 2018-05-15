@@ -231,26 +231,25 @@
     else{
         [self.functionLocationArray removeAllObjects];
     }
-    
-    
-    [self.functionLocationArray addObjectsFromArray:[[DataBase sharedInstance] getFuncLoc:@"*"]];
-    
-    funcLocnHeaderLabel.text = [NSString stringWithFormat:@"Function Location (%lu)",(unsigned long)[self.functionLocationArray count]];
-    
-    if (![self.functionLocationArray count])
-    {
-  
-          [self showAlertMessageWithTitle:@"Inforamtion" message:@"No Functional Location Available" cancelButtonTitle:@"Ok"];
+ 
+        [self.functionLocationArray addObjectsFromArray:[[DataBase sharedInstance] getFuncLoc:@"*"]];
+
+        funcLocnHeaderLabel.text = [NSString stringWithFormat:@"Function Location (%lu)",(unsigned long)[self.functionLocationArray count]];
         
-    }
-    else{
-        
-        functionalLocationsearch.tag = 1;
-        [functionalLocationTableView reloadData];
-        islevelEnabled=NO;
-     }
-    
-}
+        if (![self.functionLocationArray count])
+        {
+            
+            [self showAlertMessageWithTitle:@"Inforamtion" message:@"No Functional Location Available" cancelButtonTitle:@"Ok"];
+            
+        }
+        else{
+            
+            functionalLocationsearch.tag = 1;
+            [functionalLocationTableView reloadData];
+            islevelEnabled=NO;
+        }
+ 
+ }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;              // Default is 1 if not implemented
 {
@@ -315,8 +314,7 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         [cell.detailButton addTarget:self action:@selector(detailButtonClicked:) forControlEvents:UIControlEventTouchDown];
-
-        
+ 
         if (functionalLocationTableView.tag==1) {
             
              if ([[[self.functionLocationHierarchyArray objectAtIndex:indexPath.row] objectForKey:@"stplnr"] isEqualToString:@"X"]) {
@@ -331,8 +329,7 @@
                 [cell.funcLocBtn setUserInteractionEnabled:YES];
  
                  [cell.funcLocBtn addTarget:self action:@selector(fLocationHDetailButtonClicked:) forControlEvents:UIControlEventTouchDown];
-                 
-
+ 
              }
             
             else
@@ -401,33 +398,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == functionalLocationTableView) {
- 
-        if ([self.searchString isEqualToString:@"X"]) {
-            
-            NSMutableArray *tempArray=[NSMutableArray new];
- 
-             if (islevelEnabled) {
-                
-                 [tempArray addObject:[self.filteredArray objectAtIndex:indexPath.row]];
-                 res_obj.functionLocationArray=[tempArray copy];
-             }
-            
-             else{
-                 
-                 [tempArray addObject:[self.functionLocationArray objectAtIndex:indexPath.row]];
-                 
-                 res_obj.functionLocationArray=[tempArray copy];
-                 
-              }
-            
-             if ([(CreateOrderViewController *)self.delegate respondsToSelector:@selector(dismissfunctionLocationView)]) {
-                
-                 [(CreateOrderViewController *)self.delegate dismissfunctionLocationView];
-             }
-            
-         }
         
-        else{
+        if (functionalLocationTableView.tag==1) {
             
             NSMutableArray *tempArray=[NSMutableArray new];
             
@@ -438,17 +410,66 @@
             }
             
             else{
+                
                 [tempArray addObject:[self.functionLocationHierarchyArray objectAtIndex:indexPath.row]];
+                
                 res_obj.functionLocationArray=[tempArray copy];
             }
             
-            if ([(InspectionChecklistViewController *)self.delegate respondsToSelector:@selector(dismissToCheckListView)]) {
+            
+            if ([self.searchString isEqualToString:@"X"]) {
                 
-                [(InspectionChecklistViewController *)self.delegate dismissToCheckListView];
+                if ([(CreateOrderViewController *)self.delegate respondsToSelector:@selector(dismissfunctionLocationView)]) {
+                    
+                    [(CreateOrderViewController *)self.delegate dismissfunctionLocationView];
+                }
+             }
+            
+            else{
                 
+                if ([(InspectionChecklistViewController *)self.delegate respondsToSelector:@selector(dismissToCheckListView)]) {
+                    
+                    [(InspectionChecklistViewController *)self.delegate dismissToCheckListView];
+                    
+                }
             }
-          }
-        }
+         }
+        else{
+            
+                 NSMutableArray *tempArray=[NSMutableArray new];
+                
+                if (islevelEnabled) {
+                    
+                    [tempArray addObject:[self.filteredArray objectAtIndex:indexPath.row]];
+                    res_obj.functionLocationArray=[tempArray copy];
+                }
+                
+                else{
+                    
+                    [tempArray addObject:[self.functionLocationArray objectAtIndex:indexPath.row]];
+                    
+                    res_obj.functionLocationArray=[tempArray copy];
+                    
+                }
+            
+            if ([self.searchString isEqualToString:@"X"]) {
+
+                if ([(CreateOrderViewController *)self.delegate respondsToSelector:@selector(dismissfunctionLocationView)]) {
+                    
+                    [(CreateOrderViewController *)self.delegate dismissfunctionLocationView];
+                }
+             }
+            
+            else{
+                
+                if ([(InspectionChecklistViewController *)self.delegate respondsToSelector:@selector(dismissToCheckListView)]) {
+                    
+                    [(InspectionChecklistViewController *)self.delegate dismissToCheckListView];
+                    
+                }
+            }
+           }
+         }
     }
 
 -(NSIndexPath *) GetCellFromTableView: (UITableView *)tableView Sender:(id)sender
@@ -484,7 +505,6 @@
             
              [self.functionLocationHierarchyArray addObjectsFromArray:[[DataBase sharedInstance] getFunctionLocations:inputParameters]];
  
-             
             funcLocnHeaderLabel.text = [NSString stringWithFormat:@"Function Location (%lu)",(unsigned long)[self.functionLocationHierarchyArray count]];
             
         }
@@ -541,8 +561,7 @@
             
             functionalLocationsearch.text=@"";
 
-            
-            [inputParameters setObject:[[self.filteredArray objectAtIndex:ip.row] objectForKey:@"locationid"] forKey:@"functionLocationHID"];
+             [inputParameters setObject:[[self.filteredArray objectAtIndex:ip.row] objectForKey:@"locationid"] forKey:@"functionLocationHID"];
             
             [locationIdArray addObject:[[self.filteredArray objectAtIndex:ip.row] objectForKey:@"locationid"]];
             

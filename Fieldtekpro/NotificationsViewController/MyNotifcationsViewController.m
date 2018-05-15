@@ -37,6 +37,7 @@
     
     NSMutableString *wrckcenterStringl,*wrkcenterQueryString;
     
+    
 }
 
 @property (nonatomic,retain) NSMutableArray *structuredFilterSortedArray;
@@ -62,6 +63,9 @@
     filterSubView.hidden=YES;
     filterBackgroundClicked.hidden=YES;
     searchBarView.hidden=YES;
+    
+    res_obj =[Response sharedInstance];
+
     
   //  WorkCenterTableviewcell.xib
     
@@ -89,88 +93,11 @@
     refreshBtn.imageEdgeInsets = UIEdgeInsetsMake(-10,20, 10, 0);
     refreshBtn.titleEdgeInsets = UIEdgeInsetsMake(30, -20, 0, 0);
     
-    self.structuredFilterSortedArray = [[NSMutableArray alloc]init];
     
     titleArray = [[NSMutableArray alloc] init];
     
-    NSMutableArray *tempNotificationTypeArray=[NSMutableArray new];
     
-    NSArray *tempNotifMaster = [[DataBase sharedInstance] getNotificationTypesinSingleArray];
-    
-    if ([tempNotifMaster count]) {
-        
-        [tempNotificationTypeArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"", nil]];
-    }
-    
-    for (int i = 0; i<[tempNotifMaster count]; i++) {
-        
-        [tempNotificationTypeArray addObject:[NSMutableArray arrayWithObjects:[tempNotifMaster objectAtIndex:i],@"", nil]];
-    }
-    
-     [systemStatusTableView registerNib:[UINib nibWithNibName:@"OrderSystemStatusTableViewCell~iPhone5" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"Cell"];
-    
-    NSMutableArray *tempPrioritiesArray=[NSMutableArray new];
-    
-    NSArray *tempNotifPriorityMaster = [[DataBase sharedInstance] getNotificationPriorityinSingleArray];
-    
-    if ([tempNotifPriorityMaster count]) {
-        
-        [tempPrioritiesArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"", nil]];
-    }
-    
-    for (int i = 0; i<[tempNotifPriorityMaster count]; i++) {
-        
-        [tempPrioritiesArray addObject:[NSMutableArray arrayWithObjects:[tempNotifPriorityMaster objectAtIndex:i],@"", nil]];
-    }
-    
-    NSMutableArray *dateArray=[NSMutableArray new];
-    
-    [dateArray addObject:[NSMutableArray arrayWithObjects:@"Created Date",@"X",nil]];
-    [dateArray addObject:[NSMutableArray arrayWithObjects:@"Malfunction Date",@"",nil]];
-    [dateArray addObject:[NSMutableArray arrayWithObjects:@"Required Date",@"",nil]];
-    [dateArray addObject:[NSMutableArray arrayWithObjects:@"From Date",@"",nil]];//for inputs fields
-    [dateArray addObject:[NSMutableArray arrayWithObjects:@"To Date",@"",nil]];//for input fields
-    
-    NSMutableArray *tempFilterArray=[NSMutableArray new];
-    
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"",nil]];
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"OSNO",@"",nil]];
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"NOPR",@"",nil]];
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"NOPO",@"",nil]];
-    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"NOCO",@"",nil]];
-    
-     NSMutableArray *tempAttachmentArray=[NSMutableArray new];
-     [tempAttachmentArray addObject:[NSMutableArray arrayWithObjects:@"Yes",@"",nil]];
-    
-     NSMutableArray *personResonsibleArray=[NSMutableArray new];
-     [personResonsibleArray addObject:[NSMutableArray arrayWithObjects:@"Yes",@"X", nil]];
- 
-      NSMutableArray *WorkcenterArray=[NSMutableArray new];
-     [WorkcenterArray addObject:[NSMutableArray arrayWithObjects:@"Select Workcenter",@"", nil]];
- 
-     [self.structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempNotificationTypeArray,tempPrioritiesArray,dateArray,tempFilterArray,tempAttachmentArray,personResonsibleArray,WorkcenterArray, nil]];
-    
-    //////////////////////////////////////////
-    NSMutableArray *tempSortDescriptionTexts=[NSMutableArray new];
-    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"Sort A to Z",@"", nil]];
-    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT Z to A",@"", nil]];
-    
-    NSMutableArray *tempSortStatusTexts=[NSMutableArray new];
-    [tempSortStatusTexts addObject:[NSMutableArray arrayWithObjects:@"Critical to Low",@"",nil]];
-    [tempSortStatusTexts addObject:[NSMutableArray arrayWithObjects:@"Low to Critical",@"", nil]];
-    
-    NSMutableArray *tempSortMalFuncStartDate=[NSMutableArray new];
-    [tempSortMalFuncStartDate addObject:[NSMutableArray arrayWithObjects:@"Ascending 1-9",@"", nil]];
-    [tempSortMalFuncStartDate addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
-    
-    NSMutableArray *notificationNumber=[NSMutableArray new];
-    [notificationNumber addObject:[NSMutableArray arrayWithObjects:@"Ascending 1-9",@"", nil]];
-    [notificationNumber addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
-    
- 
- 
-    [self.structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempSortDescriptionTexts,tempSortStatusTexts,tempSortMalFuncStartDate,notificationNumber, nil]];
-    [notifNoSortBtn setImage:[UIImage imageNamed:@"SortDown.png"] forState:UIControlStateNormal];
+    [self loadFilterdata];
     
     selectedFilterSortCheckBoxArray= [NSMutableArray new];
     selectedCheckBoxArray = [NSMutableArray new];
@@ -200,6 +127,89 @@
     myNotificationsTableView.editing=false;
 }
 
+-(void)loadFilterdata{
+    
+    self.structuredFilterSortedArray = [[NSMutableArray alloc]init];
+
+     NSMutableArray *tempNotificationTypeArray=[NSMutableArray new];
+    
+    NSArray *tempNotifMaster = [[DataBase sharedInstance] getNotificationTypesinSingleArray];
+    
+    if ([tempNotifMaster count]) {
+        
+        [tempNotificationTypeArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"", nil]];
+    }
+    
+    for (int i = 0; i<[tempNotifMaster count]; i++) {
+        
+        [tempNotificationTypeArray addObject:[NSMutableArray arrayWithObjects:[tempNotifMaster objectAtIndex:i],@"", nil]];
+    }
+    
+    [systemStatusTableView registerNib:[UINib nibWithNibName:@"OrderSystemStatusTableViewCell~iPhone5" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"Cell"];
+    
+    NSMutableArray *tempPrioritiesArray=[NSMutableArray new];
+    
+    NSArray *tempNotifPriorityMaster = [[DataBase sharedInstance] getNotificationPriorityinSingleArray];
+    
+    if ([tempNotifPriorityMaster count]) {
+        
+        [tempPrioritiesArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"", nil]];
+    }
+    
+    for (int i = 0; i<[tempNotifPriorityMaster count]; i++) {
+        
+        [tempPrioritiesArray addObject:[NSMutableArray arrayWithObjects:[tempNotifPriorityMaster objectAtIndex:i],@"", nil]];
+    }
+    
+    NSMutableArray *dateArray=[NSMutableArray new];
+    
+//    [dateArray addObject:[NSMutableArray arrayWithObjects:@"Created Date",@"X",nil]];
+//    [dateArray addObject:[NSMutableArray arrayWithObjects:@"Malfunction Date",@"",nil]];
+    [dateArray addObject:[NSMutableArray arrayWithObjects:@"Required  Start Date",@"",nil]];
+    [dateArray addObject:[NSMutableArray arrayWithObjects:@"From Date",@"",nil]];//for inputs fields
+    [dateArray addObject:[NSMutableArray arrayWithObjects:@"To Date",@"",nil]];//for input fields
+    
+    NSMutableArray *tempFilterArray=[NSMutableArray new];
+    
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"ALL",@"",nil]];
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"OSNO",@"",nil]];
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"NOPR",@"",nil]];
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"NOPO",@"",nil]];
+    [tempFilterArray addObject:[NSMutableArray arrayWithObjects:@"NOCO",@"",nil]];
+    
+    NSMutableArray *tempAttachmentArray=[NSMutableArray new];
+    [tempAttachmentArray addObject:[NSMutableArray arrayWithObjects:@"Yes",@"",nil]];
+    
+    NSMutableArray *personResonsibleArray=[NSMutableArray new];
+    [personResonsibleArray addObject:[NSMutableArray arrayWithObjects:@"Yes",@"X", nil]];
+    
+    NSMutableArray *WorkcenterArray=[NSMutableArray new];
+    [WorkcenterArray addObject:[NSMutableArray arrayWithObjects:@"Select WorkCenter",@"", nil]];
+    
+    [self.structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempNotificationTypeArray,tempPrioritiesArray,dateArray,tempFilterArray,tempAttachmentArray,personResonsibleArray,WorkcenterArray, nil]];
+    
+    //////////////////////////////////////////
+    NSMutableArray *tempSortDescriptionTexts=[NSMutableArray new];
+    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"Sort A to Z",@"", nil]];
+    [tempSortDescriptionTexts addObject:[NSMutableArray arrayWithObjects:@"SORT Z to A",@"", nil]];
+    
+    NSMutableArray *tempSortStatusTexts=[NSMutableArray new];
+    [tempSortStatusTexts addObject:[NSMutableArray arrayWithObjects:@"Critical to Low",@"",nil]];
+    [tempSortStatusTexts addObject:[NSMutableArray arrayWithObjects:@"Low to Critical",@"", nil]];
+    
+    NSMutableArray *tempSortMalFuncStartDate=[NSMutableArray new];
+    [tempSortMalFuncStartDate addObject:[NSMutableArray arrayWithObjects:@"Ascending 1-9",@"", nil]];
+    [tempSortMalFuncStartDate addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
+    
+    NSMutableArray *notificationNumber=[NSMutableArray new];
+    [notificationNumber addObject:[NSMutableArray arrayWithObjects:@"Ascending 1-9",@"", nil]];
+    [notificationNumber addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
+    
+ 
+    [self.structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempSortDescriptionTexts,tempSortStatusTexts,tempSortMalFuncStartDate,notificationNumber, nil]];
+    [notifNoSortBtn setImage:[UIImage imageNamed:@"SortDown.png"] forState:UIControlStateNormal];
+}
+
 -(void)searchMyNotificationsFromSqlite :(NSMutableDictionary *)actions{
     
     [defaults removeObjectForKey:@"DETAILSCREEN"];
@@ -214,7 +224,7 @@
     
     if ([parnerDataArray count]) {
         
-        [conditions setObject:[[parnerDataArray objectAtIndex:0] objectAtIndex:0] forKey:@"PERNR"];
+      //  [conditions setObject:[[parnerDataArray objectAtIndex:0] objectAtIndex:0] forKey:@"PERNR"];
         
     }
     
@@ -604,7 +614,7 @@
             [endPointCompleteNotificationDictionary setObject:objectIds forKey:@"ITEMS"];
             [endPointCompleteNotificationDictionary setObject:[[decryptedUserName copy] uppercaseString] forKey:@"REPORTEDBY"];
             
-            [endPointCompleteNotificationDictionary setObject:@"LOAD" forKey:@"TRANSMITTYPE"];
+            [endPointCompleteNotificationDictionary setObject:@"" forKey:@"TRANSMITTYPE"];
             
             [Request makeWebServiceRequest:NOTIFICATION_POSTPONE parameters:endPointCompleteNotificationDictionary delegate:self];
             
@@ -789,6 +799,8 @@
 -(IBAction)filterButtonClicked:(id)sender
 {
     filterByLabel.text=@"Filter BY:";
+    
+    infoFilterLabel.hidden=YES;
 
     self.window = [UIApplication sharedApplication].keyWindow;
     blackView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.window.frame.size.height)];
@@ -806,6 +818,8 @@
 {
     filterByLabel.text=@"Sort BY:";
     
+    infoFilterLabel.hidden=NO;
+
     self.window = [UIApplication sharedApplication].keyWindow;
     blackView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.window.frame.size.height)];
     [blackView setBackgroundColor:[UIColor blackColor]];
@@ -843,6 +857,9 @@
     NSMutableString *queryStringDate = [NSMutableString new];
     NSMutableString *queryStringStatus = [NSMutableString new];
     NSMutableString *queryStringAttachments = [NSMutableString new];
+    
+    NSMutableString *queryStringPersonResponsible = [NSMutableString new];
+
     
     NSMutableString *queryString = [NSMutableString new];
     NSPredicate *predicate;
@@ -1030,7 +1047,7 @@
                         statusString=@"NOPR";
                     }
                     
-                    [queryStringStatus appendFormat:@"notificationh_status contains[c] '%@'",statusString];
+                    [queryStringStatus appendFormat:@"notificationh_status = '%@'",statusString];
                 }
             }
         }
@@ -1104,17 +1121,17 @@
             
              if ([parnerDataArray count]) {
  
-                [queryStringAttachments appendFormat:@" and (notificationh_personresponsible_id = '%@')",[[parnerDataArray objectAtIndex:0] objectAtIndex:0]];
+                [queryStringPersonResponsible appendFormat:@" and (notificationh_personresponsible_id = '%@')",[[parnerDataArray objectAtIndex:0] objectAtIndex:0]];
              }
             
           }
         else
         {
-            [queryStringAttachments appendFormat:@" (notificationh_personresponsible_id = '')"];
+            [queryStringPersonResponsible appendFormat:@" (notificationh_personresponsible_id = '')"];
             
         }
         
-        [queryString appendString:queryStringAttachments];
+        [queryString appendString:queryStringPersonResponsible];
     }
  
     if ([wrkcenterQueryString length]) {
@@ -1129,6 +1146,7 @@
         }
     }
  
+    
  
     NSArray *filtersArray=[[DataBase sharedInstance] getPriorityList:queryString];
     
@@ -1255,34 +1273,40 @@
 
 -(IBAction)clearAllFilterSortButtonClicked:(id)sender
 {
-    if (filterSortTableView.tag==0)
-    {
-        for (int i=0; i<[[self.structuredFilterSortedArray firstObject] count]; i++) {
-
-            for (int j=0; j<[[[self.structuredFilterSortedArray firstObject] objectAtIndex:i] count];j++)
-            {
-                [[[[self.structuredFilterSortedArray firstObject] objectAtIndex:i] objectAtIndex:j] replaceObjectAtIndex:1 withObject:@""];
-            }
-        }
-    }
-    else if (filterSortTableView.tag==1)
-    {
-        for (int i=0; i<[[self.structuredFilterSortedArray objectAtIndex:1] count]; i++) {
-
-            for (int j=0; j<[[[self.structuredFilterSortedArray lastObject] objectAtIndex:i] count];j++)
-            {
-                [[[[self.structuredFilterSortedArray lastObject] objectAtIndex:i] objectAtIndex:j] replaceObjectAtIndex:1 withObject:@""];
-            }
-        }
-    }
  
+ 
+    [wrckcenterStringl setString:@""];
+    
+//    if (filterSortTableView.tag==0)
+//    {
+//        for (int i=0; i<[[self.structuredFilterSortedArray firstObject] count]; i++) {
+//
+//            for (int j=0; j<[[[self.structuredFilterSortedArray firstObject] objectAtIndex:i] count];j++)
+//            {
+//                [[[[self.structuredFilterSortedArray firstObject] objectAtIndex:i] objectAtIndex:j] replaceObjectAtIndex:1 withObject:@""];
+//            }
+//        }
+//    }
+//    else if (filterSortTableView.tag==1)
+//    {
+//        for (int i=0; i<[[self.structuredFilterSortedArray objectAtIndex:1] count]; i++) {
+//
+//            for (int j=0; j<[[[self.structuredFilterSortedArray lastObject] objectAtIndex:i] count];j++)
+//            {
+//                [[[[self.structuredFilterSortedArray lastObject] objectAtIndex:i] objectAtIndex:j] replaceObjectAtIndex:1 withObject:@""];
+//            }
+//        }
+//    }
+//
+    
+        [self loadFilterdata];
     
         [filterView removeFromSuperview];
         filterBackgroundClicked.hidden=YES;
         [filterSortTableView reloadData];
         [blackView removeFromSuperview];
     
-    [self searchMyNotificationsFromSqlite:nil];
+       [self searchMyNotificationsFromSqlite:nil];
     
 }
 
@@ -1744,8 +1768,7 @@
 
 -(void)dismissWorkcenterView {
     
-    Response *res_obj=[Response sharedInstance];
-    
+   
     wrckcenterStringl=[NSMutableString new];
     
     wrkcenterQueryString=[NSMutableString new];
@@ -1981,7 +2004,7 @@
             }
             else
             {
-                [label setText:@"Work center"];
+                [label setText:@"Work Center"];
 
             }
             
@@ -2320,8 +2343,8 @@
             else if (indexPath.section == 6){
                 
                 [cell.dateTextfield setTag:30];
- 
-                [cell.dateImageView setImage:[UIImage imageNamed:@"dropdown"]];
+                
+                 [cell.dateImageView setImage:[UIImage imageNamed:@"dropdown"]];
                 
                 if (wrckcenterStringl.length) {
                     cell.dateTextfield.text=wrckcenterStringl;
@@ -2648,8 +2671,18 @@
     
     NSMutableArray *tempArray=[NSMutableArray new];
     
-    [tempArray addObject:[self.notificationListArray objectAtIndex:i]];
+    if (myNotificationsTableView.tag==0) {
+        
+        [tempArray addObject:[self.notificationListArray objectAtIndex:i]];
+        
+    }
+    else if (myNotificationsTableView.tag==1){
+        
+        [tempArray addObject:[filteredArray objectAtIndex:i]];
+        
+    }
     
+ 
     if ([tempArray count])
     {
          createVc.detailNotificationArray=[tempArray copy];

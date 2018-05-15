@@ -1451,7 +1451,7 @@
  
                 [self.connectionRequest setValue:@"X" forHTTPHeaderField:@"IVCOMMIT"];
                 
-                [self.connectionRequest setValue:@"12345" forHTTPHeaderField:@"Devicesno"];
+                [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Devicesno"];
                 
                 [self.connectionRequest setValue:@"18523416-177F-4B9B-9250-4F7A90A89537" forHTTPHeaderField:@"Deviceid"];
                 [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Udid"];
@@ -1541,7 +1541,7 @@
                 [self decryptforBasicAuth];
                 
                 [self.connectionRequest setValue:[parameters objectForKey:@"USERNAME"] forHTTPHeaderField:@"Muser"];
-                [self.connectionRequest setValue:@"12345" forHTTPHeaderField:@"Devicesno"];
+                [self.connectionRequest setValue:@"" forHTTPHeaderField:@"Devicesno"];
                 [self.connectionRequest setValue:[parameters objectForKey:@"REPORTEDBY"] forHTTPHeaderField:@"Muser"];
                 
                 [self.connectionRequest setValue:@"18523416-177F-4B9B-9250-4F7A90A89537" forHTTPHeaderField:@"Deviceid"];

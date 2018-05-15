@@ -1094,7 +1094,7 @@
             
             if (statusCode == 401) {
                 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:bomDetailView animated:YES];
 
                  [detailBomtableview reloadData];
                 
@@ -1146,7 +1146,8 @@
                         NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForListOfPMBOMS:resultData];
                         
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
-
+                        
+ 
                         if ([parsedDictionary objectForKey:@"ERROR"]) {
                             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:[parsedDictionary objectForKey:@"ERROR"] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
                             [alert show];
@@ -1173,12 +1174,14 @@
                     }
                 }
                 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:bomDetailView animated:YES];
+
+                
             }
             else{
                 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                
+                [MBProgressHUD hideHUDForView:bomDetailView animated:YES];
+
             }
             
             break;
@@ -1249,8 +1252,8 @@
                                 }
                                 else{
                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                    UIAlertView *noChangesalert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"No changes for you." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-                                    [noChangesalert show];
+                                 //   UIAlertView *noChangesalert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"No changes for you." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                                  //  [noChangesalert show];
                                 }
                             }
                         }

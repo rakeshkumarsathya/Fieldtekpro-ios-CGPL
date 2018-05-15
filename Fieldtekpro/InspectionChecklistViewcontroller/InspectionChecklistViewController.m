@@ -71,6 +71,8 @@
     
     FunctionLocationViewController *funcVc = [self.storyboard instantiateViewControllerWithIdentifier:@"FunctionLocationView"];
     
+    funcVc.searchString=@"";
+    
     funcVc.delegate=self;
     
     [self showViewController:funcVc sender:self];
@@ -102,6 +104,7 @@
         }
      }
     
+     equipmentTextfield.text=@"";
      [self.navigationController popViewControllerAnimated:YES];
   }
 

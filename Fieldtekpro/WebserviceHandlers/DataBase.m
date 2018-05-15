@@ -8195,6 +8195,13 @@ static dispatch_once_t onceToken;
     
     NSMutableString *conditionString = [[NSMutableString alloc] initWithString:@" "];
     
+ 
+    if ([conditionDictionary objectForKey:@"PERNR"]) {
+        
+        [conditionString appendFormat:@" where orderh_personresponsible_id = %@ and ORDER BY orderh_startdate   DESC",[conditionDictionary objectForKey:@"PERNR"]];
+        
+    }
+    
     if ([keyArray containsObject:@"FILTER"]) {
         [conditionString appendFormat:@" where %@",[conditionDictionary objectForKey:@"FILTER"]];
     }

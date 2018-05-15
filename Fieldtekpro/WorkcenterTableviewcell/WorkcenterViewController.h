@@ -10,6 +10,7 @@
 #import "FilterWorkcenterTableViewCell.h"
 #import "MyNotifcationsViewController.h"
 #import "Response.h"
+#import "MyOrdersViewController.h"
 
 @interface WorkcenterViewController : UIViewController
 {
@@ -17,13 +18,15 @@
      NSMutableArray *workcenterArray,*checkBoxSelectedArray;
     
     Response *res_obj;
-    
-    IBOutlet UILabel *headerTitleLabel;
+     IBOutlet UILabel *headerTitleLabel;
  }
 
 @property (nonatomic,weak)id delegate;
 
 @property (nonatomic, retain) NSArray *filteredArray;
+
+@property (nonatomic, retain) NSString *selectedClass;
+
 
 
 @end

@@ -14,4 +14,7 @@
 
 @property (nonatomic, retain) IBOutlet UIButton *breakDownBtn;
 
+ @property  IBOutlet UIView *breakdownContentView;
+
+
 @end

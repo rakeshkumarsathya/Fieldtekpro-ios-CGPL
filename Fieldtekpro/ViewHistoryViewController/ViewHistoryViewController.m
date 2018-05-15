@@ -23,12 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    structuredFilterSortedArray = [[NSMutableArray alloc]init];
     
     selectedCheckBoxArray = [NSMutableArray new];
     
     defaults=[NSUserDefaults standardUserDefaults];
 
+    [self loadFilterData];
 
     NSString *key = @"";
     
@@ -100,13 +100,7 @@
     refreshBtn.imageEdgeInsets = UIEdgeInsetsMake(-10,20, 10, 0);
     refreshBtn.titleEdgeInsets = UIEdgeInsetsMake(30, -20, 0, 0);
  
-    NSMutableArray *documentTypeArray=[NSMutableArray new];
-    
-    [documentTypeArray addObject:[NSMutableArray arrayWithObjects:@"Notification",@"",nil]];
-    [documentTypeArray addObject:[NSMutableArray arrayWithObjects:@"Order",@"",nil]];
-    [documentTypeArray addObject:[NSMutableArray arrayWithObjects:@"Reservation",@"",nil]];
-    
-    [structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:documentTypeArray, nil]];
+  
     
     // Do any additional setup after loading the view.
 }
@@ -154,6 +148,19 @@
 }
 
 
+-(void)loadFilterData{
+    
+    structuredFilterSortedArray = [[NSMutableArray alloc]init];
+
+    NSMutableArray *documentTypeArray=[NSMutableArray new];
+    
+    [documentTypeArray addObject:[NSMutableArray arrayWithObjects:@"Notification",@"",nil]];
+    [documentTypeArray addObject:[NSMutableArray arrayWithObjects:@"Order",@"",nil]];
+    [documentTypeArray addObject:[NSMutableArray arrayWithObjects:@"Reservation",@"",nil]];
+    
+    [structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:documentTypeArray, nil]];
+}
+
 #pragma mark-
 #pragma mark- Search Delegate Method
 
@@ -169,13 +176,13 @@
             
             self.filteredArray = [self.historyListArray filteredArrayUsingPredicate:bPredicate];
             
-            headerLabel.text = [NSString stringWithFormat:@"Transaction History (%i)",(int)self.filteredArray.count];
+            headerLabel.text = [NSString stringWithFormat:@"User Log (%i)",(int)self.filteredArray.count];
         }
         else{
             
             historyTableview.tag = 0;
             
-            headerLabel.text = [NSString stringWithFormat:@"Transaction History (%i)",(int)self.historyListArray.count];
+            headerLabel.text = [NSString stringWithFormat:@"User Log (%i)",(int)self.historyListArray.count];
         }
     }
     else{
@@ -188,13 +195,13 @@
             
             self.filteredArray = [self.historyListArray filteredArrayUsingPredicate:bPredicate];
             
-            headerLabel.text = [NSString stringWithFormat:@"Transaction History (%i)",(int)self.filteredArray.count];
+            headerLabel.text = [NSString stringWithFormat:@"User Log (%i)",(int)self.filteredArray.count];
         }
         else{
             
             historyTableview.tag = 0;
             
-            headerLabel.text = [NSString stringWithFormat:@"Transaction History (%i)",(int)self.historyListArray.count];
+            headerLabel.text = [NSString stringWithFormat:@"User Log (%i)",(int)self.historyListArray.count];
         }
     }
     
@@ -252,16 +259,16 @@
 }
 
 -(IBAction)clearAllButtonClicked:(id)sender{
+    
+    
     [blackView removeFromSuperview];
     [sortView removeFromSuperview];
     
-    [[[[structuredFilterSortedArray firstObject] objectAtIndex:0] objectAtIndex:0] replaceObjectAtIndex:1 withObject:@""];
-    [[[[structuredFilterSortedArray firstObject] objectAtIndex:0] objectAtIndex:1] replaceObjectAtIndex:1 withObject:@""];
-    [[[[structuredFilterSortedArray firstObject] objectAtIndex:0] objectAtIndex:2] replaceObjectAtIndex:1 withObject:@""];
+    [self loadFilterData];
     
     historyTableview.tag = 0;
     
-    headerLabel.text = [NSString stringWithFormat:@"Transaction History (%i)",(int)[self.historyListArray count]];
+    headerLabel.text = [NSString stringWithFormat:@"User Log (%i)",(int)[self.historyListArray count]];
     
     [historyTableview reloadData];
 }
@@ -431,7 +438,7 @@
     
     self.historyListArray = [[NSMutableArray alloc] initWithArray:[[DataBase sharedInstance] getSyncLogsDetails:decryptedUserName]];
     
-    myTransactionsCountLabel.text = [NSString stringWithFormat:@"Transaction History (%lu)",(unsigned long)[self.historyListArray count]];
+    myTransactionsCountLabel.text = [NSString stringWithFormat:@"User Log (%lu)",(unsigned long)[self.historyListArray count]];
     
     int new = 0;
     int success = 0;
@@ -441,7 +448,7 @@
     successTransactionsCountLabel.text = [NSString stringWithFormat:@"Complete (%i)",success];
     errorTransactionsCountLabel.text = [NSString stringWithFormat:@"Error (%i)",error];
     
-    headerLabel.text = [NSString stringWithFormat:@"Transaction History (%i)",(int)[self.historyListArray count]];
+    headerLabel.text = [NSString stringWithFormat:@"User Log (%i)",(int)[self.historyListArray count]];
     
     if (![self.historyListArray count]) {
         checkBoxHeaderBtn.hidden=YES;
@@ -524,20 +531,17 @@
         
         self.filteredArray = [self.historyListArray filteredArrayUsingPredicate:predicate];
         
-        headerLabel.text = [NSString stringWithFormat:@"Transaction History (%i)",(int)[self.filteredArray count]];
+        headerLabel.text = [NSString stringWithFormat:@"User Log (%i)",(int)[self.filteredArray count]];
         
         historyTableview.tag = 1;
     }
     else{
         historyTableview.tag = 0;
-        headerLabel.text = [NSString stringWithFormat:@"Transaction History (%i)",(int)[self.historyListArray count]];
+        headerLabel.text = [NSString stringWithFormat:@"User Log (%i)",(int)[self.historyListArray count]];
     }
-    
-    
+ 
     [historyTableview reloadData];
-    
-}
-
+ }
 
 
 -(void)listOfUserTransactionHistory{
@@ -650,7 +654,7 @@
         
         if (section==0)
         {
-            [label setText:@"DOCUMENT TYPE"];
+            [label setText:@"Document Type"];
         }
         
         [view addSubview:label];
@@ -726,8 +730,7 @@
                  
                  checkBoxHeaderBtn.hidden = YES;
                  
-                 [headerLabel setText:@"Transaction History"];
-                 
+ 
                  cell.dateLabel.text =[NSString stringWithFormat:@"%@",convertedDateString];
                  
                  //            cell.gradientImage.backgroundColor = [UIColor greenColor];
@@ -1310,7 +1313,7 @@
                     
                    // headerLabel.text = [NSString stringWithFormat:@"Transaction History (%lu)",(unsigned long)[self.historyListArray count]];
                     
-                     [headerLabel setText:[NSString stringWithFormat:@"Transaction History (%lu)",(unsigned long)[self.historyListArray count]]];
+                     [headerLabel setText:[NSString stringWithFormat:@"User Log (%lu)",(unsigned long)[self.historyListArray count]]];
 
                     
                     if ([[defaults objectForKey:@"ACTIVATELOGS"] isEqualToString:@"X"])
