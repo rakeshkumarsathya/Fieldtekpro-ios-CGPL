@@ -123,6 +123,10 @@
         [(MyNotifcationsViewController *)self.delegate dismissScanView];
     }
     
+    
+    if ([(CreateOrderViewController *)self.delegate respondsToSelector:@selector(dismissScanView)]) {
+        [(CreateOrderViewController *)self.delegate dismissScanView];
+    }
  
 }
 
@@ -140,6 +144,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(IBAction)back:(id)sender{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 /*

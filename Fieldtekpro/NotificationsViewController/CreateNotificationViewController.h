@@ -32,6 +32,7 @@
 #import "ActivityTableViewCell.h"
 #import "LongtextViewController.h"
 #import "AttachmentsTableViewCell.h"
+#import "Photos/Photos.h"
 
 //For Activity Indicator
 #import "MBProgressHUD.h"
@@ -85,7 +86,7 @@ typedef enum SelectedDropDown{
     
     NSMutableArray *headerDataArray,*addCauseCodeDataArray,*addTaskCodeDataArray,*notifInspectionArray,*addActivityArray;
     
-    IBOutlet UIView *addCauseTaskView,*customHeaderView,*containerView,*submitResetView,*downloadsView,*duplicateNotificationView,*searchDropDownView;
+    IBOutlet UIView *addCauseTaskView,*customHeaderView,*containerView,*submitResetView,*downloadsView,*duplicateNotificationView,*searchDropDownView,*causeActivitySubmitView;
     
     BOOL isCausecodeSelected,attachmentsFlag;
     
@@ -165,8 +166,11 @@ typedef enum SelectedDropDown{
     
     BOOL updateActivityFlag;
     
+    NSString *imageName;
     
- 
+    NSMutableArray *array_ImagesNames;
+    
+    NSString *attachmentsString,*cameraDescriptionString;
 }
 
 

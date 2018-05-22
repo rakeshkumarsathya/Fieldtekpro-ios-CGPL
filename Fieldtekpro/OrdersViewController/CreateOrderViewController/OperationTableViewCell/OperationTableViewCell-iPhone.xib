@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Helvetica.ttc">
-            <string>Helvetica</string>
-            <string>Helvetica-Oblique</string>
-        </array>
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -39,7 +30,7 @@
                                 </constraints>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0010" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HOF-sD-glW">
-                                <rect key="frame" x="49" y="8" width="252" height="29"/>
+                                <rect key="frame" x="37" y="8" width="93" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="bQp-QY-Zx7"/>
                                 </constraints>
@@ -67,7 +58,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPC-8N-40g">
-                                <rect key="frame" x="242" y="41" width="64" height="31"/>
+                                <rect key="frame" x="145" y="0.0" width="64" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="64" id="OmB-NU-FBw"/>
                                 </constraints>
@@ -75,33 +66,42 @@
                                 <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCh-bg-gqR">
-                                <rect key="frame" x="161" y="81" width="146" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCh-bg-gqR">
+                                <rect key="frame" x="159" y="41" width="136" height="30"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Oblique" family="Helvetica" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="red_traffic.png" translatesAutoresizingMaskIntoConstraints="NO" id="Eeb-IJ-5Q8">
+                                <rect key="frame" x="228" y="84" width="75" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="FTD-NU-puc"/>
+                                    <constraint firstAttribute="width" constant="75" id="QgA-2s-DCA"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="DCX-BS-spC" firstAttribute="centerY" secondItem="DCh-bg-gqR" secondAttribute="centerY" id="7dN-8D-WYS"/>
-                            <constraint firstItem="DCh-bg-gqR" firstAttribute="top" secondItem="MPC-8N-40g" secondAttribute="bottom" constant="9" id="CYa-8d-V0o"/>
-                            <constraint firstAttribute="trailing" secondItem="DCh-bg-gqR" secondAttribute="trailing" constant="3" id="KcG-tK-paF"/>
-                            <constraint firstItem="DCh-bg-gqR" firstAttribute="leading" secondItem="DCX-BS-spC" secondAttribute="trailing" constant="21" id="Lcu-7i-Vxb"/>
-                            <constraint firstAttribute="trailing" secondItem="HOF-sD-glW" secondAttribute="trailing" constant="9" id="RjL-NG-EpK"/>
+                            <constraint firstItem="DCX-BS-spC" firstAttribute="centerY" secondItem="DCh-bg-gqR" secondAttribute="centerY" constant="40" id="7dN-8D-WYS"/>
+                            <constraint firstAttribute="trailing" secondItem="Eeb-IJ-5Q8" secondAttribute="trailing" constant="7" id="AYG-cb-vMH"/>
+                            <constraint firstItem="DCh-bg-gqR" firstAttribute="top" secondItem="MPC-8N-40g" secondAttribute="bottom" constant="10" id="CYa-8d-V0o"/>
+                            <constraint firstAttribute="trailing" secondItem="DCh-bg-gqR" secondAttribute="trailing" constant="15" id="KcG-tK-paF"/>
+                            <constraint firstItem="DCh-bg-gqR" firstAttribute="leading" secondItem="DCX-BS-spC" secondAttribute="trailing" constant="19" id="Lcu-7i-Vxb"/>
+                            <constraint firstAttribute="trailing" secondItem="HOF-sD-glW" secondAttribute="trailing" constant="180" id="RjL-NG-EpK"/>
                             <constraint firstAttribute="bottom" secondItem="DCX-BS-spC" secondAttribute="bottom" constant="6" id="UnK-CH-Adh"/>
+                            <constraint firstAttribute="bottom" secondItem="Eeb-IJ-5Q8" secondAttribute="bottom" constant="10" id="a4l-gZ-NTa"/>
                             <constraint firstItem="3aQ-Xh-1LV" firstAttribute="top" secondItem="zao-hr-djN" secondAttribute="topMargin" id="ast-8o-hcJ"/>
                             <constraint firstItem="3aQ-Xh-1LV" firstAttribute="leading" secondItem="zao-hr-djN" secondAttribute="leading" constant="11" id="d1t-kc-KXh"/>
-                            <constraint firstItem="ggA-le-kpv" firstAttribute="centerY" secondItem="MPC-8N-40g" secondAttribute="centerY" id="e4h-aI-ufu"/>
-                            <constraint firstItem="HOF-sD-glW" firstAttribute="leading" secondItem="3aQ-Xh-1LV" secondAttribute="trailing" constant="8" symbolic="YES" id="eNC-XS-b2P"/>
+                            <constraint firstItem="ggA-le-kpv" firstAttribute="centerY" secondItem="MPC-8N-40g" secondAttribute="centerY" constant="40.5" id="e4h-aI-ufu"/>
+                            <constraint firstItem="HOF-sD-glW" firstAttribute="leading" secondItem="3aQ-Xh-1LV" secondAttribute="trailing" constant="-4" id="eNC-XS-b2P"/>
                             <constraint firstItem="ggA-le-kpv" firstAttribute="leading" secondItem="zao-hr-djN" secondAttribute="leading" constant="4" id="exf-EF-eqi"/>
                             <constraint firstItem="3aQ-Xh-1LV" firstAttribute="centerY" secondItem="HOF-sD-glW" secondAttribute="centerY" id="hIC-wU-hSd"/>
                             <constraint firstItem="ggA-le-kpv" firstAttribute="top" secondItem="3aQ-Xh-1LV" secondAttribute="bottom" constant="3" id="kfR-TK-4ja"/>
                             <constraint firstItem="3aQ-Xh-1LV" firstAttribute="top" secondItem="HOF-sD-glW" secondAttribute="top" id="lcb-p1-Rck"/>
-                            <constraint firstAttribute="trailing" secondItem="MPC-8N-40g" secondAttribute="trailing" constant="4" id="mKK-Z2-dRF"/>
+                            <constraint firstAttribute="trailing" secondItem="MPC-8N-40g" secondAttribute="trailing" constant="101" id="mKK-Z2-dRF"/>
                             <constraint firstItem="DCX-BS-spC" firstAttribute="leading" secondItem="zao-hr-djN" secondAttribute="leading" constant="5" id="qX6-Xb-9QW"/>
                             <constraint firstItem="DCX-BS-spC" firstAttribute="top" secondItem="ggA-le-kpv" secondAttribute="bottom" constant="9" id="sIn-5E-KDV"/>
-                            <constraint firstItem="ggA-le-kpv" firstAttribute="firstBaseline" secondItem="MPC-8N-40g" secondAttribute="firstBaseline" id="t37-XD-4MG"/>
+                            <constraint firstItem="ggA-le-kpv" firstAttribute="firstBaseline" secondItem="MPC-8N-40g" secondAttribute="firstBaseline" constant="41" id="t37-XD-4MG"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -122,4 +122,7 @@
             <point key="canvasLocation" x="205" y="329"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="red_traffic.png" width="300" height="100"/>
+    </resources>
 </document>

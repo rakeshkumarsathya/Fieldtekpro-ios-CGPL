@@ -655,6 +655,26 @@ static dispatch_once_t onceToken;
     return [NSMutableArray array];
 }
 
+- (NSMutableArray *)getOrderWBSElements
+{
+    NSMutableString *queryString = [[NSMutableString alloc] init];
+    [queryString appendFormat:@"select * from ETWBSMASTER"];
+    if ([self set_query:queryString]) {
+        return [self run_Queries_WITHDATA];
+    }
+    return [NSMutableArray array];
+}
+
+- (NSMutableArray *)getOrderRevisison
+{
+    NSMutableString *queryString = [[NSMutableString alloc] init];
+    [queryString appendFormat:@"select * from ETREVNRMASTER"];
+    if ([self set_query:queryString]) {
+        return [self run_Queries_WITHDATA];
+    }
+    return [NSMutableArray array];
+}
+
 - (NSMutableArray *)getAccIndicator
 {
     NSMutableString *queryString = [[NSMutableString alloc] init];
@@ -6280,10 +6300,11 @@ static dispatch_once_t onceToken;
     NSDateFormatter *nowDate = [[NSDateFormatter alloc] init];
     [nowDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
-    //    CREATE TABLE "ORDER_HEADER" ("orderh_id" VARCHAR,"orderh_type_id" VARCHAR,"orderh_type_name" VARCHAR,"orderh_shorttext" VARCHAR,"orderh_longtext" VARCHAR,"orderh_funcloc_id" VARCHAR,"orderh_funcloc_name" VARCHAR,"orderh_euipno_id" VARCHAR,"orderh_euipno_name" VARCHAR,"orderh_accindicator_id" VARCHAR,"orderh_accindicator_name" VARCHAR,"orderh_priority_id" VARCHAR,"orderh_priority_name" VARCHAR,"orderh_startdate" DATETIME,"orderh_enddate" DATETIME,"orderh_plant_id" VARCHAR,"orderh_plant_name" VARCHAR,"orderh_workcenter_id" VARCHAR,"orderh_workcenter_name" VARCHAR,"orderh_latitudes" VARCHAR,"orderh_longitudes" VARCHAR,"orderh_altitudes" VARCHAR,"orderh_reported_by" VARCHAR,"orderh_status" VARCHAR,"oh_objectID" VARCHAR,"oh_upadated_Date" DATETIME,"oh_docs" VARCHAR,"oh_sync_status" VARCHAR,"orderh_kokrs" VARCHAR,"orderh_kostl" VARCHAR,"orderh_qmnum" VARCHAR,"orderh_malf_sdate" VARCHAR,"orderh_malf_edate" VARCHAR,"orderh_effect_id" VARCHAR DEFAULT (null) ,"orderh_msaus" VARCHAR,"orderh_Nreported_by" VARCHAR,"orderh_effect_name" VARCHAR,"orderh_systemcondition_id" VARCHAR,"orderh_systemcondition_text" VARCHAR, "orderh_wsm" VARCHAR, "orderh_wcm" VARCHAR, "orderh_user01" VARCHAR, "orderh_user02" VARCHAR, "orderh_user03" VARCHAR, "orderh_user04" VARCHAR, "orderh_user05" VARCHAR)
-    
  
-    [queryString appendFormat:@"insert into ORDER_HEADER values('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@')",[headerDetails objectForKey:@"ID"],[headerDetails objectForKey:@"OID"],[headerDetails objectForKey:@"ONAME"],[headerDetails objectForKey:@"SHORTTEXT"],[headerDetails objectForKey:@"LONGTEXT"],[headerDetails objectForKey:@"FID"],[headerDetails objectForKey:@"FNAME"],[headerDetails objectForKey:@"EQID"],[headerDetails objectForKey:@"EQNAME"],[headerDetails objectForKey:@"ACCINCID"],[headerDetails objectForKey:@"ACCINCNAME"],[headerDetails objectForKey:@"OPID"],[headerDetails objectForKey:@"OPNAME"],[headerDetails objectForKey:@"SDATE"],[headerDetails objectForKey:@"EDATE"],[headerDetails objectForKey:@"PLANTID"],[headerDetails objectForKey:@"PLANTNAME"],[headerDetails objectForKey:@"WORKCENTERID"],[headerDetails objectForKey:@"WORKCENTERNAME"],[headerDetails objectForKey:@"LATITUDE"],[headerDetails objectForKey:@"LONGITUDE"],[headerDetails objectForKey:@"ALTITUDE"],[headerDetails objectForKey:@"REPORTEDBY"],[headerDetails objectForKey:@"OSTATUS"],objectIDStr,[nowDate stringFromDate:[NSDate date]],[headerDetails objectForKey:@"DOCS"],[headerDetails objectForKey:@"OSYNCSTATUS"],[headerDetails objectForKey:@"workarea"],[headerDetails objectForKey:@"costcenter"],[headerDetails objectForKey:@"QMNUM"],[headerDetails objectForKey:@"MALFUNCTIONSTARTDATE"],[headerDetails objectForKey:@"MALFUNCTIONENDDATE"],[headerDetails objectForKey:@"EFFECTID"],[headerDetails objectForKey:@"BREAKDOWN"],[headerDetails objectForKey:@"NREPORTEDBY"],[headerDetails objectForKey:@"EFFECTNAME"],[headerDetails objectForKey:@"SYSTEMCONDITIONID"],[headerDetails objectForKey:@"SYSTEMCONDITIONTEXT"],[headerDetails objectForKey:@"WSM"],[headerDetails objectForKey:@"WCM"],[headerDetails objectForKey:@"usr01"],[headerDetails objectForKey:@"usr02"],[headerDetails objectForKey:@"usr03"],[headerDetails objectForKey:@"usr04"],[headerDetails objectForKey:@"usr05"],[headerDetails objectForKey:@"PARNRID"],[headerDetails objectForKey:@"NAMEVW"],[headerDetails objectForKey:@"PLANNERGROUP"],[headerDetails objectForKey:@"PLANNERGROUPNAME"]];
+//    CREATE TABLE "ORDER_HEADER" ( `orderh_id` VARCHAR, `orderh_type_id` VARCHAR, `orderh_type_name` VARCHAR, `orderh_shorttext` VARCHAR, `orderh_longtext` VARCHAR, `orderh_funcloc_id` VARCHAR, `orderh_funcloc_name` VARCHAR, `orderh_euipno_id` VARCHAR, `orderh_euipno_name` VARCHAR, `orderh_accindicator_id` VARCHAR, `orderh_accindicator_name` VARCHAR, `orderh_priority_id` VARCHAR, `orderh_priority_name` VARCHAR, `orderh_startdate` DATETIME, `orderh_enddate` DATETIME, `orderh_plant_id` VARCHAR, `orderh_plant_name` VARCHAR, `orderh_workcenter_id` VARCHAR, `orderh_workcenter_name` VARCHAR, `orderh_latitudes` VARCHAR, `orderh_longitudes` VARCHAR, `orderh_altitudes` VARCHAR, `orderh_reported_by` VARCHAR, `orderh_status` VARCHAR, `oh_objectID` VARCHAR, `oh_upadated_Date` DATETIME, `oh_docs` VARCHAR, `oh_sync_status` VARCHAR, `orderh_kokrs` VARCHAR, `orderh_kostl` VARCHAR, `orderh_qmnum` VARCHAR, `orderh_malf_sdate` VARCHAR, `orderh_malf_edate` VARCHAR, `orderh_effect_id` VARCHAR DEFAULT (null), `orderh_msaus` VARCHAR, `orderh_Nreported_by` VARCHAR, `orderh_effect_name` VARCHAR, `orderh_systemcondition_id` VARCHAR, `orderh_systemcondition_text` VARCHAR, `orderh_wsm` VARCHAR, `orderh_wcm` VARCHAR, `orderh_user01` VARCHAR, `orderh_user02` VARCHAR, `orderh_user03` VARCHAR, `orderh_user04` VARCHAR, `orderh_user05` VARCHAR, `orderh_personresponsible_id` VARCHAR, `orderh_personresponsible_text` VARCHAR, `orderh_ingrp` VARCHAR, `orderh_ingrp_name` VARCHAR, `orderh_posid` TEXT, `orderh_revnr` TEXT )
+//
+ 
+    [queryString appendFormat:@"insert into ORDER_HEADER values('%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@')",[headerDetails objectForKey:@"ID"],[headerDetails objectForKey:@"OID"],[headerDetails objectForKey:@"ONAME"],[headerDetails objectForKey:@"SHORTTEXT"],[headerDetails objectForKey:@"LONGTEXT"],[headerDetails objectForKey:@"FID"],[headerDetails objectForKey:@"FNAME"],[headerDetails objectForKey:@"EQID"],[headerDetails objectForKey:@"EQNAME"],[headerDetails objectForKey:@"ACCINCID"],[headerDetails objectForKey:@"ACCINCNAME"],[headerDetails objectForKey:@"OPID"],[headerDetails objectForKey:@"OPNAME"],[headerDetails objectForKey:@"SDATE"],[headerDetails objectForKey:@"EDATE"],[headerDetails objectForKey:@"PLANTID"],[headerDetails objectForKey:@"PLANTNAME"],[headerDetails objectForKey:@"WORKCENTERID"],[headerDetails objectForKey:@"WORKCENTERNAME"],[headerDetails objectForKey:@"LATITUDE"],[headerDetails objectForKey:@"LONGITUDE"],[headerDetails objectForKey:@"ALTITUDE"],[headerDetails objectForKey:@"REPORTEDBY"],[headerDetails objectForKey:@"OSTATUS"],objectIDStr,[nowDate stringFromDate:[NSDate date]],[headerDetails objectForKey:@"DOCS"],[headerDetails objectForKey:@"OSYNCSTATUS"],[headerDetails objectForKey:@"workarea"],[headerDetails objectForKey:@"costcenter"],[headerDetails objectForKey:@"QMNUM"],[headerDetails objectForKey:@"MALFUNCTIONSTARTDATE"],[headerDetails objectForKey:@"MALFUNCTIONENDDATE"],[headerDetails objectForKey:@"EFFECTID"],[headerDetails objectForKey:@"BREAKDOWN"],[headerDetails objectForKey:@"NREPORTEDBY"],[headerDetails objectForKey:@"EFFECTNAME"],[headerDetails objectForKey:@"SYSTEMCONDITIONID"],[headerDetails objectForKey:@"SYSTEMCONDITIONTEXT"],[headerDetails objectForKey:@"WSM"],[headerDetails objectForKey:@"WCM"],[headerDetails objectForKey:@"usr01"],[headerDetails objectForKey:@"usr02"],[headerDetails objectForKey:@"usr03"],[headerDetails objectForKey:@"usr04"],[headerDetails objectForKey:@"usr05"],[headerDetails objectForKey:@"PARNRID"],[headerDetails objectForKey:@"NAMEVW"],[headerDetails objectForKey:@"PLANNERGROUP"],[headerDetails objectForKey:@"PLANNERGROUPNAME"],[headerDetails objectForKey:@"POSID"],[headerDetails objectForKey:@"REVNR"]];
     
  
     if ([self set_query:queryString]) {
@@ -9678,9 +9699,59 @@ static dispatch_once_t onceToken;
     }
     
     return TRUE;
+ }
+
+
+-(BOOL)insertintoETWBSData :(NSArray *)arr_WBSData
+{
+    NSMutableString *queryString = [[NSMutableString alloc] initWithString:@""];
     
+    [queryString setString:@"delete from ETWBSMASTER"];
+    
+    if ([self set_query:queryString]) {
+        [self run_Queries_NODATA];
+    }
+ 
+       //CREATE TABLE `ETWBS-MASTER` ( `Iwerk` TEXT, `Gsber` TEXT, `Posid` TEXT, `Poski` TEXT, `Post1` TEXT, `Pspnr` TEXT, `Pspid` TEXT )
+ 
+    for (int i =0; i<[arr_WBSData count]; i++) {
+        
+        [queryString setString:@""];
+        
+        [queryString appendFormat: @"INSERT INTO ETWBSMASTER(Iwerk,Gsber,Posid,Poski,Post1,Pspnr,Pspid) VALUES (\"%@\",\"%@\",\"%@\",\"%@\",\"%@\",\"%@\",\"%@\")",[[arr_WBSData objectAtIndex:i] objectForKey:@"Iwerk"],[[arr_WBSData objectAtIndex:i] objectForKey:@"Gsber"],[[arr_WBSData objectAtIndex:i] objectForKey:@"Posid"],[[arr_WBSData objectAtIndex:i] objectForKey:@"Poski"],[[arr_WBSData objectAtIndex:i] objectForKey:@"Post1"],[[arr_WBSData objectAtIndex:i] objectForKey:@"Pspnr"],[[arr_WBSData objectAtIndex:i] objectForKey:@"Pspid"]];
+        
+        if ([self set_query:queryString]) {
+            [self run_Queries_NODATA];
+        }
+    }
+    
+    return TRUE;
 }
 
+-(BOOL)insertintoETREVRData :(NSArray *)arr_REVRData
+{
+    NSMutableString *queryString = [[NSMutableString alloc] initWithString:@""];
+    
+    [queryString setString:@"delete from ETREVNR-MASTER"];
+    
+    if ([self set_query:queryString]) {
+        [self run_Queries_NODATA];
+    }
+    
+    //CREATE TABLE `ETREVNR-MASTER` ( `Iwerk` TEXT, `Revnr` TEXT, `Revnr` TEXT )
+    for (int i =0; i<[arr_REVRData count]; i++) {
+        
+        [queryString setString:@""];
+        
+        [queryString appendFormat: @"INSERT INTO ETREVNR-MASTER(Iwerk,Revnr,Revnr) VALUES (\"%@\",\"%@\",\"%@\")",[[arr_REVRData objectAtIndex:i] objectForKey:@"Iwerk"],[[arr_REVRData objectAtIndex:i] objectForKey:@"Revnr"],[[arr_REVRData objectAtIndex:i] objectForKey:@"Revtx"]];
+        
+        if ([self set_query:queryString]) {
+            [self run_Queries_NODATA];
+        }
+    }
+    
+    return TRUE;
+}
 -(BOOL)insertintoUserData :(NSArray *)arr_UserData
 {
     NSMutableString *queryString = [[NSMutableString alloc] initWithString:@""];
@@ -11237,7 +11308,7 @@ static dispatch_once_t onceToken;
     
     NSMutableArray *dataArray = [NSMutableArray new];
     
-    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"StockOverView"];
+    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"FunctionalLocation"];
     
     [materialsRequest setResultType:NSDictionaryResultType];
     
@@ -20047,6 +20118,14 @@ static dispatch_once_t onceToken;
         location.tplma = [functioalLocationDictionary objectForKey:@"Tplma"];
         location.level = [functioalLocationDictionary objectForKey:@"Level"];
         location.stplnr = [functioalLocationDictionary objectForKey:@"Stplnr"];
+        
+        if ([functioalLocationDictionary objectForKey:@"Iwerk"]) {
+            
+            location.iwerks = [functioalLocationDictionary objectForKey:@"Iwerk"];
+        }
+        else{
+            location.iwerks = @"";
+        }
         
     }
     

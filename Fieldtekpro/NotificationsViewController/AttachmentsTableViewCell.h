@@ -10,10 +10,12 @@
 
 @interface AttachmentsTableViewCell : UITableViewCell
 
-@property (nonatomic, retain) IBOutlet UILabel *idLabel,*createdDateLabel,*uploadedLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *countLabel,*fileNameLabel,*fileTypeLabel,*objectTypeLabel,*filesizeLabel;
 
 @property (nonatomic, retain) IBOutlet UIImageView *attachmentImage;
 
+@property IBOutlet UIView *attachmentsContentView;
 
 
 @end

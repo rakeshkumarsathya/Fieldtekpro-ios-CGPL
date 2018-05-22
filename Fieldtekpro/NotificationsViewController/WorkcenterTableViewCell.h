@@ -12,4 +12,6 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *idLabel,*textLabel;
 
+@property IBOutlet UIView *wrkContenetView;
+
 @end

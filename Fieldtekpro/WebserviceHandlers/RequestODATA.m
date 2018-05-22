@@ -1085,52 +1085,47 @@
             break;
             
         case ORDER_CONFIRM:
-       
+ 
             self.dataType = NORMAL_DATA;
             self.requestType = requestId;
             self.resultDelegate = delegate;
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"MYSAVEDCOOKIE"]) {
-                NSData *cookieData = [[NSUserDefaults standardUserDefaults] objectForKey:@"MYSAVEDCOOKIE"];
-                if ([cookieData length]) {
-                    NSHTTPCookie *cookie = [NSKeyedUnarchiver unarchiveObjectWithData:cookieData];
-                    if ([cookie.expiresDate compare:[NSDate date]] == NSOrderedDescending) {
-                        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
-                    }
-                    else
-                    {
-                        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
-                        [self performSelectorInBackground:@selector(createSession:) withObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:requestId],parameters, nil]];
-                        return;
-                    }
-                }
-            }
-            else
-            {
+            
+            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"CSRF"]) {
+                
                 [self performSelectorInBackground:@selector(createSession:) withObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:requestId],parameters, nil]];
+                
                 return;
             }
-            self.connectionRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%@%@%@?",[defaults objectForKey:@"HOST"],[defaults objectForKey:@"PORT"],URL_PATH_ODATA,URL_CHANGE_ORDER_ODATA]]];
+            
+            self.connectionRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@:%@%@/%@",URL_HOST,URL_PORT,URL_PATH_ODATA,[parameters objectForKey:@"URL_ENDPOINT"]]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:180.0];
+            
             self.resultDelegate = delegate;
+            
             if (1) {
                 NSMutableString *soapString = [[NSMutableString alloc] init];
                 //[soapString appendString:[self mxmlPrefix:requestId]];
                 [soapString appendString:[self mxmlBodyWithKeys:parameters Values:nil Action:[self actionWithWebServiceRequest:requestId]]];
                 //[soapString appendString:[self mxmlSuffix]];
                 NSString *msgLength = [NSString stringWithFormat:@"%lu", (unsigned long)[soapString length]];
-                [self.connectionRequest setValue:[defaults objectForKey:@"CSRF"] forHTTPHeaderField:@"x-csrf-token"];
-                [self.connectionRequest setHTTPMethod:@"POST"];
+                [self.connectionRequest setValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"CSRF"] forHTTPHeaderField:@"x-csrf-token"];
                 [self.connectionRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                 [self.connectionRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-                
                 [self.connectionRequest addValue:msgLength forHTTPHeaderField:@"Content-Length"];
                 
+                [self decryptforBasicAuth];
+                
+                NSString *authStr = [NSString stringWithFormat:@"%@:%@",decryptedUserName,decryptedPassword];
+                
+                NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+                
+                NSString *authValue = [authData base64EncodedStringWithOptions:0];
+                
+                [self.connectionRequest addValue:[NSString stringWithFormat:@"Basic %@",authValue] forHTTPHeaderField:@"Authorization"];
+                
                 [self.connectionRequest setHTTPMethod: @"POST"];
-                
-                //NSData *requeatData =[NSMutableData dataWithBytes: [soapString UTF8String] length: [soapString length]];
-                
                 [self.connectionRequest setHTTPBody:[soapString dataUsingEncoding:NSUTF8StringEncoding]];
-                NSLog(@"%@",soapString);
             }
+            break;
             
             break;
             
@@ -1693,9 +1688,8 @@
             break;
     }
  
-    
       [self.resultDelegate resultData:dataDictionary withErrorDescription:@""  requestID:self.requestType :responseStatusCode];
-}
+ }
 
 - (void) connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
     
@@ -2173,18 +2167,12 @@
                 if ([[requestData objectForKey:@"ITEMS"] count]) {
                    
                     NSArray *causeCodeDetailsArray = [requestData objectForKey:@"ITEMS"];
-                    
                     for (int i = 0; i<[causeCodeDetailsArray count]; i++) {
- 
-                    NSMutableArray *firstCustomItems = [[NSMutableArray alloc] init];
-                
-                 // NSMutableArray *secondCustomItems = [[NSMutableArray alloc] init];
-
-                 for (int x = 0; x<[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] count]; x++) {
- 
-                    [firstCustomItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:1],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:2],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:3],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:4],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:5],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:6],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:7],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:8],nil] forKeys:[NSArray arrayWithObjects:@"Zdoctype",@"ZdoctypeItem",@"Tabname",@"Fieldname",@"Value",@"Flabel",@"Datatype",@"Sequence",@"Length", nil]]];
- 
-                  }
+                     NSMutableArray *firstCustomItems = [[NSMutableArray alloc] init];
+                  // NSMutableArray *secondCustomItems = [[NSMutableArray alloc] init];
+                  for (int x = 0; x<[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] count]; x++) {
+                     [firstCustomItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:1],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:2],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:3],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:4],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:5],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:6],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:7],[[[[causeCodeDetailsArray objectAtIndex:i] objectAtIndex:1] objectAtIndex:x] objectAtIndex:8],nil] forKeys:[NSArray arrayWithObjects:@"Zdoctype",@"ZdoctypeItem",@"Tabname",@"Fieldname",@"Value",@"Flabel",@"Datatype",@"Sequence",@"Length", nil]]];
+                      }
                         
 //                    for (int x = 0; x<[[[causeCodeDetailsArray objectAtIndex:i] lastObject] count]; x++) {
 //
@@ -2215,8 +2203,9 @@
                  NSMutableArray *etNotifCauseCodeItems=[NSMutableArray new];
                  NSMutableArray *etNotifStatusItems=[NSMutableArray new];
                  NSMutableArray *etNotifActivityItems=[NSMutableArray new];
-                
-                NSMutableArray *etLongtextItems=[NSMutableArray new];
+                 NSMutableArray *etLongtextItems=[NSMutableArray new];
+                 NSMutableArray *etDocsItems=[NSMutableArray new];
+
  
                  [etNotifHeaderItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                  [etNotifDupItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
@@ -2224,7 +2213,10 @@
                  [etNotifCauseCodeItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                  [etNotifStatusItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                  [etLongtextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                
+                [etDocsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
 
+            
 
                 BOOL isCommit=true;
  
@@ -2250,6 +2242,8 @@
                 [notificationCreate setObject:etNotifActivityItems forKey:@"EtNotifActvs"];
                 [notificationCreate setObject:etLongtextItems forKey:@"EtNotifLongtext"];
                 [notificationCreate setObject:etNotifMessageItems forKey:@"EvMessage"];
+                [notificationCreate setObject:etDocsItems forKey:@"EtDocs"];
+
  
                 NSError *error;
                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:notificationCreate options:NSJSONWritingPrettyPrinted error:&error];
@@ -2292,7 +2286,7 @@
                 
                 for (int i=0; i<[longTextArray count]; i++) {
                     
-                    [longTextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"",@"",@"",[longTextArray objectAtIndex:i], nil] forKeys:[NSArray arrayWithObjects:@"Qmnum",@"Objtype",@"Objkey",@"TextLine", nil]]];
+                    [longTextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],@"",@"",[longTextArray objectAtIndex:i], nil] forKeys:[NSArray arrayWithObjects:@"Qmnum",@"Objtype",@"Objkey",@"TextLine", nil]]];
                     
                 }
             }
@@ -2417,6 +2411,10 @@
             NSMutableArray *etNotifActivityItems=[NSMutableArray new];
             
             NSMutableArray *etLongtextItems=[NSMutableArray new];
+            
+            NSMutableArray *etDocsItems=[NSMutableArray new];
+            
+            [etDocsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
 
             [etLongtextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
 
@@ -2450,6 +2448,8 @@
             [notificationCreate setObject:etLongtextItems forKey:@"EtNotifLongtext"];
              [notificationCreate setObject:etNotifActivityItems forKey:@"EtNotifActvs"];
             [notificationCreate setObject:etNotifMessageItems forKey:@"EvMessage"];
+            [notificationCreate setObject:etDocsItems forKey:@"EtDocs"];
+
             
             NSError *error;
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:notificationCreate options:NSJSONWritingPrettyPrinted error:&error];
@@ -2489,6 +2489,12 @@
                 NSMutableArray *orderComponents = [[NSMutableArray alloc] init];
                 NSMutableArray *longTextItems = [[NSMutableArray alloc] init];
                 
+                NSMutableArray *wcmApplicationItems = [[NSMutableArray alloc] init];
+                
+                NSMutableArray *wcmWorkRequirentsItems = [[NSMutableArray alloc] init];
+
+
+                
                 if ([[requestData objectForKey:@"PARTS"] count]) {
                     
                     NSArray *partDetailsArray = [requestData objectForKey:@"PARTS"];
@@ -2513,10 +2519,14 @@
                         
                           [headerCustomfieldsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"",@"",@"",@"",@"",@"",@"",@"",@"", nil] forKeys:[NSArray arrayWithObjects:@"Zdoctype",@"ZdoctypeItem",@"Tabname",@"Fieldname",@"Datatype",@"Value",@"Flabel",@"Sequence",@"Length", nil]]];
                     }
-                    
-                 }
+                  }
                 
-                [headerFieldsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OID"],[requestData objectForKey:@"SHORTTEXT"],[requestData objectForKey:@"REPORTEDBY"],[requestData objectForKey:@"SDATE"],[requestData objectForKey:@"OPID"],[requestData objectForKey:@"EQID"],[requestData objectForKey:@"FID"],[requestData objectForKey:@"FID"],[requestData objectForKey:@"EDATE"],[requestData objectForKey:@"SDATE"],[requestData objectForKey:@"BREAKDOWN"],[requestData objectForKey:@"SYSTEMCONDITIONID"],[requestData objectForKey:@"MALFUNCTIONSTARTDATE"],[requestData objectForKey:@"MALFUNCTIONENDDATE"],[requestData objectForKey:@"NREPORTEDBY"],[requestData objectForKey:@"EFFECTID"],[requestData objectForKey:@"QMNUM"],[requestData objectForKey:@"PARNRID"],[requestData objectForKey:@"NAMEVW"],[requestData objectForKey:@"PLANNERGROUP"],[self getcodeforkeys:[requestData objectForKey:@"WORKCENTERID"]],[requestData objectForKey:@"PLANTID"],[requestData objectForKey:@"PLANNERGROUPNAME"],[requestData objectForKey:@"workarea"],[requestData objectForKey:@"costcenter"],headerCustomfieldsItems, nil] forKeys:[NSArray arrayWithObjects:@"Auart",@"Ktext",@"Ernam",@"Erdat",@"Priok",@"Equnr",@"Strno",@"TplnrInt",@"Gltrp",@"Gstrp",@"Msaus",@"Anlzu",@"Ausvn",@"Ausbs",@"Qmnam", @"Auswk",@"Qmnum",@"ParnrVw",@"NameVw",@"Ingrp",@"Arbpl",@"Werks",@"Ingrpname",@"Kokrs",@"Kostl",@"ItOrderHeadeFields",nil]]];
+//                [self.orderHeaderDetails setObject:@"" forKey:@"POSID"];
+//
+//                [self.orderHeaderDetails setObject:@"" forKey:@"REVISION"];
+
+                
+                [headerFieldsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OID"],[requestData objectForKey:@"SHORTTEXT"],[requestData objectForKey:@"REPORTEDBY"],[requestData objectForKey:@"SDATE"],[requestData objectForKey:@"OPID"],[requestData objectForKey:@"EQID"],[requestData objectForKey:@"FID"],[requestData objectForKey:@"FID"],[requestData objectForKey:@"EDATE"],[requestData objectForKey:@"SDATE"],[requestData objectForKey:@"BREAKDOWN"],[requestData objectForKey:@"SYSTEMCONDITIONID"],[requestData objectForKey:@"MALFUNCTIONSTARTDATE"],[requestData objectForKey:@"MALFUNCTIONENDDATE"],[requestData objectForKey:@"NREPORTEDBY"],[requestData objectForKey:@"EFFECTID"],[requestData objectForKey:@"QMNUM"],[requestData objectForKey:@"PARNRID"],[requestData objectForKey:@"NAMEVW"],[requestData objectForKey:@"PLANNERGROUP"],[self getcodeforkeys:[requestData objectForKey:@"WORKCENTERID"]],[requestData objectForKey:@"PLANTID"],[requestData objectForKey:@"PLANNERGROUPNAME"],[requestData objectForKey:@"workarea"],[requestData objectForKey:@"costcenter"],[requestData objectForKey:@"POSID"],[requestData objectForKey:@"REVISION"],headerCustomfieldsItems, nil] forKeys:[NSArray arrayWithObjects:@"Auart",@"Ktext",@"Ernam",@"Erdat",@"Priok",@"Equnr",@"Strno",@"TplnrInt",@"Gltrp",@"Gstrp",@"Msaus",@"Anlzu",@"Ausvn",@"Ausbs",@"Qmnam", @"Auswk",@"Qmnum",@"ParnrVw",@"NameVw",@"Ingrp",@"Arbpl",@"Werks",@"Ingrpname",@"Kokrs",@"Kostl",@"Posid",@"Revnr",@"ItOrderHeadeFields",nil]]];
                 
                 
                 if ([[requestData objectForKey:@"ITEMS"] count]) {
@@ -2558,6 +2568,43 @@
 //                }
 //
                 
+                
+                
+                  if ([[requestData objectForKey:@"WCMWORKAPPlICATIONS"] count]) {
+                    
+                     NSArray *wcmWorkApplication = [requestData objectForKey:@"WCMWORKAPPlICATIONS"];
+ 
+                      for (int i =0; i<[wcmWorkApplication count]; i++) {
+                        
+                         [wcmApplicationItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:1],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:2],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:3],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:5],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:6],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:7],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:8],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:9],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:10],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:11],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:12],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:29],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:30],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:13],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:14],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:15],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:16],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:17],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:18],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:19],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:20],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:21],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:22],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:23],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:24],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:25],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:26],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:27],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:28], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objart",@"Wapinr",@"Iwerk",@"Objtyp",@"Usage",@"Usagex",@"Train",@"Trainx",@"Anlzu",@"Anlzux",@"Etape",@"Etapex",@"Begru",@"Begtx",@"Stxt",@"Datefr",@"Timefr",@"Dateto",@"Timeto",@"Priok",@"Priokx",@"Rctime",@"Rcunit",@"Objnr",@"Refobj",@"Crea",@"Prep",@"Comp",@"Appr",@"Action",nil]]];
+                        
+ 
+                        if (![[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4] isEqualToString:@"1"] || ![[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4] isEqualToString:@"7"]) {
+                            
+                            NSArray *wcmHStandardCheckPoints = [[wcmWorkApplication objectAtIndex:i] objectAtIndex:1];
+                            
+                            for (int j =0; j<[wcmHStandardCheckPoints count]; j++) {
+                                
+                                checkPointDescriptionString = [self getcodeforkeys:[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:6]];
+                                
+                                 [wcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:0],[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:1],@"W",[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:3],[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:5],checkPointDescriptionString, nil] forKeys:[NSArray arrayWithObjects:@"Wapinr",@"Wapityp",@"ChkPointType",@"Wkid",@"Value",@"Desctext",nil]]];
+
+                              }
+                            
+                            NSArray *wcmCStandardCheckPoints = [[wcmWorkApplication objectAtIndex:i] objectAtIndex:2];
+                            
+                            for (int j =0; j<[wcmCStandardCheckPoints count]; j++) {
+                                
+                                checkPointDescriptionString = [self getcodeforkeys:[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:6]];
+ 
+                                [wcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:0],[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:1],@"R",[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:4],[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:5],checkPointDescriptionString, nil] forKeys:[NSArray arrayWithObjects:@"Wapinr",@"Wapityp",@"ChkPointType",@"Needid",@"Value",@"Desctext",nil]]];
+
+                            }
+                         }
+                    }
+                }
+                
+                
                 NSMutableDictionary *orderCreate = [[NSMutableDictionary alloc] init];
                 NSMutableArray *etOrderHeaderItems=[NSMutableArray new];
                 NSMutableArray *etOrderMessageItems=[NSMutableArray new];
@@ -2565,7 +2612,10 @@
                 NSMutableArray *etOrderStatusItems=[NSMutableArray new];
                 NSMutableArray *etOrderComponentItems=[NSMutableArray new];
                 NSMutableArray *etLongtextItems=[NSMutableArray new];
-                
+                NSMutableArray *etwcmApplicationItems=[NSMutableArray new];
+                NSMutableArray *etwcmWorkRequirentsItems=[NSMutableArray new];
+
+ 
                 [etLongtextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                  [etOrderHeaderItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                  [etOrderMessageItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
@@ -2574,11 +2624,19 @@
                 [etOrderStatusItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                 [etLongtextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                 [etOrderMessageItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                 [etwcmApplicationItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etwcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+
+           
  
                 BOOL isCommit=true;
                 [orderCreate setObject:headerFieldsItems forKey:@"ItOrderHeader"];
                 [orderCreate setObject:orderOperations forKey:@"ItOrderOperations"];
                 [orderCreate setObject:orderComponents forKey:@"ItOrderComponents"];
+                
+                [orderCreate setObject:wcmApplicationItems forKey:@"ItWcmWaData"];
+                [orderCreate setObject:wcmWorkRequirentsItems forKey:@"ItWcmWaChkReq"];
+
                 [orderCreate setObject:[[requestData objectForKey:@"REPORTEDBY"] uppercaseString] forKey:@"IvUser"];
               //  [orderCreate setObject:attachmentsItems forKey:@"ItDocs"];
                 [orderCreate setObject:[[requestData objectForKey:@"REPORTEDBY"] uppercaseString] forKey:@"Muser"];
@@ -2596,6 +2654,9 @@
                 [orderCreate setObject:etOrderStatusItems forKey:@"EtOrderStatus"];
                 [orderCreate setObject:etOrderStatusItems forKey:@"EtOrderLongtext"];
                 [orderCreate setObject:etOrderStatusItems forKey:@"EsAufnr"];
+                [orderCreate setObject:wcmApplicationItems forKey:@"EtWcmWaData"];
+                [orderCreate setObject:wcmWorkRequirentsItems forKey:@"EtWcmWaChkReq"];
+ 
 
                 
                  NSError *error;
@@ -2658,12 +2719,11 @@
                         
                         [headerCustomfieldsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"",@"",@"",@"",@"",@"",@"",@"",@"", nil] forKeys:[NSArray arrayWithObjects:@"Zdoctype",@"ZdoctypeItem",@"Tabname",@"Fieldname",@"Datatype",@"Value",@"Flabel",@"Sequence",@"Length", nil]]];
                     }
-                    
-                }
+                 }
                 
-                [headerFieldsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[requestData objectForKey:@"OID"],[requestData objectForKey:@"SHORTTEXT"],[requestData objectForKey:@"REPORTEDBY"],[requestData objectForKey:@"SDATE"],[requestData objectForKey:@"OPID"],[requestData objectForKey:@"EQID"],[requestData objectForKey:@"FID"],[requestData objectForKey:@"FID"],[requestData objectForKey:@"EDATE"],[requestData objectForKey:@"SDATE"],[requestData objectForKey:@"BREAKDOWN"],[requestData objectForKey:@"SYSTEMCONDITIONID"],[requestData objectForKey:@"MALFUNCTIONSTARTDATE"],[requestData objectForKey:@"MALFUNCTIONENDDATE"],[requestData objectForKey:@"NREPORTEDBY"],[requestData objectForKey:@"EFFECTID"],[requestData objectForKey:@"QMNUM"],[requestData objectForKey:@"PARNRID"],[requestData objectForKey:@"NAMEVW"],[requestData objectForKey:@"PLANNERGROUP"],[self getcodeforkeys:[requestData objectForKey:@"WORKCENTERID"]],[requestData objectForKey:@"PLANTID"],[requestData objectForKey:@"PLANNERGROUPNAME"],[requestData objectForKey:@"workarea"],[requestData objectForKey:@"costcenter"],headerCustomfieldsItems, nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Auart",@"Ktext",@"Ernam",@"Erdat",@"Priok",@"Equnr",@"Strno",@"TplnrInt",@"Gltrp",@"Gstrp",@"Msaus",@"Anlzu",@"Ausvn",@"Ausbs",@"Qmnam", @"Auswk",@"Qmnum",@"ParnrVw",@"NameVw",@"Ingrp",@"Arbpl",@"Werks",@"Ingrpname",@"Kokrs",@"Kostl",@"ItOrderHeadeFields",nil]]];
+                 [headerFieldsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[requestData objectForKey:@"OID"],[requestData objectForKey:@"SHORTTEXT"],[requestData objectForKey:@"REPORTEDBY"],[requestData objectForKey:@"SDATE"],[requestData objectForKey:@"OPID"],[requestData objectForKey:@"EQID"],[requestData objectForKey:@"FID"],[requestData objectForKey:@"FID"],[requestData objectForKey:@"EDATE"],[requestData objectForKey:@"SDATE"],[requestData objectForKey:@"BREAKDOWN"],[requestData objectForKey:@"SYSTEMCONDITIONID"],[requestData objectForKey:@"MALFUNCTIONSTARTDATE"],[requestData objectForKey:@"MALFUNCTIONENDDATE"],[requestData objectForKey:@"NREPORTEDBY"],[requestData objectForKey:@"EFFECTID"],[requestData objectForKey:@"QMNUM"],[requestData objectForKey:@"PARNRID"],[requestData objectForKey:@"NAMEVW"],[requestData objectForKey:@"PLANNERGROUP"],[self getcodeforkeys:[requestData objectForKey:@"WORKCENTERID"]],[requestData objectForKey:@"PLANTID"],[requestData objectForKey:@"PLANNERGROUPNAME"],[requestData objectForKey:@"workarea"],[requestData objectForKey:@"costcenter"],[requestData objectForKey:@"POSID"],[requestData objectForKey:@"REVISION"],headerCustomfieldsItems, nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Auart",@"Ktext",@"Ernam",@"Erdat",@"Priok",@"Equnr",@"Strno",@"TplnrInt",@"Gltrp",@"Gstrp",@"Msaus",@"Anlzu",@"Ausvn",@"Ausbs",@"Qmnam", @"Auswk",@"Qmnum",@"ParnrVw",@"NameVw",@"Ingrp",@"Arbpl",@"Werks",@"Ingrpname",@"Kokrs",@"Kostl",@"Posid",@"Revnr",@"ItOrderHeadeFields",nil]]];
+                
  
-                
                 if ([[requestData objectForKey:@"ITEMS"] count]) {
                     
                     NSArray *operationDetailsArray = [requestData objectForKey:@"ITEMS"];
@@ -2719,7 +2779,6 @@
                 [etOrderStatusItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                 [etLongtextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                 
- 
                 BOOL isCommit=true;
                 [orderCreate setObject:headerFieldsItems forKey:@"ItOrderHeader"];
                 [orderCreate setObject:orderOperations forKey:@"ItOrderOperations"];
@@ -2758,51 +2817,69 @@
             break;
             
         case ORDER_CONFIRM:
-            
-         //   http://enstol4:8080/sap/opu/odata/ENS/PMAPP_SRV/ConfirmOrder?ORDERID='000000820604'&OPERATION='0010'&CONF_NO='125994'&CONF_TEXT='confirmation text’&ACT_WORK=1&UN_WORK=‘MIN’&MUSER='KAMAL'&DEVICEID='79803294809283409'&DEVICESNO='9878zxsdas9979898'&UDID='89729872384987987'
-            
+ 
             if ([requestData count]) {
-                NSMutableDictionary *confirmOrder = [[NSMutableDictionary alloc] init];
                 
-                [confirmOrder setObject:[requestData objectForKey:@"OBJECTID"] forKey:@"Aufnr"];
-                [confirmOrder setObject:@"X" forKey:@"Completed"];
+                NSMutableDictionary *collectiveConfirmationDictionary = [[NSMutableDictionary alloc] init];
                 
-                NSMutableDictionary *deviceDetails = [[NSMutableDictionary alloc] init];
-                [deviceDetails setObject:[[requestData objectForKey:@"REPORTEDBY"] uppercaseString] forKey:@"Muser"];
-                [deviceDetails setObject:@"18523416-177F-4B9B-9250-4F7A90A89537" forKey:@"Deviceid"];
-                // [deviceDetails setObject:@"" forKey:@"Deviceno"];
-                [deviceDetails setObject:@"18523416-177F-4B9B-9250-4F7A90A89537" forKey:@"Udid"];
-                [confirmOrder setObject:deviceDetails forKey:@"DeviceDetails"];
-                
-                NSMutableArray *transactionOperationArray = [[NSMutableArray alloc]init];
-                
-                //For Operations Items
-                if ([[requestData objectForKey:@"ITEMS"] count]) {
-                    NSArray *operationDetailsArray = [requestData objectForKey:@"ITEMS"];
-                    
-                    for (int i = 0; i<[operationDetailsArray count]; i++) {
-                        NSMutableDictionary *temperaryOperationDictionary = [[NSMutableDictionary alloc]init];
-                        
-                        [temperaryOperationDictionary setObject:[requestData objectForKey:@"OBJECTID"] forKey:@"Aufnr"];
-                        [temperaryOperationDictionary setObject:[[operationDetailsArray objectAtIndex:i] objectAtIndex:1] forKey:@"Vornr"];
-                        [temperaryOperationDictionary setObject:[[operationDetailsArray objectAtIndex:i] objectAtIndex:7] forKey:@"Rueck"];
-                        [temperaryOperationDictionary setObject:[[operationDetailsArray objectAtIndex:i] objectAtIndex:19] forKey:@"Ltxa1"];
-                        [temperaryOperationDictionary setObject:[[operationDetailsArray objectAtIndex:i] objectAtIndex:20] forKey:@"Dauno"];
-                        [temperaryOperationDictionary setObject:[[operationDetailsArray objectAtIndex:i] objectAtIndex:21] forKey:@"Daune"];
-                      
-                        [transactionOperationArray addObject:temperaryOperationDictionary];
-                        
-                        
-                        [confirmOrder setObject:transactionOperationArray forKey:@"OrderOperations"];
+                NSMutableArray *operationsItemsArray=[NSMutableArray new];
+ 
+                if ([requestData objectForKey:@"ITEMS"]) {
+                    NSMutableArray *objectIds = [requestData objectForKey:@"ITEMS"];
+                    for (int i=0; i<[objectIds count]; i++) {
+                        if ([[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:10] isEqualToString:@"New"]) {
+                            
+                             [operationsItemsArray addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:1],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:7],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:11],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:12],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:13],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:24],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:22],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:23],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:25],[[[objectIds objectAtIndex:i] firstObject] objectAtIndex:8], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Vornr",@"ConfText",@"Grund",@"Leknw",@"Aueru",@"Pernr",@"ExecStartDate",@"ExecFinDate",@"ExecStartTime",@"ExecFinTime", nil]]];
+                          }
                     }
                 }
-            
+ 
+                
+                [collectiveConfirmationDictionary setObject:[[requestData objectForKey:@"REPORTEDBY"] uppercaseString] forKey:@"Muser"];
+                [collectiveConfirmationDictionary setObject:@"18523416-177F-4B9B-9250-4F7A90A89537" forKey:@"Deviceid"];
+                [collectiveConfirmationDictionary setObject:@"" forKey:@"Devicesno"];
+                [collectiveConfirmationDictionary setObject:@"" forKey:@"Udid"];
+                [collectiveConfirmationDictionary setObject:operationsItemsArray forKey:@"ItConfirmOrder"];
+ 
+                 NSMutableArray *etOrderHeaderItems=[NSMutableArray new];
+                NSMutableArray *etOrderMessageItems=[NSMutableArray new];
+                NSMutableArray *etOrderOperationItems=[NSMutableArray new];
+                NSMutableArray *etOrderStatusItems=[NSMutableArray new];
+                NSMutableArray *etOrderComponentItems=[NSMutableArray new];
+                NSMutableArray *etLongtextItems=[NSMutableArray new];
+                NSMutableArray *etDocItems=[NSMutableArray new];
+                NSMutableArray *esAufnrItems=[NSMutableArray new];
+ 
+                [etLongtextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etOrderHeaderItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etOrderMessageItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etOrderOperationItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etOrderComponentItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etOrderStatusItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [esAufnrItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etDocItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+ 
+                [collectiveConfirmationDictionary setObject:@"CNORD" forKey:@"Operation"];
+                
+                BOOL isCommit=true;
+                
+                [collectiveConfirmationDictionary setObject:[NSNumber numberWithBool:isCommit] forKey:@"IvCommit"];
+                [collectiveConfirmationDictionary setObject:etOrderHeaderItems forKey:@"EtOrderHeader"];
+                [collectiveConfirmationDictionary setObject:etOrderOperationItems forKey:@"EtOrderOperations"];
+                [collectiveConfirmationDictionary setObject:etLongtextItems forKey:@"EtOrderLongtext"];
+                [collectiveConfirmationDictionary setObject:etOrderStatusItems forKey:@"EtOrderStatus"];
+                [collectiveConfirmationDictionary setObject:etDocItems forKey:@"EtDocs"];
+                [collectiveConfirmationDictionary setObject:etOrderMessageItems forKey:@"EtMessages"];
+                [collectiveConfirmationDictionary setObject:esAufnrItems forKey:@"EsAufnr"];
+                
+                
                 NSError *error;
-                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:confirmOrder options:NSJSONWritingPrettyPrinted error:&error];
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:collectiveConfirmationDictionary options:NSJSONWritingPrettyPrinted error:&error];
                 NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
                 [soapMessage appendString:jsonString];
+                
             }
-
+            
             break;
             
         case MONITOR_SET_EQUIP_MDOCS:

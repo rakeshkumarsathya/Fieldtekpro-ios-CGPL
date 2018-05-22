@@ -504,8 +504,9 @@
                                     {
                                         if ([methodNameString isEqualToString:@"Bom Refresh"]) {
                                             
-                                            isRefresh=YES;
                                             selectedBOM = NO;
+                                            
+                                            isRefresh=YES;
  
                                             hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                                             hud.mode = MBProgressHUDModeIndeterminate;
@@ -994,8 +995,7 @@
     
     [Request makeWebServiceRequest:GET_LOAD_SETTINGS parameters:dataDictionary delegate:self];
     
-    
-}
+ }
 
 
 -(void)getlistofBomsLoad{
@@ -1013,8 +1013,18 @@
     [dataDictionary setObject:[[endPointArray objectAtIndex:0] objectAtIndex:0] forKey:@"URL_ENDPOINT"];
     [dataDictionary setObject:@"" forKey:@"EQUIPDESCRIP"];
     
-    [dataDictionary setObject:@"" forKey:@"EQUIPNO"];
-    [dataDictionary setObject:@"LOAD" forKey:@"TRANSMITTYPE"];
+//    [dataDictionary setObject:@"" forKey:@"EQUIPNO"];
+//    [dataDictionary setObject:@"LOAD" forKey:@"TRANSMITTYPE"];
+    
+    if (!isRefresh) {
+        [dataDictionary setObject:_bomSearchBar.text forKey:@"EQUIPNO"];
+        [dataDictionary setObject:@"LOAD" forKey:@"TRANSMITTYPE"];
+    }
+    else
+    {
+        [dataDictionary setObject:@"" forKey:@"EQUIPNO"];
+        [dataDictionary setObject:@"REFR" forKey:@"TRANSMITTYPE"];
+    }
     
     [Request makeWebServiceRequest:GET_LIST_OF_PM_BOMS parameters:dataDictionary delegate:self];
 }
@@ -1240,7 +1250,7 @@
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForLoadSettings:resultData];
                 
-                [self getlistofBomsLoad];
+               // [self getlistofBomsLoad];
                 
                 if ([parsedDictionary objectForKey:@"resultRefresh"]) {
                     if ([[parsedDictionary objectForKey:@"resultRefresh"] isKindOfClass:[NSArray class]]) {
@@ -1269,7 +1279,7 @@
                                 
                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
  
-                                [self showAlertMessageWithTitle:@"Info" message:@"No changes for you" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+                              //  [self showAlertMessageWithTitle:@"Info" message:@"No changes for you" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
                             }
                         }
                     }

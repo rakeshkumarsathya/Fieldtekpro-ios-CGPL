@@ -17,6 +17,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+  
+    
+    // Do any additional setup after loading the view.
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    
     res_obj=[Response sharedInstance];
     
     if (self.nonEditableString.length) {
@@ -30,17 +43,9 @@
         
         nonEditableTextview.text=@"";
         editableTextview.text=self.editableString;
-        
-    }
+     }
     
-    // Do any additional setup after loading the view.
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 
 - (void)textViewDidBeginEditing:(UITextView *)textView

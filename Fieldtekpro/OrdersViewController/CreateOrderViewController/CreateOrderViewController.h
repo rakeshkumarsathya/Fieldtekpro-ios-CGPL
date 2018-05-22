@@ -59,7 +59,9 @@ typedef enum SelectedDropDownInOrders{
     ORDER_WCM_USAGE=20,
     ORDER_ISOLATION_USERGROUP=41,
     ORDER_ISOLATION_USAGE=42,
-    ORDER_PLANNERGROUP=43
+    ORDER_PLANNERGROUP=43,
+    ORDER_WBSELEMENTS=44,
+    ORDER_REVISION=45
     
 }SelectedDropDownInOrders;
 
@@ -191,6 +193,13 @@ typedef enum SelectedDropDownInOrders{
     
     IBOutlet UIButton *isolationlistBtn;
     
+    
+    //for Order title and status in change
+    IBOutlet UIButton *statusBtn,*sysytemStatusbtn;
+
+    
+    BOOL  WBSElementsFlag,equipmentEnableFlag;
+    
 }
 
 @property (nonatomic, strong) UITableView *dropDownTableView;
@@ -202,7 +211,7 @@ typedef enum SelectedDropDownInOrders{
  
 @property (nonatomic ,retain) NSMutableDictionary *orderHeaderDetails;
 
-@property (nonatomic, retain) NSMutableArray *dropDownArray,*selectedCheckBoxArray,*fileNameArray,*attachmentArray,*selectedCheckBoxImageArray,*causeDetailDeleteArray,*operationDetailsArray,*partDetailsArray,*operationDetailDeleteArray,*permitsDetailsArray,*permitsDetailDeleteArray,*customHeaderDetailsArray,*customOperationDetailsArray,*customComponentsDetailsArray,*selectedMeasureDocsCheckBoxArray,*equipmentHierarchyDetailsArrayLevel1,*equipmentHierarchyDetailsArrayLevel2,*equipmentHierarchyDetailsArrayLevel3,*equipmentHierarchyDetailsArrayLevel4,*objectDetailsArray,*selectedPartsArray,*componentDetailDeleteArray,*functionLocationHierarchyLevel1,*functionLocationHierarchyLevel2,*functionLocationHierarchyLevel3,*functionLocationArray;
+@property (nonatomic, retain) NSMutableArray *dropDownArray,*selectedCheckBoxArray,*fileNameArray,*attachmentArray,*selectedCheckBoxImageArray,*causeDetailDeleteArray,*operationDetailsArray,*partDetailsArray,*operationDetailDeleteArray,*permitsDetailsArray,*permitsDetailDeleteArray,*customHeaderDetailsArray,*customOperationDetailsArray,*customComponentsDetailsArray,*selectedMeasureDocsCheckBoxArray,*equipmentHierarchyDetailsArrayLevel1,*equipmentHierarchyDetailsArrayLevel2,*equipmentHierarchyDetailsArrayLevel3,*equipmentHierarchyDetailsArrayLevel4,*objectDetailsArray,*selectedPartsArray,*componentDetailDeleteArray,*functionLocationHierarchyLevel1,*functionLocationHierarchyLevel2,*functionLocationHierarchyLevel3,*functionLocationArray,*workcenterArray;
 
 @property (nonatomic, retain) NSMutableArray  *workSafetyPlanOperationArray,*worksafetySelectedRadioBoxArray,*objAvailRadioBoxArray,*addRisksCheckBoxArray,*applicationDetailsArray,*workApprovalDetailsArray,*hazardsControlSCheckpointsArray,*taggingConditionsDetailsArray,*operationWCDSubmittedDetailsArray,*selectedOpWCDDetailsArray,*opWCDListDetailsArray,*selectedWorkApprovalArray,*selectedApplicationCheckBoxesArray,*workApprovalDetailsCopyArray,*selectedOperationWCDCheckBoxArray,*opWCDHeadrDetailsArray,*applicationHeaderDetailsArray,*applicationTypesArray,*finalCheckPointsArray,*workApplicationDetailsArray,*issuePermitsDetailArray,*permitsOperationWCD,*addedOperationsWcdArray,*checkPointTypeApplicationHeaderDetailsArray,*equipmentsDetailsArray;
 
@@ -217,6 +226,7 @@ typedef enum SelectedDropDownInOrders{
 -(void)dismissComponentsSearchView;
 -(void)dismissApplicationTypesClicked;
 -(void)dismissequipmentNumberView;
+-(void)dismissScanView;
 
 @property (nonatomic, strong) NSUserDefaults *defaults;
 

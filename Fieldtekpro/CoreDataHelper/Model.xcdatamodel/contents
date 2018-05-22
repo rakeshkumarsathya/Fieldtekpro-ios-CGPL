@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E199" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E202" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="EHSJOBTYP" syncable="YES">
         <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descrption" optional="YES" attributeType="String" syncable="YES"/>
@@ -142,6 +142,7 @@
     <entity name="FunctionalLocation" representedClassName="FunctionalLocation" syncable="YES">
         <attribute name="costCenter" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fltyp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="iwerks" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="level" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="locationid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="locationName" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
@@ -189,7 +190,7 @@
         <element name="ETEHSREASON" positionX="0" positionY="207" width="128" height="75"/>
         <element name="ETMeasCodes" positionX="-9" positionY="198" width="128" height="105"/>
         <element name="FlocMptt" positionX="0" positionY="207" width="128" height="210"/>
-        <element name="FunctionalLocation" positionX="144" positionY="153" width="128" height="210"/>
+        <element name="FunctionalLocation" positionX="144" positionY="153" width="128" height="225"/>
         <element name="Material" positionX="-29" positionY="50" width="128" height="150"/>
         <element name="StockOverView" positionX="18" positionY="225" width="128" height="165"/>
     </elements>

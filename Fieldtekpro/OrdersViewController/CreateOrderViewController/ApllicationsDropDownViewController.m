@@ -27,6 +27,7 @@
         [self.applicationTypesArray removeAllObjects];
     }
     
+    res_obj=[Response sharedInstance];
  
     [self.applicationTypesArray addObjectsFromArray:[[DataBase sharedInstance] fetchWCMTypesforPlantID:self.plantWorkCenterID]];
     
@@ -69,11 +70,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+ 
+    res_obj.applicationTypeString=[[self.applicationTypesArray objectAtIndex:indexPath.row] objectAtIndex:4];
     
-    
-    applicationTypeString=[[self.applicationTypesArray objectAtIndex:indexPath.row] objectAtIndex:4];
-    
-    applicationObjArt=[[self.applicationTypesArray objectAtIndex:indexPath.row] objectAtIndex:2];
+    res_obj.applicationObjArt=[[self.applicationTypesArray objectAtIndex:indexPath.row] objectAtIndex:2];
+ 
+    res_obj.applicationTypesArray=[NSArray arrayWithArray:[self.applicationTypesArray objectAtIndex:indexPath.row]];
     
     if ([(CreateOrderViewController *)self.delegate respondsToSelector:@selector(dismissApplicationTypesClicked)])
     {

@@ -4950,8 +4950,7 @@ static Request *request;
                 [soapMessage appendString:@"</ItOrderOperations>"];
             }
             
-            
-            
+ 
             
             if ([[requestData objectForKey:@"WCMWORKAPPlICATIONS"] count]) {
                 
@@ -5094,8 +5093,7 @@ static Request *request;
                 for (int i =0; i<[wcmWorkApproval count]; i++) {
                     
                     [soapMessage appendFormat:@"<item><Aufnr>%@</Aufnr><Objart>%@</Objart><Wapnr>%@</Wapnr><Iwerk>%@</Iwerk><Usage>%@</Usage><Usagex>%@</Usagex><Train>%@</Train><Trainx>%@</Trainx><Anlzu>%@</Anlzu><Anlzux>%@</Anlzux><Etape>%@</Etape><Etapex>%@</Etapex><Begru>%@</Begru><Begtx>%@</Begtx><Stxt>%@</Stxt><Datefr>%@</Datefr><Timefr>%@</Timefr><Dateto>%@</Dateto><Timeto>%@</Timeto><Priok>%@</Priok><Priokx>%@</Priokx><Rctime>%@</Rctime><Rcunit>%@</Rcunit><Objnr>%@</Objnr><Refobj>%@</Refobj><Crea>%@</Crea><Prep>%@</Prep><Comp>%@</Comp><Appr>%@</Appr><Pappr>%@</Pappr><Action>%@</Action></item>",[requestData objectForKey:@"OBJECTID"],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:1],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:2],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:3],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:4],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:5],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:6],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:7],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:8],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:9],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:10],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:11],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:29],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:30],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:12],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:13],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:14],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:15],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:16],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:17],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:18],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:19],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:20],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:21],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:22],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:23],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:24],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:25],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:26],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:27],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:28]];
-                    
-                }
+                 }
                 
                 [soapMessage appendString:@"</ItWcmWwData>"];
             }

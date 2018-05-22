@@ -899,6 +899,35 @@
                     }
                 }
             }
+            
+            if ([parseDictionary objectForKey:@"EtWbs"]) {
+                
+                if ([[parseDictionary objectForKey:@"EtWbs"] objectForKey:@"results"])
+                {
+                    if ([[[parseDictionary objectForKey:@"EtWbs"] objectForKey:@"results"] isKindOfClass:[NSDictionary class]]) {
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:[[parseDictionary objectForKey:@"EtWbs"] objectForKey:@"results"]] forKey:@"resultWBS"];
+                    }
+                    else if([[[parseDictionary objectForKey:@"EtWbs"] objectForKey:@"results"] isKindOfClass:[NSArray class]])
+                    {
+                        [xmlDoc setObject:[[parseDictionary objectForKey:@"EtWbs"] objectForKey:@"results"] forKey:@"resultWBS"];
+                    }
+                }
+            }
+            
+            if ([parseDictionary objectForKey:@"EtRevnr"]) {
+                
+                if ([[parseDictionary objectForKey:@"EtRevnr"] objectForKey:@"results"])
+                {
+                    if ([[[parseDictionary objectForKey:@"EtRevnr"] objectForKey:@"results"] isKindOfClass:[NSDictionary class]]) {
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:[[parseDictionary objectForKey:@"EtRevnr"] objectForKey:@"results"]] forKey:@"resultRevnr"];
+                    }
+                    else if([[[parseDictionary objectForKey:@"EtRevnr"] objectForKey:@"results"] isKindOfClass:[NSArray class]])
+                    {
+                        [xmlDoc setObject:[[parseDictionary objectForKey:@"EtRevnr"] objectForKey:@"results"] forKey:@"resultRevnr"];
+                    }
+                }
+            }
+            
          }
  
             return xmlDoc;
@@ -2518,11 +2547,11 @@
                     
                 }
                 
-                if ([parseDictionaryLongText objectForKey:@"EtNotifLongtext"]) {
+ 
+              if ([parseDictionaryLongText objectForKey:@"EtNotifLongtext"]) {
                     
                     if (![NullChecker isNull:[parseDictionaryLongText objectForKey:@"EtNotifLongtext"]]) {
-                        
-                        parseDictionaryLongText = [parseDictionaryLongText objectForKey:@"EtNotifLongtext"];
+                         parseDictionaryLongText = [parseDictionaryLongText objectForKey:@"EtNotifLongtext"];
                         if ([parseDictionaryLongText objectForKey:@"results"]) {
                             parseDictionaryLongText = [parseDictionaryLongText objectForKey:@"results"];
                             if ([parseDictionaryLongText isKindOfClass:[NSDictionary class]]) {
@@ -2535,7 +2564,8 @@
                         }
                         
                     }
-                }
+              }
+                
                 
                 if ([parseDictionaryDocs objectForKey:@"EtDocs"]) {
                     
@@ -3100,6 +3130,7 @@
             if (![NullChecker isNull:[parseMessageDictionary objectForKey:@"EsAufnr"]]) {
                 
                 if ([[parseMessageDictionary objectForKey:@"EsAufnr"] objectForKey:@"results"]) {
+                    
                     id messageArray = [[parseMessageDictionary objectForKey:@"EsAufnr"] objectForKey:@"results"];
                     if ([messageArray isKindOfClass:[NSDictionary class]]) {
                         
@@ -3139,8 +3170,9 @@
                }
             }
             
-            if ([parseDictionaryLongText objectForKey:@"EtOrderLongtext"]) {
-                parseDictionaryLongText = [parseDictionaryLongText objectForKey:@"EtOrderLongtext"];
+             if ([parseDictionaryLongText objectForKey:@"EtOrderLongtext"]) {
+                 if (![NullChecker isNull:[parseDictionaryDocs objectForKey:@"EtOrderLongtext"]]) {
+                 parseDictionaryLongText = [parseDictionaryLongText objectForKey:@"EtOrderLongtext"];
                 if ([parseDictionaryLongText objectForKey:@"results"]) {
                     parseDictionaryLongText = [parseDictionaryLongText objectForKey:@"results"];
                     if ([parseDictionaryLongText isKindOfClass:[NSDictionary class]]) {
@@ -3150,6 +3182,8 @@
                     {
                         [xmlDoc setObject:parseDictionaryLongText forKey:@"resultLongText"];
                     }
+                  }
+                 
                 }
             }
  
@@ -3172,7 +3206,8 @@
             }
             
             if ([parseDictionaryWSM objectForKey:@"EtWsmOrdSafemeas"]) {
-                parseDictionaryWSM = [parseDictionaryWSM objectForKey:@"EtWsmOrdSafemeas"];
+                if (![NullChecker isNull:[parsedDictionaryOrderStatus objectForKey:@"EtWsmOrdSafemeas"]]) {
+                 parseDictionaryWSM = [parseDictionaryWSM objectForKey:@"EtWsmOrdSafemeas"];
                 if ([parseDictionaryWSM objectForKey:@"results"]) {
                     parseDictionaryWSM = [parseDictionaryWSM objectForKey:@"results"];
                     if ([parseDictionaryWSM isKindOfClass:[NSDictionary class]]) {
@@ -3182,12 +3217,13 @@
                     {
                         [xmlDoc setObject:parseDictionaryWSM forKey:@"resultWSMSafetyMeasures"];
                     }
+                  }
                 }
             }
             
             if ([parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]) {
                 
-            if (![NullChecker isNull:[parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]]) {
+               if (![NullChecker isNull:[parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]]) {
 
                 parsedDictionaryOrderStatus = [parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"];
                 if ([parsedDictionaryOrderStatus objectForKey:@"results"]) {
@@ -3222,8 +3258,9 @@
             
             //WCM
             if ([parsedDictionaryCheckPoints objectForKey:@"EtWcmWaChkReq"]) {
-                parsedDictionaryCheckPoints = [parsedDictionaryCheckPoints objectForKey:@"EtWcmWaChkReq"];
-                if ([parsedDictionaryCheckPoints objectForKey:@"results"]) {
+                 if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWaChkReq"]]) {
+                   parsedDictionaryCheckPoints = [parsedDictionaryCheckPoints objectForKey:@"EtWcmWaChkReq"];
+                   if ([parsedDictionaryCheckPoints objectForKey:@"results"]) {
                     parsedDictionaryCheckPoints = [parsedDictionaryCheckPoints objectForKey:@"results"];
                     if ([parsedDictionaryCheckPoints isKindOfClass:[NSDictionary class]]) {
                         [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryCheckPoints] forKey:@"resultStandardCheckPoints"];
@@ -3232,12 +3269,14 @@
                     {
                         [xmlDoc setObject:parsedDictionaryCheckPoints forKey:@"resultStandardCheckPoints"];
                     }
+                  }
                 }
             }
             
             if ([parsedDictionaryWorkApplications objectForKey:@"EtWcmWaData"]) {
-                parsedDictionaryWorkApplications = [parsedDictionaryWorkApplications objectForKey:@"EtWcmWaData"];
-                if ([parsedDictionaryWorkApplications objectForKey:@"results"]) {
+                 if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWaData"]]) {
+                    parsedDictionaryWorkApplications = [parsedDictionaryWorkApplications objectForKey:@"EtWcmWaData"];
+                  if ([parsedDictionaryWorkApplications objectForKey:@"results"]) {
                     parsedDictionaryWorkApplications = [parsedDictionaryWorkApplications objectForKey:@"results"];
                     if ([parsedDictionaryWorkApplications isKindOfClass:[NSDictionary class]]) {
                         [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryWorkApplications] forKey:@"resultWorkApplicationData"];
@@ -3246,11 +3285,13 @@
                     {
                         [xmlDoc setObject:parsedDictionaryWorkApplications forKey:@"resultWorkApplicationData"];
                     }
+                  }
                 }
             }
             
             if ([parsedDictionaryWcagns objectForKey:@"EtWcmWcagns"]) {
-                parsedDictionaryWcagns = [parsedDictionaryWcagns objectForKey:@"EtWcmWcagns"];
+                if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWcagns"]]) {
+                 parsedDictionaryWcagns = [parsedDictionaryWcagns objectForKey:@"EtWcmWcagns"];
                 if ([parsedDictionaryWcagns objectForKey:@"results"]) {
                     parsedDictionaryWcagns = [parsedDictionaryWcagns objectForKey:@"results"];
                     if ([parsedDictionaryWcagns isKindOfClass:[NSDictionary class]]) {
@@ -3261,10 +3302,13 @@
                         [xmlDoc setObject:parsedDictionaryWcagns forKey:@"resultIssuePermits"];//issue permits
                     }
                 }
+              }
             }
             
             if ([parsedDictionaryOpWCDDetails objectForKey:@"EtWcmWdData"]) {
-                parsedDictionaryOpWCDDetails = [parsedDictionaryOpWCDDetails objectForKey:@"EtWcmWdData"];
+ 
+                if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWdData"]]) {
+                   parsedDictionaryOpWCDDetails = [parsedDictionaryOpWCDDetails objectForKey:@"EtWcmWdData"];
                 if ([parsedDictionaryOpWCDDetails objectForKey:@"results"]) {
                     parsedDictionaryOpWCDDetails = [parsedDictionaryOpWCDDetails objectForKey:@"results"];
                     if ([parsedDictionaryOpWCDDetails isKindOfClass:[NSDictionary class]]) {
@@ -3274,11 +3318,13 @@
                     {
                         [xmlDoc setObject:parsedDictionaryOpWCDDetails forKey:@"resultOperationWCDData"];//isolation
                     }
+                 }
                 }
             }
             
             if ([parsedDictionaryOpWCDItemDetails objectForKey:@"EtWcmWdItemData"]) {
-                parsedDictionaryOpWCDItemDetails = [parsedDictionaryOpWCDItemDetails objectForKey:@"EtWcmWdItemData"];
+                 if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWdItemData"]]) {
+                 parsedDictionaryOpWCDItemDetails = [parsedDictionaryOpWCDItemDetails objectForKey:@"EtWcmWdItemData"];
                 if ([parsedDictionaryOpWCDItemDetails objectForKey:@"results"]) {
                     parsedDictionaryOpWCDItemDetails = [parsedDictionaryOpWCDItemDetails objectForKey:@"results"];
                     if ([parsedDictionaryOpWCDItemDetails isKindOfClass:[NSDictionary class]]) {
@@ -3288,12 +3334,13 @@
                     {
                         [xmlDoc setObject:parsedDictionaryOpWCDItemDetails forKey:@"resultOperationWCDItemData"];//tagging conditions
                     }
+                 }
                 }
             }
-        
-            
+ 
             if ([parsedDictionaryWorkApprovalDetails objectForKey:@"EtWcmWwData"]) {
-                parsedDictionaryWorkApprovalDetails = [parsedDictionaryWorkApprovalDetails objectForKey:@"EtWcmWwData"];
+              if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWwData"]]) {
+                 parsedDictionaryWorkApprovalDetails = [parsedDictionaryWorkApprovalDetails objectForKey:@"EtWcmWwData"];
                 if ([parsedDictionaryWorkApprovalDetails objectForKey:@"results"]) {
                     parsedDictionaryWorkApprovalDetails = [parsedDictionaryWorkApprovalDetails objectForKey:@"results"];
                     if ([parsedDictionaryWorkApprovalDetails isKindOfClass:[NSDictionary class]]) {
@@ -3303,10 +3350,14 @@
                     {
                         [xmlDoc setObject:parsedDictionaryWorkApprovalDetails forKey:@"resultWorkApprovalsData"];
                     }
-            }
+                  }
+               
+              }
  
-            return xmlDoc;
-        }
+                return xmlDoc;
+
+            }
+
     }
     
     return [NSMutableDictionary dictionary];
@@ -4163,20 +4214,346 @@
 - (NSMutableDictionary *)parseForConfirmOrder:(NSDictionary *)resultDictionary
 {
     NSMutableDictionary *xmlDoc = [NSMutableDictionary dictionary];
-    id parseDictionary;
-    if ([resultDictionary objectForKey:@"d"]) {
-        
-        parseDictionary = [resultDictionary objectForKey:@"d"];
-        if ([[parseDictionary objectForKey:@"Aufnr"] length]) {
-            [xmlDoc setObject:[NSString stringWithFormat:@"S Order %@ is Confirmed Successfully",[parseDictionary objectForKey:@"Aufnr"]] forKey:@"Message"];
-        }
-        return xmlDoc;
-    }
-    else if([resultDictionary objectForKey:@"error"])
+    
+    NSDictionary *parseDictionary,*parseDictionaryHeaderPermits,*parseDictionaryOperationTransaction,*parseDictionaryComponentsTransaction,*parseDictionaryLongText,*parseDictionaryDocs,*parseDictionaryWSM,*parseDictionaryObjects,*parsedDictionaryOrderStatus,*parsedDictionaryOrderOlist,*parsedDictionaryCheckPoints,*parsedDictionaryWorkApplications,*parsedDictionaryWcagns,*parsedDictionaryOpWCDDetails,*parsedDictionaryOpWCDItemDetails,*parsedDictionaryWorkApprovalDetails,*parsedDictionaryMeasurementDocuments,*parseHeaderDictionary,*parseMessageDictionary;
+    
+    if ([resultDictionary objectForKey:@"d"])
     {
-        parseDictionary = [[resultDictionary objectForKey:@"error"] objectForKey:@"message"];
-        [xmlDoc setObject:[parseDictionary objectForKey:@"value"] forKey:@"ERROR"];
-        return xmlDoc;
+        parseDictionary = [resultDictionary objectForKey:@"d"];
+        
+        id dataObject = [parseDictionary copy];
+        
+        if ([dataObject isKindOfClass:[NSDictionary class]]) {
+            
+            parseDictionaryHeaderPermits = [dataObject copy];
+            parseDictionaryOperationTransaction = [dataObject copy];
+            parseDictionaryComponentsTransaction = [dataObject copy];
+            parseDictionaryLongText = [dataObject copy];
+            parseDictionaryDocs = [dataObject copy];
+            parseDictionaryWSM = [dataObject copy];
+            parseDictionaryObjects = [dataObject copy];
+            parsedDictionaryOrderStatus = [dataObject copy];
+            parsedDictionaryOrderOlist = [dataObject copy];
+            parsedDictionaryCheckPoints = [dataObject copy];
+            parsedDictionaryWorkApplications = [dataObject copy];
+            parsedDictionaryWcagns = [dataObject copy];
+            parsedDictionaryOpWCDDetails = [dataObject copy];
+            parsedDictionaryOpWCDItemDetails = [dataObject copy];
+            parsedDictionaryWorkApprovalDetails = [dataObject copy];
+            parsedDictionaryMeasurementDocuments = [dataObject copy];
+            parseHeaderDictionary = [dataObject copy];
+            
+            parseMessageDictionary = [dataObject copy];
+            
+        }
+        else if ([dataObject isKindOfClass:[NSArray class]])
+        {
+            if ([dataObject count]) {
+                parseDictionaryHeaderPermits = [[dataObject objectAtIndex:0] copy];
+                parseDictionaryOperationTransaction = [[dataObject objectAtIndex:0] copy];
+                parseDictionaryComponentsTransaction = [[dataObject objectAtIndex:0] copy];
+                parseDictionaryLongText = [[dataObject objectAtIndex:0] copy];
+                parseDictionaryDocs = [[dataObject objectAtIndex:0] copy];
+                parseDictionaryWSM = [[dataObject objectAtIndex:0] copy];
+                parseDictionaryObjects = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryOrderStatus = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryOrderOlist = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryCheckPoints = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryWorkApplications = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryWcagns = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryOpWCDDetails = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryOpWCDItemDetails = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryWorkApprovalDetails = [[dataObject objectAtIndex:0] copy];
+                parsedDictionaryMeasurementDocuments = [[dataObject objectAtIndex:0] copy];
+                parseHeaderDictionary = [[dataObject objectAtIndex:0] copy];
+                
+                parseMessageDictionary = [[dataObject objectAtIndex:0] copy];
+                
+                
+            }
+        }
+        
+        
+        if ([parseHeaderDictionary objectForKey:@"EtOrderHeader"]) {
+            
+            if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtOrderHeader"]]) {
+                
+                parseHeaderDictionary = [parseHeaderDictionary objectForKey:@"EtOrderHeader"];
+                if ([parseHeaderDictionary objectForKey:@"results"]) {
+                    parseHeaderDictionary = [parseHeaderDictionary objectForKey:@"results"];
+                    if ([parseHeaderDictionary isKindOfClass:[NSDictionary class]]) {
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:parseHeaderDictionary] forKey:@"resultHeader"];
+                    }
+                    else if([parseHeaderDictionary isKindOfClass:[NSArray class]])
+                    {
+                        [xmlDoc setObject:parseHeaderDictionary forKey:@"resultHeader"];
+                    }
+                }
+            }
+        }
+        
+        if ([parseDictionaryObjects objectForKey:@"EtOrderOlist"]) {
+            parseDictionaryObjects = [parseDictionaryObjects objectForKey:@"EtOrderOlist"];
+            if ([parseDictionaryObjects objectForKey:@"results"]) {
+                parseDictionaryObjects = [parseDictionaryObjects objectForKey:@"results"];
+                if ([parseDictionaryObjects isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parseDictionaryObjects] forKey:@"resultHeaderObjects"];
+                }
+                else if([parseDictionaryObjects isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parseDictionaryObjects forKey:@"resultHeaderObjects"];
+                }
+            }
+        }
+        
+        if ([parsedDictionaryMeasurementDocuments objectForKey:@"EtImrg"]) {
+            parsedDictionaryMeasurementDocuments = [parsedDictionaryMeasurementDocuments objectForKey:@"EtImrg"];
+            if ([parsedDictionaryMeasurementDocuments objectForKey:@"results"]) {
+                parsedDictionaryMeasurementDocuments = [parsedDictionaryMeasurementDocuments objectForKey:@"results"];
+                if ([parsedDictionaryMeasurementDocuments isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryMeasurementDocuments] forKey:@"resultMeasurementDocuments"];
+                }
+                else if([parsedDictionaryMeasurementDocuments isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parsedDictionaryMeasurementDocuments forKey:@"resultMeasurementDocuments"];
+                }
+            }
+        }
+        
+        if ([parseDictionaryHeaderPermits objectForKey:@"EtOrderPermits"]) {
+            parseDictionaryHeaderPermits = [parseDictionaryHeaderPermits objectForKey:@"EtOrderPermits"];
+            if ([parseDictionaryHeaderPermits objectForKey:@"results"]) {
+                parseDictionaryHeaderPermits = [parseDictionaryHeaderPermits objectForKey:@"results"];
+                if ([parseDictionaryHeaderPermits isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parseDictionaryHeaderPermits] forKey:@"resultHeaderPermits"];
+                }
+                else if([parseDictionaryHeaderPermits isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parseDictionaryHeaderPermits forKey:@"resultHeaderPermits"];
+                }
+            }
+        }
+        
+        if ([parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"]) {
+            
+            if (![NullChecker isNull:[parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"]]) {
+                
+                parseDictionaryOperationTransaction = [parseDictionaryOperationTransaction objectForKey:@"EtOrderOperations"];
+                
+                if ([parseDictionaryOperationTransaction objectForKey:@"results"]) {
+                    parseDictionaryOperationTransaction = [parseDictionaryOperationTransaction objectForKey:@"results"];
+                    if ([parseDictionaryOperationTransaction isKindOfClass:[NSDictionary class]]) {
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:parseDictionaryOperationTransaction] forKey:@"resultOperationsTransactions"];
+                    }
+                    else if([parseDictionaryOperationTransaction isKindOfClass:[NSArray class]])
+                    {
+                        [xmlDoc setObject:parseDictionaryOperationTransaction forKey:@"resultOperationsTransactions"];
+                    }
+                }
+            }
+        }
+        
+        if ([parseMessageDictionary objectForKey:@"EtMessages"]) {
+            if ([[parseMessageDictionary objectForKey:@"EtMessages"] objectForKey:@"results"]) {
+                id messageArray = [[parseMessageDictionary objectForKey:@"EtMessages"] objectForKey:@"results"];
+                if ([messageArray isKindOfClass:[NSDictionary class]]) {
+                    
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:[[[[messageArray objectForKey:@"EtMessages"] objectForKey:@"results"] objectAtIndex:0] objectForKey:@"Message"]] forKey:@"Message"];
+                    
+                }
+                else if([messageArray isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:[[messageArray objectAtIndex:0] objectForKey:@"Message"] forKey:@"Message"];
+                }
+            }
+        }
+        
+        
+        if ([parseDictionaryComponentsTransaction objectForKey:@"EtOrderComponents"]) {
+            
+            if (![NullChecker isNull:[parseDictionaryComponentsTransaction objectForKey:@"EtOrderComponents"]]) {
+                
+                parseDictionaryComponentsTransaction = [parseDictionaryComponentsTransaction objectForKey:@"EtOrderComponents"];
+                
+                if ([parseDictionaryComponentsTransaction objectForKey:@"results"]) {
+                    parseDictionaryComponentsTransaction = [parseDictionaryComponentsTransaction objectForKey:@"results"];
+                    if ([parseDictionaryComponentsTransaction isKindOfClass:[NSDictionary class]]) {
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:parseDictionaryComponentsTransaction] forKey:@"resultComponentsTransactions"];
+                    }
+                    else if([parseDictionaryComponentsTransaction isKindOfClass:[NSArray class]])
+                    {
+                        [xmlDoc setObject:parseDictionaryComponentsTransaction forKey:@"resultComponentsTransactions"];
+                    }
+                }
+                
+            }
+        }
+        
+        if ([parseDictionaryLongText objectForKey:@"EtOrderLongtext"]) {
+            
+            if (![NullChecker isNull:[parseDictionaryLongText objectForKey:@"EtOrderLongtext"]]) {
+                
+                parseDictionaryLongText = [parseDictionaryLongText objectForKey:@"EtOrderLongtext"];
+                if ([parseDictionaryLongText objectForKey:@"results"]) {
+                    parseDictionaryLongText = [parseDictionaryLongText objectForKey:@"results"];
+                    if ([parseDictionaryLongText isKindOfClass:[NSDictionary class]]) {
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:parseDictionaryLongText] forKey:@"resultLongText"];
+                    }
+                    else if([parseDictionaryLongText isKindOfClass:[NSArray class]])
+                    {
+                        [xmlDoc setObject:parseDictionaryLongText forKey:@"resultLongText"];
+                    }
+                }
+            }
+        }
+        
+        if ([parseDictionaryDocs objectForKey:@"EtDocs"]) {
+            if (![NullChecker isNull:[parseDictionaryDocs objectForKey:@"EtDocs"]]) {
+                parseDictionaryDocs = [parseDictionaryDocs objectForKey:@"EtDocs"];
+                if ([parseDictionaryDocs objectForKey:@"results"]) {
+                    parseDictionaryDocs = [parseDictionaryDocs objectForKey:@"results"];
+                    if ([parseDictionaryDocs isKindOfClass:[NSDictionary class]]) {
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:parseDictionaryDocs] forKey:@"resultDocs"];
+                    }
+                    else if([parseDictionaryDocs isKindOfClass:[NSArray class]])
+                    {
+                        [xmlDoc setObject:parseDictionaryDocs forKey:@"resultDocs"];
+                    }
+                }
+            }
+        }
+        
+        if ([parseDictionaryWSM objectForKey:@"EtWsmOrdSafemeas"]) {
+            parseDictionaryWSM = [parseDictionaryWSM objectForKey:@"EtWsmOrdSafemeas"];
+            if ([parseDictionaryWSM objectForKey:@"results"]) {
+                parseDictionaryWSM = [parseDictionaryWSM objectForKey:@"results"];
+                if ([parseDictionaryWSM isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parseDictionaryWSM] forKey:@"resultWSMSafetyMeasures"];
+                }
+                else if([parseDictionaryWSM isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parseDictionaryWSM forKey:@"resultWSMSafetyMeasures"];
+                }
+            }
+        }
+        
+        if ([parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]) {
+            if (![NullChecker isNull:[parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"]]) {
+                parsedDictionaryOrderStatus = [parsedDictionaryOrderStatus objectForKey:@"EtOrderStatus"];
+                if ([parsedDictionaryOrderStatus objectForKey:@"results"]) {
+                    parsedDictionaryOrderStatus = [parsedDictionaryOrderStatus objectForKey:@"results"];
+                    if ([parsedDictionaryOrderStatus isKindOfClass:[NSDictionary class]]) {
+                        [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryOrderStatus] forKey:@"resultOrderStatus"];
+                    }
+                    else if([parsedDictionaryOrderStatus isKindOfClass:[NSArray class]])
+                    {
+                        [xmlDoc setObject:parsedDictionaryOrderStatus forKey:@"resultOrderStatus"];
+                    }
+                }
+            }
+        }
+        
+        if ([parsedDictionaryOrderOlist objectForKey:@"EtOrderOlist"]) {
+            parsedDictionaryOrderOlist = [parsedDictionaryOrderOlist objectForKey:@"EtOrderOlist"];
+            if ([parsedDictionaryOrderOlist objectForKey:@"results"]) {
+                parsedDictionaryOrderOlist = [parsedDictionaryOrderOlist objectForKey:@"results"];
+                if ([parsedDictionaryOrderOlist isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryOrderOlist] forKey:@"resultOrderOlist"];
+                }
+                else if([parsedDictionaryOrderOlist isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parsedDictionaryOrderOlist forKey:@"resultOrderOlist"];
+                }
+            }
+        }
+        
+        //WCM
+        if ([parsedDictionaryCheckPoints objectForKey:@"EtWcmWaChkReq"]) {
+            parsedDictionaryCheckPoints = [parsedDictionaryCheckPoints objectForKey:@"EtWcmWaChkReq"];
+            if ([parsedDictionaryCheckPoints objectForKey:@"results"]) {
+                parsedDictionaryCheckPoints = [parsedDictionaryCheckPoints objectForKey:@"results"];
+                if ([parsedDictionaryCheckPoints isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryCheckPoints] forKey:@"resultStandardCheckPoints"];
+                }
+                else if([parsedDictionaryCheckPoints isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parsedDictionaryCheckPoints forKey:@"resultStandardCheckPoints"];
+                }
+            }
+        }
+        
+        if ([parsedDictionaryWorkApplications objectForKey:@"EtWcmWaData"]) {
+            parsedDictionaryWorkApplications = [parsedDictionaryWorkApplications objectForKey:@"EtWcmWaData"];
+            if ([parsedDictionaryWorkApplications objectForKey:@"results"]) {
+                parsedDictionaryWorkApplications = [parsedDictionaryWorkApplications objectForKey:@"results"];
+                if ([parsedDictionaryWorkApplications isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryWorkApplications] forKey:@"resultWorkApplicationData"];
+                }
+                else if([parsedDictionaryWorkApplications isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parsedDictionaryWorkApplications forKey:@"resultWorkApplicationData"];
+                }
+            }
+        }
+        
+        if ([parsedDictionaryWcagns objectForKey:@"EtWcmWcagns"]) {
+            parsedDictionaryWcagns = [parsedDictionaryWcagns objectForKey:@"EtWcmWcagns"];
+            if ([parsedDictionaryWcagns objectForKey:@"results"]) {
+                parsedDictionaryWcagns = [parsedDictionaryWcagns objectForKey:@"results"];
+                if ([parsedDictionaryWcagns isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryWcagns] forKey:@"resultIssuePermits"];//issue permits
+                }
+                else if([parsedDictionaryWcagns isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parsedDictionaryWcagns forKey:@"resultIssuePermits"];//issue permits
+                }
+            }
+        }
+        
+        if ([parsedDictionaryOpWCDDetails objectForKey:@"EtWcmWdData"]) {
+            parsedDictionaryOpWCDDetails = [parsedDictionaryOpWCDDetails objectForKey:@"EtWcmWdData"];
+            if ([parsedDictionaryOpWCDDetails objectForKey:@"results"]) {
+                parsedDictionaryOpWCDDetails = [parsedDictionaryOpWCDDetails objectForKey:@"results"];
+                if ([parsedDictionaryOpWCDDetails isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryOpWCDDetails] forKey:@"resultOperationWCDData"];//isolation
+                }
+                else if([parsedDictionaryOpWCDDetails isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parsedDictionaryOpWCDDetails forKey:@"resultOperationWCDData"];//isolation
+                }
+            }
+        }
+        
+        if ([parsedDictionaryOpWCDItemDetails objectForKey:@"EtWcmWdItemData"]) {
+            parsedDictionaryOpWCDItemDetails = [parsedDictionaryOpWCDItemDetails objectForKey:@"EtWcmWdItemData"];
+            if ([parsedDictionaryOpWCDItemDetails objectForKey:@"results"]) {
+                parsedDictionaryOpWCDItemDetails = [parsedDictionaryOpWCDItemDetails objectForKey:@"results"];
+                if ([parsedDictionaryOpWCDItemDetails isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryOpWCDItemDetails] forKey:@"resultOperationWCDItemData"];//tagging conditions
+                }
+                else if([parsedDictionaryOpWCDItemDetails isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parsedDictionaryOpWCDItemDetails forKey:@"resultOperationWCDItemData"];//tagging conditions
+                }
+            }
+        }
+        
+        
+        if ([parsedDictionaryWorkApprovalDetails objectForKey:@"EtWcmWwData"]) {
+            parsedDictionaryWorkApprovalDetails = [parsedDictionaryWorkApprovalDetails objectForKey:@"EtWcmWwData"];
+            if ([parsedDictionaryWorkApprovalDetails objectForKey:@"results"]) {
+                parsedDictionaryWorkApprovalDetails = [parsedDictionaryWorkApprovalDetails objectForKey:@"results"];
+                if ([parsedDictionaryWorkApprovalDetails isKindOfClass:[NSDictionary class]]) {
+                    [xmlDoc setObject:[NSMutableArray arrayWithObject:parsedDictionaryWorkApprovalDetails] forKey:@"resultWorkApprovalsData"];
+                }
+                else if([parsedDictionaryWorkApprovalDetails isKindOfClass:[NSArray class]])
+                {
+                    [xmlDoc setObject:parsedDictionaryWorkApprovalDetails forKey:@"resultWorkApprovalsData"];
+                }
+            }
+            
+            return xmlDoc;
+        }
     }
     
     return [NSMutableDictionary dictionary];

@@ -1909,7 +1909,7 @@
                   
               }];
               
-              nocoAction.backgroundColor = [UIColor greenColor];
+               nocoAction.backgroundColor = [UIColor greenColor];
  
                     nopoAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"NOPO"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
                         //insert your deleteAction here
@@ -1938,6 +1938,29 @@
                 return @[nocoAction];
             }
         
+            else if  ([[[self.notificationListArray objectAtIndex:indexPath.row] objectForKey:@"notificationh_status"] isEqualToString:@"NOPO"]){
+                
+                relAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"REL" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+                    //insert your editAction here
+                    
+                    [self ReleaseMethod];
+                    
+                }];
+                
+                relAction.backgroundColor = [UIColor blueColor];
+ 
+                nocoAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"NOCO"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+                    //insert your deleteAction here
+                    [self completeNotifvalidation];
+                    
+                }];
+                
+                nocoAction.backgroundColor = [UIColor greenColor];
+                    
+ 
+                return @[relAction,nocoAction];
+            }
+        
             else{
                 
                 return nil;
@@ -1947,16 +1970,16 @@
     return nil;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return YES if you want the specified item to be editable.
-
-    if (tableView==myNotificationsTableView) {
-        
-        return YES;
-    }
-
-    return NO;
-}
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+//    // Return YES if you want the specified item to be editable.
+//
+//    if (tableView==myNotificationsTableView) {
+//
+//        return YES;
+//    }
+//
+//    return NO;
+//}
 
 -(void)deleteIncidentAttachments{
 
@@ -2171,6 +2194,13 @@
                 [cell.statusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
                 cell.statusButton.backgroundColor=[UIColor yellowColor];
                 [cell.statusButton setTitle:@"OSNO" forState:UIControlStateNormal];
+                
+            }
+            else if ([statusCode isEqualToString:@"NOPO"]){
+                
+                [cell.statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                cell.statusButton.backgroundColor=UIColorFromRGB(159, 0, 15);
+                [cell.statusButton setTitle:@"NOPO" forState:UIControlStateNormal];
                 
             }
             else{
@@ -3905,8 +3935,14 @@
                                             [Docs addObject:@""];
                                         }
                                         
-                                        [Docs addObject:@""];//Content
-                                        [Docs addObject:@""];//Action
+                                        if ([DocsDictionary objectForKey:@"Content"]) {
+                                            [Docs addObject:[[DocsDictionary objectForKey:@"Content"] copy]];
+                                        }
+                                        else{
+                                            
+                                         }
+                                        
+                                         [Docs addObject:@""];//Action
                                         
                                         [[[notificationDetailDictionary objectForKey:[DocsDictionary objectForKey:@"Zobjid"]] objectAtIndex:1] addObject:Docs];
                                     }

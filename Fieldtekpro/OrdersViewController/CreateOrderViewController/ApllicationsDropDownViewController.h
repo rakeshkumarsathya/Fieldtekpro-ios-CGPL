@@ -18,11 +18,12 @@
     
     IBOutlet UITableView *applicationsTableview;
     
+    Response *res_obj;
+    
     
 }
 @property (nonatomic, retain) NSMutableArray *applicationTypesArray;
- @property (nonatomic, retain) NSString *plantWorkCenterID;
-
+@property (nonatomic, retain) NSString *plantWorkCenterID;
 @property (nonatomic,weak)id delegate;
 
 

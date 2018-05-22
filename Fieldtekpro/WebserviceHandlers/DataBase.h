@@ -164,6 +164,9 @@
 - (NSMutableArray *)getListOfControlKeys;
 - (NSMutableArray *)getPersonResonsibleMaster;
 
+- (NSMutableArray *)getOrderWBSElements;
+- (NSMutableArray *)getOrderRevisison;
+
 -(NSMutableArray *)getPernrFromMasterData;
 
 //- (NSMutableArray *)getPersonResonsibleMasterforPlant:(NSString *)plantID;
@@ -549,6 +552,8 @@
 -(BOOL)insertintoWCMWorks :(NSArray *)arr_WcmWorkData;//WCM  WORKS
 -(BOOL)insertintoWCMRequirements :(NSArray *)arr_WcmRequirementsData;//WCM REQUIREMENTS
 
+-(BOOL)insertintoETWBSData :(NSArray *)arr_WBSData;
+-(BOOL)insertintoETREVRData :(NSArray *)arr_REVRData;
 
 //WCM
 -(NSMutableArray *)insertWCMTypes :(NSMutableArray *)wcmTypesArray;

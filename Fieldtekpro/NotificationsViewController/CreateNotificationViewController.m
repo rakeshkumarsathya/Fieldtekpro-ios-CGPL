@@ -448,32 +448,16 @@
 
      if (plannerGroupNameString.length) {
         [self.notificationHeaderDetails setObject:plannerGroupNameString forKey:@"PLANNERGROUPNAME"];
-
-    }
-    
+     }
  
     [self.notificationHeaderDetails setObject:[[headerDataArray objectAtIndex:7] objectAtIndex:2] forKey:@"NREPORTEDBY"];
     
      [self.notificationHeaderDetails setObject:[decryptedUserName copy] forKey:@"REPORTEDBY"];
     
-    [self.notificationHeaderDetails setObject:@"" forKey:@"USR01"];
-
-    
-    if (primaryPersonResonsibleID.length) {
-        
-          [self.notificationHeaderDetails setObject:primaryPersonResonsibleID forKey:@"USR01"];
-        
-    }
+    [self.notificationHeaderDetails setObject:[[headerDataArray objectAtIndex:8] objectAtIndex:2] forKey:@"USR01"];
  
     [self.notificationHeaderDetails setObject:@"" forKey:@"USR02"];
-
-    
-    if (primaryPersonResonsibleNameString.length) {
-        
-          [self.notificationHeaderDetails setObject:primaryPersonResonsibleNameString forKey:@"USR02"];
-    }
  
-    
     [self.notificationHeaderDetails setObject:@"" forKey:@"PARNRID"];
  
     if (personResponisbleID.length) {
@@ -684,11 +668,16 @@
     [self.notificationHeaderDetails setObject:[[[headerDataArray objectAtIndex:0] objectAtIndex:2]  copy] forKey:@"NNAME"];
     
     [self.notificationHeaderDetails setObject:[[headerDataArray objectAtIndex:1] objectAtIndex:2] forKey:@"SHORTTEXT"];
-    
-    
+ 
      if (res_obj.longTextString.length) {
+         
+         NSMutableString *tempString=[NSMutableString new];
+         
+         [tempString appendString:[[self .detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_longtext"]];
+         
+         [tempString appendString:[res_obj.longTextString copy]];
         
-        [self.notificationHeaderDetails setObject:res_obj.longTextString forKey:@"LONGTEXT"];
+        [self.notificationHeaderDetails setObject:tempString forKey:@"LONGTEXT"];
      }
     
      else{
@@ -707,7 +696,6 @@
     
     [self.notificationHeaderDetails setObject:[functionalLocationID copy] forKey:@"FID"];
     [self.notificationHeaderDetails setObject:[[[headerDataArray objectAtIndex:4] objectAtIndex:2]  copy] forKey:@"FNAME"];
-    
  
     if (equipmentFlag==NO)
     {
@@ -727,12 +715,10 @@
     
     [self.notificationHeaderDetails setObject:@"" forKey:@"PLANNERGROUP"];
     
-    
-    if (plannerGrouplID.length) {
+     if (plannerGrouplID.length) {
         
         [self.notificationHeaderDetails setObject:plannerGrouplID forKey:@"PLANNERGROUP"];
-        
-    }
+     }
     
     [self.notificationHeaderDetails setObject:@"" forKey:@"PLANNERGROUPNAME"];
     
@@ -745,24 +731,10 @@
     
     [self.notificationHeaderDetails setObject:[decryptedUserName copy] forKey:@"REPORTEDBY"];
     
-    [self.notificationHeaderDetails setObject:@"" forKey:@"USR01"];
-    
-    
-    if (primaryPersonResonsibleID.length) {
-        
-        [self.notificationHeaderDetails setObject:primaryPersonResonsibleID forKey:@"USR01"];
-        
-    }
-    
+    [self.notificationHeaderDetails setObject:[[headerDataArray objectAtIndex:10] objectAtIndex:2] forKey:@"USR01"];
+
     [self.notificationHeaderDetails setObject:@"" forKey:@"USR02"];
-    
-    
-    if (primaryPersonResonsibleNameString.length) {
-        
-        [self.notificationHeaderDetails setObject:primaryPersonResonsibleNameString forKey:@"USR02"];
-    }
-    
-    
+ 
     [self.notificationHeaderDetails setObject:@"" forKey:@"PARNRID"];
     
     if (personResponisbleID.length) {
@@ -1013,7 +985,9 @@
 
 -(void)addCauseCodeDetailsMethod{
     
-    submitResetView.hidden=NO;
+   // submitResetView.hidden=NO;
+    
+    [causeActivitySubmitView removeFromSuperview];
  
     NSMutableDictionary *causeCodeDetailsDictionary = [NSMutableDictionary new];
  
@@ -1170,7 +1144,7 @@
 
 -(void)addMoreCauseCodeDetailsMethod{
     
-    submitResetView.hidden=YES;
+   // submitResetView.hidden=YES;
     
     NSMutableDictionary *causeCodeDetailsDictionary = [NSMutableDictionary new];
     
@@ -1812,8 +1786,7 @@
     if (![NullChecker isNull:[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_order_no"]]) {
         
         createOrderBtn.hidden=YES;
-        
-    }
+     }
     
     ////////
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -1891,26 +1864,29 @@
     [primaryPersonResonsibleID setString:@""];
     
     primaryPersonResonsibleNameString=@"";
-    
  
     plantID=[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_plantid"];
 
     
-    if ([[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_usr02"] isEqualToString:@""]) {
+//    if ([[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_usr02"] isEqualToString:@""]) {
+//
+//         primaryPersonResonsibleNameString=[[self.detailNotificationArray objectAtIndex:0]
+//                                           objectForKey:@"notificationh_usr02"];
+//
+//    }
+//
+    
+    if (![[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_usr01"] isEqualToString:@""]) {
+ 
+         [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Primary User Responsible",@"Enter Text",[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_usr01"],[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_usr01"], nil]];
         
-         primaryPersonResonsibleNameString=[[self.detailNotificationArray objectAtIndex:0]
-                                           objectForKey:@"notificationh_usr02"];
- 
-    }
+      }
     
-    if ([[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_usr01"] isEqualToString:@""]) {
- 
-        [primaryPersonResonsibleID setString:[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_usr01"]];
- 
-    }
+    else{
+        
+        [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Primary User Responsible",@"Enter Text",@"",@"", nil]];
+     }
     
- 
-    [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Primary User Responsible",@"Select Primary User Responsible",primaryPersonResonsibleNameString,primaryPersonResonsibleID, nil]];
  
     [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Person Responsible",@"Select Person Responsible",[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_personresponsible_text"],[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_personresponsible_id"], nil]];
  
@@ -2037,22 +2013,30 @@
             takeAPictureTextBtn.userInteractionEnabled=NO;
             deleteImagesBtn.hidden=YES;
             submitResetView.hidden=YES;
+            
 //            leftCustomInfoBtn.userInteractionEnabled=NO;
 //            rightCustomInfoBtn.userInteractionEnabled=NO;
             
             createOrderBtn.hidden=YES;
             
         }
+         else if ([[[self.detailNotificationArray objectAtIndex:0] objectForKey:@"notificationh_status"] isEqualToString:@"NOPO"]) {
+             
+             [statusButton setTitle:@"NOPO" forState:UIControlStateNormal];
+             [statusButton setBackgroundColor:UIColorFromRGB(159,0,15)];
+ 
+             [_statusHeaderButton setTitle:@"NOPO" forState:UIControlStateNormal];
+             [_statusHeaderButton setBackgroundColor:UIColorFromRGB(159,0,15)];
+             
+         }
         else{
             [statusButton setTitle:@"NOPR" forState:UIControlStateNormal];
             [statusButton setBackgroundColor:UIColorFromRGB(39, 171, 226)];
             
             [_statusHeaderButton setTitle:@"NOPR" forState:UIControlStateNormal];
             [_statusHeaderButton setBackgroundColor:UIColorFromRGB(39, 171, 226)];
-            
-        }
-        
-    }
+         }
+      }
     
     
     if (self.causeCodeDetailsArray == nil)
@@ -2169,17 +2153,16 @@
         }
         
         vornrItemID = [[[self.causeCodeDetailsArray  objectAtIndex:i] firstObject]  objectAtIndex:12];
- 
-    }
+     }
     
     VornrItem = [vornrItemID intValue];
  
     VornrItem = VornrItem +1;
+     //    VornrTaskCode = 0;
     
-    //    VornrTaskCode = 0;
-    
-    [self.itemKeyDetailsArray addObject:[NSMutableArray arrayWithObjects:vornrItemID,@"", nil]];
-
+     if ([self.causeCodeDetailsArray count]) {
+         [self.itemKeyDetailsArray addObject:[NSMutableArray arrayWithObjects:vornrItemID,@"", nil]];
+     }
  
     for (int i=0; i<[self.notifTaskCodesDetailsArray count]; i++) {
         if ([[[[self.notifTaskCodesDetailsArray objectAtIndex:i] firstObject] objectAtIndex:17] isEqualToString:@"D"]){
@@ -2240,7 +2223,7 @@
     
     [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Reported By",@"Enter Reported By",@"",@"", nil]];
     
-      [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Primary User Responsible",@"Select Primary User Responsible",@"",@"", nil]];
+      [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Primary User Responsible",@"Enter Text",@"",@"", nil]];
     
     [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Person Responsible",@"Select Person Responsible",@"",@"", nil]];
     
@@ -2277,7 +2260,7 @@
     addCauseCodeDataArray=[NSMutableArray new];
     commonAddTableView.tag=0;
     
-    xStatusBtn.hidden=NO;
+     xStatusBtn.hidden=NO;
 
      [addCauseCodeDataArray addObject:[NSMutableArray arrayWithObjects:@"Object Part",@"Select Object Part",@"",@"", nil]];
     
@@ -2297,7 +2280,8 @@
     
     [addCauseTaskView setFrame:CGRectMake(0, 0, commomlistListTableview.frame.size.width, commomlistListTableview.frame.size.height)];
  
-    submitResetView.hidden=YES;
+    [causeActivitySubmitView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+     [submitResetView addSubview:causeActivitySubmitView];
     
     [commomlistListTableview addSubview:addCauseTaskView];
     
@@ -2309,7 +2293,6 @@
     addActivityArray=[NSMutableArray new];
     
     commonAddTableView.tag=2;
-    
  
     [addActivityArray addObject:[NSMutableArray arrayWithObjects:@"Item key",@"Select Item Key",@"",@"", nil]];
     
@@ -2348,8 +2331,9 @@
     [addActivityArray addObject:[NSMutableArray arrayWithObjects:@"End Time",@"End Time",@"",@"", nil]];
     
     [addCauseTaskView setFrame:CGRectMake(0, 0, commomlistListTableview.frame.size.width, commomlistListTableview.frame.size.height)];
- 
-    submitResetView.hidden=YES;
+    
+    [causeActivitySubmitView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    [submitResetView addSubview:causeActivitySubmitView];
     
     [commomlistListTableview addSubview:addCauseTaskView];
  
@@ -2400,34 +2384,34 @@
 -(void)downloadAttachments
 {
     
-    NSString *trimmedString;
-    if (![[[self.attachmentArray objectAtIndex:attachmentCurrentIndex] objectAtIndex:7] isEqualToString:@""]) {
-        
-        trimmedString=[[self.attachmentArray objectAtIndex:attachmentCurrentIndex] objectAtIndex:7];
-        
-    }
-    else{
-        
-        trimmedString=[dataaArray substringFromIndex:33];
-        
-        
-    }
+//    NSString *trimmedString;
+//    if (![[[self.attachmentArray objectAtIndex:attachmentCurrentIndex] objectAtIndex:7] isEqualToString:@""]) {
+//
+//        trimmedString=[[self.attachmentArray objectAtIndex:attachmentCurrentIndex] objectAtIndex:7];
+//     }
+//    else{
+//
+//        trimmedString=[dataaArray substringFromIndex:33];
+//     }
+//
+ 
     
-    NSString *urlString=[NSString stringWithFormat:@"%@:%@%@",[defaults objectForKey:@"HOST"],[defaults objectForKey:@"PORT"],trimmedString];
+//    NSString *key = @"";
+//    NSString *str_Pasword = [defaults objectForKey:@"password"];
+//    NSString *decryptedPassword = [str_Pasword AES128DecryptWithKey:key];
     
-    NSString *key = @"";
-    NSString *str_Pasword = [defaults objectForKey:@"password"];
-    NSString *decryptedPassword = [str_Pasword AES128DecryptWithKey:key];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+   
+//
+//    NSString *authStr = [NSString stringWithFormat:@"%@:%@",decryptedUserName,decryptedPassword];
+//    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+//
+//    NSString *authValue = [authData base64EncodedStringWithOptions:0];
+//
+//    //  [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+//
+//    [request addValue:[NSString stringWithFormat:@"Basic %@",authValue] forHTTPHeaderField:@"Authorization"];
     
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@",decryptedUserName,decryptedPassword];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSString *authValue = [authData base64EncodedStringWithOptions:0];
-    
-    //  [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    [request addValue:[NSString stringWithFormat:@"Basic %@",authValue] forHTTPHeaderField:@"Authorization"];
+     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:attachmentsString]];
     
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
@@ -2438,10 +2422,9 @@
                                    
     UIWebView *webView;
                                    
-                                   
-     [downloadsView setFrame:CGRectMake(0, 0, commomlistListTableview.frame.size.width, commomlistListTableview.frame.size.height)];
+    [downloadsView setFrame:CGRectMake(0, 0, commomlistListTableview.frame.size.width, commomlistListTableview.frame.size.height)];
                                   
-      webView = [[UIWebView alloc] initWithFrame:CGRectMake(10, 60, downloadsView.frame.size.width, downloadsView.frame.size.height-10)];
+      webView = [[UIWebView alloc] initWithFrame:CGRectMake(10, 60, downloadsView.frame.size.width-30, downloadsView.frame.size.height-10)];
                                    
  
                                    [webView loadRequest:request];
@@ -2454,16 +2437,14 @@
                                    [defaults removeObjectForKey:@"DA"];
                                    [defaults synchronize];
                                    
-                                   
-                                   
+ 
                                } else {
                                    NSLog(@"ERRORE: %@", error);
                                }
                                
+                               [MBProgressHUD hideHUDForView:self.view animated:YES];
                            }];
-    
-   // [ActivityView dismiss];
-    
+ 
 }
 
 -(IBAction)dismissSystemStatusBtn:(id)sender{
@@ -2698,8 +2679,12 @@
                 [self.dropDownTableView reloadData];
                 
             }
-//            else if (headerCommonIndex==8){
-//
+            else if (headerCommonIndex==8){
+
+                 textField.inputView=nil;
+                 textField.inputAccessoryView=nil;
+                 [textField reloadInputViews];
+                
 //                [[textField valueForKey:@"textInputTraits"] setValue:[UIColor clearColor] forKey:@"insertionPointColor"];
 //                textField.inputView = self.dropDownTableView;
 //                textField.inputAccessoryView = self.mypickerToolbar;
@@ -2717,8 +2702,8 @@
 //                self.dropDownTableView.tag = PRIMARY_USER_RESPONSIBLE;
 //
 //                [self.dropDownTableView reloadData];
-//
-//            }
+
+            }
             
              else if (headerCommonIndex==9){
                 
@@ -3275,6 +3260,17 @@
                 [[headerDataArray objectAtIndex:10] replaceObjectAtIndex:2 withObject:textField.text];
              }
             
+            else if (headerCommonIndex==1){
+                
+                [[headerDataArray objectAtIndex:1] replaceObjectAtIndex:2 withObject:textField.text];
+             }
+            
+            else if (headerCommonIndex==9){
+                
+                [[headerDataArray objectAtIndex:9] replaceObjectAtIndex:2 withObject:textField.text];
+                
+            }
+            
             commomlistListTableview.tag=0;
          }
         else{
@@ -3428,8 +3424,7 @@
 {
      [addCauseTaskBtn setTitle:@"Add" forState:UIControlStateNormal];
  
-    [commonAddTableView scrollRectToVisible:CGRectMake(0, 0, 0, 0) animated:YES];
-
+     [commonAddTableView scrollRectToVisible:CGRectMake(0, 0, 0, 0) animated:YES];
  
         if (isCausecodeSelected) {
              [self loadCauseCodeDetails];
@@ -3445,7 +3440,7 @@
              }
         }
     
-     submitResetView.hidden=YES;
+    // submitResetView.hidden=YES;
      [commonAddTableView reloadData];
     
  }
@@ -3565,8 +3560,10 @@
                 customDamageFieldFlag = YES;
                 customCauseFieldFlag = YES;
                 
-                submitResetView.hidden=NO;
+              //  submitResetView.hidden=NO;
                 
+                [causeActivitySubmitView removeFromSuperview];
+
                 [addCauseTaskView removeFromSuperview];
                 
              }
@@ -3755,6 +3752,8 @@
                     [defaults setObject:self.customCauseDetailsArray forKey:@"tempCustomCause"];
                     [defaults synchronize];
                     
+                    [causeActivitySubmitView removeFromSuperview];
+
                     [addCauseTaskView removeFromSuperview];
                 }
                 else
@@ -4131,13 +4130,15 @@
              [[addActivityArray objectAtIndex:8] replaceObjectAtIndex:2 withObject:@""];
              [[addActivityArray objectAtIndex:9] replaceObjectAtIndex:2 withObject:@""];
              
-         }
+          }
          
           [addCauseTaskView removeFromSuperview];
           commomlistListTableview.tag=2;
           [commomlistListTableview reloadData];
-          submitResetView.hidden=NO;
-        
+         // submitResetView.hidden=NO;
+         
+         [causeActivitySubmitView removeFromSuperview];
+ 
        }
 }
 
@@ -4327,8 +4328,8 @@
                  [self loadsystemStatusheaderView];
              }
             
-            commomlistListTableview.hidden=NO;
-
+             commomlistListTableview.hidden=NO;
+ 
              [addCauseTaskView removeFromSuperview];
              [self.attachmentsView removeFromSuperview];
              [downloadsView removeFromSuperview];
@@ -4348,8 +4349,9 @@
              isCausecodeSelected=YES;
             
             commomlistListTableview.hidden=NO;
-
-             [self.attachmentsView removeFromSuperview];
+            [causeActivitySubmitView removeFromSuperview];
+ 
+            [self.attachmentsView removeFromSuperview];
             [downloadsView removeFromSuperview];
             [addCauseTaskView removeFromSuperview];
             commomlistListTableview.tag=1;
@@ -4378,19 +4380,10 @@
             [commomlistListTableview setTableHeaderView:nil];
             [addCauseTaskView removeFromSuperview];
             
-             if (!createNotificationFlag) {
-                
-                 [self.attachmentsView setFrame:CGRectMake(0, 0, commomlistListTableview.frame.size.width, commomlistListTableview.frame.size.height)];
-                 [commomlistListTableview addSubview:self.attachmentsView];
-                
-            }
-            
-            else{
-                
-                [self.attachmentsView setFrame:CGRectMake(0, 0, commomlistListTableview.frame.size.width, commomlistListTableview.frame.size.height)];
-                [commomlistListTableview addSubview:self.attachmentsView];
-            }
-            
+           
+            [self.attachmentsView setFrame:CGRectMake(0, 0, commomlistListTableview.frame.size.width, commomlistListTableview.frame.size.height)];
+            [commomlistListTableview addSubview:self.attachmentsView];
+ 
             submitResetView.hidden=NO;
  
          break;
@@ -4599,7 +4592,7 @@
                                                       handler:^(UIAlertAction * action)
                                 {
                                     
-                                     attachmentAlertTypeString = @"EQUI";
+                                    attachmentAlertTypeString = @"EQUI";
 
                                     for (int i =0; i<[arr_images count]; i++) {
                                         
@@ -4700,22 +4693,25 @@
                 imageNameFlag = YES;
             }
             
-            [self.fileNameArray addObject:[namefield.text copy]];
+           // [self.fileNameArray addObject:[namefield.text copy]];
             
-            NSArray *tempArray = self.fileNameArray;
+            cameraDescriptionString=[namefield.text copy];
             
-            for (int i=0; i<[tempArray count]; i++) {
-                
-                if ([[tempArray objectAtIndex:i] isKindOfClass:[NSArray class]]) {
-                    [self.fileNameArray removeObject:[tempArray objectAtIndex:i]];
-                }
-                else if ([[tempArray objectAtIndex:i] isEqualToString:@""]) {
-                    [self.fileNameArray removeObject:[tempArray objectAtIndex:i]];
-                }
-                else if ([NullChecker isNull:[tempArray objectAtIndex:i]]){
-                    [self.fileNameArray removeObject:[tempArray objectAtIndex:i]];
-                }
-            }
+//            NSArray *tempArray = self.fileNameArray;
+//
+//            for (int i=0; i<[tempArray count]; i++) {
+//
+//                if ([[tempArray objectAtIndex:i] isKindOfClass:[NSArray class]]) {
+//                    [self.fileNameArray removeObject:[tempArray objectAtIndex:i]];
+//                }
+//                else if ([[tempArray objectAtIndex:i] isEqualToString:@""]) {
+//                    [self.fileNameArray removeObject:[tempArray objectAtIndex:i]];
+//                }
+//                else if ([NullChecker isNull:[tempArray objectAtIndex:i]]){
+//                    [self.fileNameArray removeObject:[tempArray objectAtIndex:i]];
+//                }
+//            }
+            
         }
  
         
@@ -4734,11 +4730,22 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     arr_images=[[NSMutableArray alloc]initWithCapacity:5];
+    array_ImagesNames=[[NSMutableArray alloc]initWithCapacity:5];
     arr_imagesDocType = [[NSMutableArray alloc]initWithCapacity:5];
     
     for(NSDictionary *dict in info) {
         UIImage *image = [dict objectForKey:UIImagePickerControllerOriginalImage];
         NSData *imageData = UIImageJPEGRepresentation(image, .8);
+        // get the ref url
+        
+         NSURL *imagePath = [dict objectForKey:@"UIImagePickerControllerReferenceURL"];
+         [array_ImagesNames addObject:[imagePath lastPathComponent]];
+        
+ //         NSURL *refURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+//         PHFetchResult *result = [PHAsset fetchAssetsWithALAssetURLs:@[refURL] options:nil];
+//         NSString *filename = [[result firstObject] filename];
+           NSLog(@"file name is %@",imageName);
+        
         [[DataBase sharedInstance] setImagecaputreTag:1];
         NSString *filePath = [[[DataBase sharedInstance] getImageDirectory] stringByAppendingPathComponent:[[DataBase sharedInstance] createUniqueIdfortable:@""]];
         [imageData writeToFile:filePath atomically:YES];
@@ -4805,7 +4812,8 @@
 
 -(IBAction)dismissViewAttachments:(id)sender{
 
-    //[self.attachmentsSubView removeFromSuperview];
+    [downloadsView removeFromSuperview];
+    
 }
 
 -(IBAction)viewAttachments:(id)sender
@@ -4972,7 +4980,15 @@
                 imageNameFlag = YES;
             }
             
-            [self.fileNameArray addObject:@"*"];
+            if ([array_ImagesNames count]) {
+                
+                [self.fileNameArray addObject:[array_ImagesNames objectAtIndex:x]];
+             }
+            else{
+                
+                [self.fileNameArray addObject:cameraDescriptionString];
+
+            }
             
             NSArray *tempArray = self.fileNameArray;
             
@@ -5051,32 +5067,13 @@
         str_ImageType = [self contentTypeForImageData:pictureData];
         NSLog(@"str_ImageType :%@",str_ImageType);
         
-        //        if ([[self.fileNameArray objectAtIndex:x] isEqualToString:@"*"]) {
-        //
-        //            if ([defaults objectForKey:@"Count"] ==nil) {
-        //                NSString *str_Count = @"0";
-        //                [defaults setObject:str_Count forKey:@"Count"];
-        //            }
-        //
-        //            [defaults synchronize];
-        //
-        //            NSString *str_CountValue = [defaults objectForKey:@"Count"];
-        //            int value = [str_CountValue intValue];
-        //            value = value+1;
-        //            str_CountValue = [NSString stringWithFormat:@"%i", value];
-        //            [defaults setObject:str_CountValue forKey:@"Count"];
-        //            NSString *str_imgName = [NSString stringWithFormat:@"img%03i",value];
-        //            [self.fileNameArray replaceObjectAtIndex:x withObject:str_imgName];
-        //        }
-        
+ 
         if ([[defaults objectForKey:@"Count"] isEqualToString:@"1000"]) {
             [defaults removeObjectForKey:@"Count"];
         }
         
         [defaults synchronize];
-        
-        // [self.attachmentArray addObject:[NSMutableArray arrayWithObjects:@"",@"",[arr_onScreenImagesDocType objectAtIndex:x],[self.fileNameArray objectAtIndex:x],str_ImageType,[NSString stringWithFormat:@"%i",imageSize],@"",contentData,@"I", nil]];
-        
+ 
         if (!cameraFlag) {
             
             if (!imageNameFlag) {
@@ -5086,8 +5083,17 @@
                 imageNameFlag = YES;
             }
             
-            [self.fileNameArray addObject:@"*"];
-            
+ 
+            if ([array_ImagesNames count]) {
+                
+                [self.fileNameArray addObject:[array_ImagesNames objectAtIndex:x]];
+            }
+            else{
+                
+                [self.fileNameArray addObject:cameraDescriptionString];
+                
+            }
+ 
             NSArray *tempArray = self.fileNameArray;
             
             for (int i=0; i<[tempArray count]; i++) {
@@ -5937,12 +5943,12 @@
             cell.InputTextField.superview.tag = indexPath.row;
             cell.InputTextField.delegate = self;
             
-            if (indexPath.row==2||indexPath.row==5) {
-                
-                cell.additionalDatabtn.hidden=NO;
-                
-            }
-            
+//            if (indexPath.row==2||indexPath.row==5) {
+//
+//                cell.additionalDatabtn.hidden=NO;
+//
+//            }
+
             if (indexPath.row==4||indexPath.row==7) {
                 cell.dropDownImageView.hidden=YES;
             }
@@ -6156,10 +6162,14 @@
             if (cell==nil) {
                 cell=[[WorkcenterTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             }
+            
+            cell.wrkContenetView.layer.cornerRadius = 2.0f;
+            cell.wrkContenetView.layer.masksToBounds = YES;
+            cell.wrkContenetView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            cell.wrkContenetView.layer.borderWidth = 1.0f;
             cell.accessoryType = UITableViewCellAccessoryNone;
             
             cell.idLabel.text=[[self.dropDownArray objectAtIndex:indexPath.row] objectAtIndex:2];
-            
             cell.textLabel.text=[[self.dropDownArray objectAtIndex:indexPath.row] objectAtIndex:3];
  
             return cell;
@@ -6289,28 +6299,114 @@
     
     
    else if (tableView==attachmentsTableview){
-       
+
        static NSString *CellIdentifier = @"attachmentCell";
-       
+
        AttachmentsTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
- 
+
        if (cell==nil) {
            cell=[[AttachmentsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
        }
-       
+
        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-       
-       cell.uploadedLabel.text=[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:2];
-       
-       // cell.idLabel.text=[[self.attachmentsArray objectAtIndex:indexPath.row] objectForKey:@"id"];
+
+       cell.attachmentsContentView.layer.cornerRadius = 2.0f;
+       cell.attachmentsContentView.layer.masksToBounds = YES;
+       cell.attachmentsContentView.layer.borderColor = [[UIColor grayColor] CGColor];
+       cell.attachmentsContentView.layer.borderWidth = 1.0f;
  
-        UIImage *ret = [UIImage imageWithContentsOfFile:[arr_images objectAtIndex:indexPath.row]];
+       
+       if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:7] substringToIndex:4] isEqualToString:@"http"]) {
            
-        cell.attachmentImage.image=ret;
+           dispatch_async(dispatch_get_global_queue(0,0), ^{
+               NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:7]]];
+               if ( data == nil )
+                   return;
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   // WARNING: is the cell still using the same data by this point??
+                   cell.attachmentImage.image = [UIImage imageWithData: data];
+               });
+            });
+           
+           //for attachment Download8 8 34 21
+           static NSInteger detailCheckBoxTag = 124;
+           NSInteger i,j;
+           
+           UIButton *detailCheckBoxSelect = (UIButton *) [cell.contentView viewWithTag:detailCheckBoxTag];
+           
+           i =self.view.frame.size.width-60; j = 50;
+           
+           if (!detailCheckBoxSelect)
+           {
+               detailCheckBoxSelect = [[UIButton alloc] initWithFrame:(CGRectMake(i,j,34,21))];
+               detailCheckBoxSelect.tag = detailCheckBoxTag;
+               [cell.contentView addSubview:detailCheckBoxSelect];
+           }
+           
+           [detailCheckBoxSelect setImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
+           detailCheckBoxSelect.adjustsImageWhenHighlighted = YES;
+           [detailCheckBoxSelect addTarget:self action:@selector(attachmentsDownloadButtonClickedinNotifications:) forControlEvents:UIControlEventTouchDown];
+           
+           if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:6] uppercaseString] isEqualToString:@"BUS2038"]) {
+               
+               cell.objectTypeLabel.text = @"Notification";
+               cell.objectTypeLabel.backgroundColor=UIColorFromRGB(0, 150, 136);
+               
+           }
+           else  if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:6] uppercaseString] isEqualToString:@"EQUI"]) {
+               cell.objectTypeLabel.text = @"Equipment";
+               
+               cell.objectTypeLabel.backgroundColor=UIColorFromRGB(159, 0, 15);
+               
+           }
+           else  if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:6] uppercaseString]isEqualToString:@"BUS2007"]) {
+               cell.objectTypeLabel.text = @"Order";
+           }
+           else  if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:6] uppercaseString]isEqualToString:@"BUS0010"]) {
+               cell.objectTypeLabel.text = @"Functional Location";
+           }
+           
+           cell.fileNameLabel.text = [NSString stringWithFormat:@"%@",[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:3]];
+
+         }
+       
+       else{
+           
+           UIImage *ret = [UIImage imageWithContentsOfFile:[arr_images objectAtIndex:indexPath.row]];
+            cell.attachmentImage.image=ret;
+           
+           if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:2] uppercaseString] isEqualToString:@"BUS2038"]) {
+               
+               cell.objectTypeLabel.text = @"Notification";
+               cell.objectTypeLabel.backgroundColor=UIColorFromRGB(0, 150, 136);
+               
+           }
+           else  if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:2] uppercaseString] isEqualToString:@"EQUI"]) {
+               cell.objectTypeLabel.text = @"Equipment";
+               cell.objectTypeLabel.backgroundColor=UIColorFromRGB(159, 0, 15);
+               
+           }
+           else  if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:2] uppercaseString]isEqualToString:@"BUS2007"]) {
+               cell.objectTypeLabel.text = @"Order";
+           }
+           else  if ([[[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:2] uppercaseString]isEqualToString:@"BUS0010"]) {
+               cell.objectTypeLabel.text = @"Functional Location";
+           }
+           
+           cell.fileNameLabel.text = [NSString stringWithFormat:@"%@",[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:3]];
+
+         }
+ 
+       cell.countLabel.text = [NSString stringWithFormat:@"%li)",(long)indexPath.row+1];
+ 
+
+       cell.fileTypeLabel.text = [NSString stringWithFormat:@"%@",[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:4]];
+ 
+       cell.filesizeLabel.text=[NSString stringWithFormat:@"%@ KB",[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:5]];
 
         return cell;
    }
-    
+
       return nil;
  }
 
@@ -6353,18 +6449,16 @@
        // newChangeCauseCodeLabel.text = @"Update Cause Code";
  
  
-        [addCauseTaskBtn setTitle:@"Update" forState:UIControlStateNormal];
+          [addCauseTaskBtn setTitle:@"Update" forState:UIControlStateNormal];
 
-          
-          addCauseCodeDataArray=[NSMutableArray new];
+           addCauseCodeDataArray=[NSMutableArray new];
           commonAddTableView.tag=0;
           
           vornrItemID = [NSString stringWithFormat:@"%lld",[[[[self.causeCodeDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:12] longLongValue]];
           
           VornrItem = [vornrItemID intValue];
           
-          
-          vornrCauseCodeID = [NSString stringWithFormat:@"%lld",[[[[self.causeCodeDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:13] longLongValue]];
+         vornrCauseCodeID = [NSString stringWithFormat:@"%lld",[[[[self.causeCodeDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:13] longLongValue]];
           
           VornrCauseCode = [vornrCauseCodeID intValue];
             
@@ -6404,8 +6498,10 @@
             
             [defaults synchronize];
           
-           submitResetView.hidden=YES;
-          
+ 
+          [causeActivitySubmitView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+         [submitResetView addSubview:causeActivitySubmitView];
+               
           [commomlistListTableview addSubview:addCauseTaskView];
           
           [addCauseTaskView setFrame:CGRectMake(0, 0, commomlistListTableview.frame.size.width, commomlistListTableview.frame.size.height)];
@@ -6667,7 +6763,10 @@
                
                [commonAddTableView reloadData];
  
-               submitResetView.hidden=YES;
+             //  submitResetView.hidden=YES;
+                
+                [causeActivitySubmitView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+                [submitResetView addSubview:causeActivitySubmitView];
                
                [commomlistListTableview addSubview:addCauseTaskView];
            }
@@ -7470,22 +7569,31 @@
 {
  
     [self.getDocumentsHeaderDetails removeAllObjects];
-     NSIndexPath *ip = [self GetCellFromTableView:commomlistListTableview Sender:sender];
+     NSIndexPath *ip = [self GetCellFromTableView:attachmentsTableview Sender:sender];
      NSInteger i = ip.row;
-     [self.getDocumentsHeaderDetails setObject:decryptedUserName forKey:@"REPORTEDBY"];
-    [self.getDocumentsHeaderDetails setObject:notificationNoString forKey:@"OBJECTID"];
-    [self.getDocumentsHeaderDetails setObject:[[self.attachmentArray objectAtIndex:i]objectAtIndex:1] forKey:@"DOCID"];
-    [self.getDocumentsHeaderDetails setObject:@"Q" forKey:@"ZDOCTYPE"];
-    [self.getDocumentsHeaderDetails setObject:[[self.attachmentArray objectAtIndex:i]objectAtIndex:6] forKey:@"OBJECTTYPE"];
     
-    if ([[ConnectionManager defaultManager] isReachable])
-    {
-         [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to download this attachment?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Attachments"];
-     }
-    else
-    {
-         [self showAlertMessageWithTitle:@"No Network Available" message:@"Attachment cannot be downloaded!" cancelButtonTitle:@"Ok" withactionType:@"single" forMethod:nil];
-    }
+    attachmentsString=[NSString stringWithFormat:@"%@",[[self.attachmentArray objectAtIndex:i] objectAtIndex:7]];
+    
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDAnimationFade;
+    hud.label.text = @"loading....";
+ 
+    [self downloadAttachments];
+    
+//    [self.getDocumentsHeaderDetails setObject:decryptedUserName forKey:@"REPORTEDBY"];
+//    [self.getDocumentsHeaderDetails setObject:notificationNoString forKey:@"OBJECTID"];
+//    [self.getDocumentsHeaderDetails setObject:[[self.attachmentArray objectAtIndex:i]objectAtIndex:1] forKey:@"DOCID"];
+//    [self.getDocumentsHeaderDetails setObject:@"Q" forKey:@"ZDOCTYPE"];
+//    [self.getDocumentsHeaderDetails setObject:[[self.attachmentArray objectAtIndex:i]objectAtIndex:6] forKey:@"OBJECTTYPE"];
+//
+//    if ([[ConnectionManager defaultManager] isReachable])
+//    {
+//         [self showAlertMessageWithTitle:@"Decision" message:@"Do you want to download this attachment?" cancelButtonTitle:@"No" withactionType:@"Multiple" forMethod:@"Attachments"];
+//     }
+//    else
+//    {
+//         [self showAlertMessageWithTitle:@"No Network Available" message:@"Attachment cannot be downloaded!" cancelButtonTitle:@"Ok" withactionType:@"single" forMethod:nil];
+//    }
 }
 
 -(void)duplicateNotificationMethod{
@@ -8641,7 +8749,13 @@
                                                     [Docs addObject:@""];
                                                 }
                                                 
-                                                [Docs addObject:@""];//Content
+                                                if ([DocsDictionary objectForKey:@"Content"]) {
+                                                    [Docs addObject:[[DocsDictionary objectForKey:@"Content"] copy]];
+                                                }
+                                                else{
+                                                    
+                                                }
+                                                
                                                 [Docs addObject:@""];//Action
                                                 
                                                 [[[notificationDetailDictionary objectForKey:[DocsDictionary objectForKey:@"Zobjid"]] objectAtIndex:1] addObject:Docs];
@@ -10606,7 +10720,13 @@
                                                     [Docs addObject:@""];
                                                 }
                                                 
-                                                [Docs addObject:@""];//Content
+                                                if ([DocsDictionary objectForKey:@"Content"]) {
+                                                    [Docs addObject:[[DocsDictionary objectForKey:@"Content"] copy]];
+                                                }
+                                                else{
+                                                    
+                                                }
+                                                
                                                 [Docs addObject:@""];//Action
                                                 
                                                 [[[notificationDetailDictionary objectForKey:[DocsDictionary objectForKey:@"Zobjid"]] objectAtIndex:1] addObject:Docs];

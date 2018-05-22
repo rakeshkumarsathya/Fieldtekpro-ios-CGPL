@@ -13,4 +13,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UITextField *dateTextField,*timeTextField;
 
+@property IBOutlet UIView  *dateContentView;
+
 @end

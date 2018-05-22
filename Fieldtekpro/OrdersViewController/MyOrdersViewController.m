@@ -27,7 +27,7 @@
 #define ID_INDEX 0
 #define NAME_INDEX 1
 
-@interface MyOrdersViewController ()<UITextFieldDelegate>
+@interface MyOrdersViewController ()<UITextFieldDelegate,UITextViewDelegate>
 {
     
     NSMutableArray *structuredFilterSortedArray;
@@ -39,11 +39,10 @@
     NSUInteger selectedIndex;
     
     BOOL allCheckBoxSeelcted;
-    NSMutableArray *mapDataMainArray;
+    NSMutableArray *mapDataMainArray,*ccHeaderDataArray;
 
     NSMutableString *wrckcenterStringl,*wrkcenterQueryString;
-
-}
+ }
 
 @property (weak, nonatomic) IBOutlet UITableView *MyOrdersTableView,*filterSortTableView;
 
@@ -75,17 +74,26 @@ static dispatch_once_t onceToken;
     self.dropDownArray = [NSMutableArray new];
     self.orderHeaderDetails = [[NSMutableDictionary alloc] init];
 
-    
-    self.operationDetailsArray=[NSMutableArray new];
+     self.operationDetailsArray=[NSMutableArray new];
     self.mesurementDocumentArray=[NSMutableArray new];
     
-    self.selectedMeasureDocsCheckBoxArray=[NSMutableArray new];
- 
-    self.attachmentArray=[NSMutableArray new];
+     self.selectedMeasureDocsCheckBoxArray=[NSMutableArray new];
+     self.attachmentArray=[NSMutableArray new];
+     ccHeaderDataArray=[NSMutableArray new];
     
      [measurementDocTableView registerNib:[UINib nibWithNibName:@"MeasureMentDocumentTableViewCell_Iphone5" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"Cell"];
     
+    [systemStatusTableView registerNib:[UINib nibWithNibName:@"OrderSystemStatusTableViewCell~iPhone5" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"Cell"];
+    
+    [confirmTableview registerNib:[UINib nibWithNibName:@"DateandTimeTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"DateTimeCell"];
 
+    [confirmTableview registerNib:[UINib nibWithNibName:@"BreakDownTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"breakCell"];
+
+    [confirmTableview registerNib:[UINib nibWithNibName:@"FinalConfirmationTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"confirmTextcell"];
+
+    [confirmTableview registerNib:[UINib nibWithNibName:@"InputDropDownTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"InputDropDownCell"];
+
+    
     resultString = @"normal";
 
     [normalBtn setImage:[UIImage imageNamed:@"radioselection.png"] forState:UIControlStateNormal];
@@ -308,7 +316,55 @@ static dispatch_once_t onceToken;
     [tempSortOrderNumber addObject:[NSMutableArray arrayWithObjects:@"Descending 9-1",@"", nil]];
     
     [structuredFilterSortedArray addObject:[NSMutableArray arrayWithObjects:tempSortDescriptionTexts,tempSortStatusTexts,tempSortMalFuncStartDate,tempSortOrderNumber, nil]];
+ }
+
+-(void)loadFinalCCHeaderData{
+ 
+     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
+    //[[self.OrderListArray objectAtIndex:i] objectForKey:@"orderh_id"]
+    //            NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"oh_objectID contains[c] %@ || orderh_shorttext contains[c] %@ ||  orderh_priority_name contains[c] %@  || orderh_startdate contains[c] %@ || orderh_status contains[c] %@ || orderh_euipno_id contains[c] %@ ",searchText,searchText,searchText,searchText,searchText,searchText];
+    
+    [dateFormatter setDateFormat:@"yyyyMMdd"];
+    
+    NSDate *startDateFormatter = [dateFormatter dateFromString:[[self.OrderListArray objectAtIndex:selectedIndex] objectForKey:@"orderh_startdate"]];
+    NSDate *endDateFormatter = [dateFormatter dateFromString:[[self.OrderListArray objectAtIndex:selectedIndex] objectForKey:@"orderh_enddate"]];
+    
+    // Convert date object into desired format
+    [dateFormatter setDateFormat:@"MMM dd, yyyy"];
+    
+    NSString *convertedStartDateString = [dateFormatter stringFromDate:startDateFormatter];
+    
+    NSString *convertedEndDateString = [dateFormatter stringFromDate:endDateFormatter];
+    
+    if ([NullChecker isNull:convertedStartDateString]) {
+        
+        convertedStartDateString=@"";
+    }
+    
+    if ([NullChecker isNull:convertedEndDateString]) {
+         convertedEndDateString=@"";
+    }
+    
+    collectiveFlag=YES;
+    
+  //  [self enableOperationFields];
+    
+    [ccHeaderDataArray addObject:[NSMutableArray arrayWithObjects:@"Start Date",@"",convertedStartDateString,@"", nil]];
+ 
+    [ccHeaderDataArray addObject:[NSMutableArray arrayWithObjects:@"End Date",@"",convertedEndDateString,@"", nil]];
+
+    [ccHeaderDataArray addObject:[NSMutableArray arrayWithObjects:@"No Remainig Work",@"",@"",@"", nil]];
+    
+    [ccHeaderDataArray addObject:[NSMutableArray arrayWithObjects:@"Final Confirmation",@"",@"",@"", nil]];
+    
+    [ccHeaderDataArray addObject:[NSMutableArray arrayWithObjects:@"Confirmation Text",@"",@"",@"", nil]];
+
+    [ccHeaderDataArray addObject:[NSMutableArray arrayWithObjects:@"Employee",@"",@"",@"", nil]];
+
+    [confirmationView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    
+    [self.view addSubview:confirmationView];
     
 }
 
@@ -1739,49 +1795,10 @@ static dispatch_once_t onceToken;
     if (![self.selectedOperationsCheckBoxArray count]) {
  
         [self showAlertMessageWithTitle:@"Information" message:@"Please select atleast one operation" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-        
-    }
+     }
     else
     {
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        
-        //[[self.OrderListArray objectAtIndex:i] objectForKey:@"orderh_id"]
-        //            NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"oh_objectID contains[c] %@ || orderh_shorttext contains[c] %@ ||  orderh_priority_name contains[c] %@  || orderh_startdate contains[c] %@ || orderh_status contains[c] %@ || orderh_euipno_id contains[c] %@ ",searchText,searchText,searchText,searchText,searchText,searchText];
-        
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        
-        NSDate *startDateFormatter = [dateFormatter dateFromString:[[self.OrderListArray objectAtIndex:selectedIndex] objectForKey:@"orderh_startdate"]];
-        NSDate *endDateFormatter = [dateFormatter dateFromString:[[self.OrderListArray objectAtIndex:selectedIndex] objectForKey:@"orderh_enddate"]];
-        
-        // Convert date object into desired format
-        [dateFormatter setDateFormat:@"MMM dd, yyyy"];
-        
-        NSString *convertedStartDateString = [dateFormatter stringFromDate:startDateFormatter];
-        
-        NSString *convertedEndDateString = [dateFormatter stringFromDate:endDateFormatter];
-        
-        if ([NullChecker isNull:convertedStartDateString]) {
-            
-            convertedStartDateString=@"";
-        }
-        
-        if ([NullChecker isNull:convertedEndDateString]) {
-            
-            convertedEndDateString=@"";
-        }
-        
-        startDateTextField.text=convertedStartDateString;
-        endDatetTextfield.text=convertedEndDateString;
-        collectiveFlag=YES;
-        
-        [self enableOperationFields];
-        
-        confirmScrollview.contentInset=UIEdgeInsetsMake(0.0,0.0,400,0.0);
-        [confirmationView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
- 
-        [self.view addSubview:confirmationView];
-        
+         [self loadFinalCCHeaderData];
     }
 }
 
@@ -1876,26 +1893,32 @@ static dispatch_once_t onceToken;
     
     [self.orderHeaderDetails setObject:[[self.OrderListArray objectAtIndex:rowIndex] objectForKey:@"orderh_user02"] forKey:@"USER02"];
     
-    [self.orderHeaderDetails setObject:confirmationTextview.text forKey:@"CONFTEXT"];
-    
-    [self.orderHeaderDetails setObject:employeeTextField.text forKey:@"EMPLOYEE"];
+     [self.orderHeaderDetails setObject:@"" forKey:@"CONFTEXT"];
+
+    if (![NullChecker isNull:[[ccHeaderDataArray objectAtIndex:4] objectAtIndex:2]]) {
+        
+         [self.orderHeaderDetails setObject:[[ccHeaderDataArray objectAtIndex:4] objectAtIndex:2] forKey:@"CONFTEXT"];
+     }
+ 
+    [self.orderHeaderDetails setObject:@"" forKey:@"EMPLOYEE"];
+ 
+    if (![NullChecker isNull:[[ccHeaderDataArray objectAtIndex:5] objectAtIndex:2]]) {
+        
+        [self.orderHeaderDetails setObject:[[ccHeaderDataArray objectAtIndex:5] objectAtIndex:2] forKey:@"EMPLOYEE"];
+     }
     
     
     [self.orderHeaderDetails setObject:@"" forKey:@"REMAINWORK"];//leknw
     
-    if (noremainingWork.length)
-    {
-        [self.orderHeaderDetails setObject:noremainingWork forKey:@"REMAINWORK"];//leknw
+    if (![NullChecker isNull:[[ccHeaderDataArray objectAtIndex:2] objectAtIndex:2]]) {
+        
+        [self.orderHeaderDetails setObject:[[ccHeaderDataArray objectAtIndex:2] objectAtIndex:2] forKey:@"REMAINWORK"];
     }
     
+ 
     [self.orderHeaderDetails setObject:@"" forKey:@"CONFIRMREASON"];//grund
     
-//    if (reasonId.length) {
-//    }
-    
-    [self.orderHeaderDetails setObject:@"" forKey:@"CONFIRMREASON"];//grund
-
-    
+ 
     [self.orderHeaderDetails setObject:[[self.OrderListArray objectAtIndex:rowIndex] objectForKey:@"oh_objectID"] forKey:@"OBJECTID"];
     
     [self.orderHeaderDetails setObject:[decryptedUserName copy] forKey:@"REPORTEDBY"];
@@ -1913,8 +1936,9 @@ static dispatch_once_t onceToken;
     if ([selectedConfirmAction isEqualToString:@"Teco"])
     {
         [dateFormatter setDateFormat:@"MMM dd, yyyy"];
-        tempstartDate = [dateFormatter dateFromString:startDateTextField.text];
-        tempendDate = [dateFormatter dateFromString:endDatetTextfield.text];
+        
+        tempstartDate = [dateFormatter dateFromString:[[ccHeaderDataArray objectAtIndex:0] objectAtIndex:2]];
+        tempendDate = [dateFormatter dateFromString:[[ccHeaderDataArray objectAtIndex:1] objectAtIndex:2]];
        
          // Convert date object into desired format
         [dateFormatter setDateFormat:@"yyyyMMdd"];
@@ -1933,8 +1957,14 @@ static dispatch_once_t onceToken;
  
         [dateFormatter setDateFormat:@"hh:mm a"];
 
-        tempStartTime = [dateFormatter dateFromString:startTimeTetxfield.text];
-        tempEndTime = [dateFormatter dateFromString:endTimeTextField.text];
+        if ([NullChecker isNull:[[ccHeaderDataArray objectAtIndex:0] objectAtIndex:3]]) {
+            
+            tempStartTime = [dateFormatter dateFromString:[[ccHeaderDataArray objectAtIndex:0] objectAtIndex:3]];
+         }
+        
+        if ([NullChecker isNull:[[ccHeaderDataArray objectAtIndex:1] objectAtIndex:3]]) {
+             tempEndTime = [dateFormatter dateFromString:[[ccHeaderDataArray objectAtIndex:1] objectAtIndex:3]];
+         }
         
         // Convert time object into desired format
         [dateFormatter setDateFormat:@"hhmmss"];
@@ -1958,8 +1988,8 @@ static dispatch_once_t onceToken;
     else
     {
         [dateFormatter setDateFormat:@"MMM dd, yyyy"];
-        tempstartDate = [dateFormatter dateFromString:startDateTextField.text];
-        tempendDate = [dateFormatter dateFromString:endDatetTextfield.text];
+        tempstartDate = [dateFormatter dateFromString:[[ccHeaderDataArray objectAtIndex:0] objectAtIndex:2]];
+        tempendDate = [dateFormatter dateFromString:[[ccHeaderDataArray objectAtIndex:1] objectAtIndex:2]];
         // Convert date object into desired format
         [dateFormatter setDateFormat:@"yyyyMMdd"];
         convertedStartDateString = [dateFormatter stringFromDate:tempstartDate];
@@ -1980,8 +2010,14 @@ static dispatch_once_t onceToken;
         
         [dateFormatter setDateFormat:@"hh:mm a"];
         
-        tempStartTime = [dateFormatter dateFromString:startTimeTetxfield.text];
-        tempEndTime = [dateFormatter dateFromString:endTimeTextField.text];
+        if ([NullChecker isNull:[[ccHeaderDataArray objectAtIndex:0] objectAtIndex:3]]) {
+            
+            tempStartTime = [dateFormatter dateFromString:[[ccHeaderDataArray objectAtIndex:0] objectAtIndex:3]];
+        }
+        
+        if ([NullChecker isNull:[[ccHeaderDataArray objectAtIndex:1] objectAtIndex:3]]) {
+            tempEndTime = [dateFormatter dateFromString:[[ccHeaderDataArray objectAtIndex:1] objectAtIndex:3]];
+        }
         
         // Convert time object into desired format
         [dateFormatter setDateFormat:@"hhmmss"];
@@ -2207,9 +2243,9 @@ static dispatch_once_t onceToken;
     [self.dropDownArray removeAllObjects];
     tag=(int)textField.tag;
     
-    int indexPathRow = (int)textField.superview.tag;
+     indexPathRow = (int)textField.superview.tag;
     headerIndexPathRow = indexPathRow;
-    
+ 
     textfieldTag=(int)textField.tag;
     
     int rowIndex = 0;
@@ -2381,11 +2417,9 @@ static dispatch_once_t onceToken;
         [self showViewController:equipVc sender:self];
         
         return NO;
-        
-    }
+     }
     
-    
-    else if (textField == mDatetextfield) {
+     else if (textField == mDatetextfield) {
         
         [self datePickerForMeasurementDocument];
         
@@ -2403,6 +2437,45 @@ static dispatch_once_t onceToken;
         [confirmScrollview setContentOffset:CGPointMake(0, 150) animated:YES];
 
     }
+    
+    else{
+ 
+        if (indexPathRow==0) {
+            
+            if (textfieldTag==25) {
+                
+                 [self datePickerForMeasurementDocument];
+                
+                textField.inputView=self.measurementDocDatePicker;
+                textField.inputAccessoryView=self.mypickerToolbar;
+                
+            }
+            else if (textfieldTag==35){
+ 
+                [self datePickerForMeasurementTime];
+                textField.inputView=self.measurementDocTimePicker;
+                textField.inputAccessoryView=self.mypickerToolbar;
+            }
+        }
+        else if (indexPathRow==1){
+            
+            if (textfieldTag==25) {
+ 
+                [self datePickerForMeasurementDocument];
+                
+                textField.inputView=self.measurementDocDatePicker;
+                textField.inputAccessoryView=self.mypickerToolbar;
+                
+            }
+            else if (textfieldTag==35){
+                
+                 [self datePickerForMeasurementTime];
+                 textField.inputView=self.measurementDocTimePicker;
+                 textField.inputAccessoryView=self.mypickerToolbar;
+             }
+           }
+      
+       }
  
     return YES;
 }
@@ -2483,11 +2556,11 @@ static dispatch_once_t onceToken;
     
     mDatetextfield.inputView =self.measurementDocDatePicker;
     
-    UIToolbar *myDatePickerToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 100, 320, 56)];
+   self.mypickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 100, 320, 56)];
     
-    myDatePickerToolBar.barStyle = UIBarStyleBlackOpaque;
+    self.mypickerToolbar.barStyle = UIBarStyleBlackOpaque;
     
-    [myDatePickerToolBar sizeToFit];
+    [self.mypickerToolbar sizeToFit];
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     
@@ -2500,10 +2573,8 @@ static dispatch_once_t onceToken;
      UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(measurementDocDoneClicked)];
     
     [barItems addObject:doneBtn];
-    
-    [myDatePickerToolBar setItems:barItems animated:YES];
-    
-    mDatetextfield.inputAccessoryView = myDatePickerToolBar;
+    [self.mypickerToolbar setItems:barItems animated:YES];
+    mDatetextfield.inputAccessoryView = self.mypickerToolbar;
     
 }
 
@@ -2523,7 +2594,21 @@ static dispatch_once_t onceToken;
     
     mDatetextfield.text = [dateFormat stringFromDate:self.measureMentDocumentDate];
     
+    if (indexPathRow==0) {
+        
+        [[ccHeaderDataArray objectAtIndex:0] replaceObjectAtIndex:2 withObject:[dateFormat stringFromDate:self.measureMentDocumentDate]];
+     }
+    
+    else if (indexPathRow==1){
+        
+        [[ccHeaderDataArray objectAtIndex:1] replaceObjectAtIndex:2 withObject:[dateFormat stringFromDate:self.measureMentDocumentDate]];
+
+    }
+    
+ 
     [mDatetextfield resignFirstResponder];
+    [confirmTableview reloadData];
+     [confirmTableview endEditing:YES];
 }
 
 
@@ -2538,11 +2623,11 @@ static dispatch_once_t onceToken;
     startTimeTetxfield.inputView =self.measurementDocTimePicker;
     endTimeTextField.inputView =self.measurementDocTimePicker;
  
-    UIToolbar *myDatePickerToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 100, 320, 56)];
+    self.mypickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 100, 320, 56)];
     
-    myDatePickerToolBar.barStyle = UIBarStyleBlackOpaque;
+    self.mypickerToolbar.barStyle = UIBarStyleBlackOpaque;
     
-    [myDatePickerToolBar sizeToFit];
+    [self.mypickerToolbar sizeToFit];
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     
@@ -2558,11 +2643,12 @@ static dispatch_once_t onceToken;
     
     [barItems addObject:doneBtn];
     
-    [myDatePickerToolBar setItems:barItems animated:YES];
+    [self.mypickerToolbar setItems:barItems animated:YES];
     
-    endTimeTextField.inputAccessoryView = myDatePickerToolBar;
-    startTimeTetxfield.inputAccessoryView = myDatePickerToolBar;
-    mTimetextField.inputAccessoryView = myDatePickerToolBar;
+    endTimeTextField.inputAccessoryView = self.mypickerToolbar;
+    startTimeTetxfield.inputAccessoryView = self.mypickerToolbar;
+    mTimetextField.inputAccessoryView = self.mypickerToolbar;
+    
 
  }
 
@@ -2597,6 +2683,22 @@ static dispatch_once_t onceToken;
          mTimetextField.text = [dateFormatter stringFromDate:self.measurementDocTimePicker.date];
          [mTimetextField resignFirstResponder];
      }
+    
+     if (indexPathRow==0) {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"hh:mm a"];
+        [[ccHeaderDataArray objectAtIndex:0] replaceObjectAtIndex:3 withObject:[dateFormatter stringFromDate:self.measurementDocTimePicker.date]];
+     }
+    
+    else if (indexPathRow==1){
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"hh:mm a"];
+        [[ccHeaderDataArray objectAtIndex:1] replaceObjectAtIndex:3 withObject:[dateFormatter stringFromDate:self.measurementDocTimePicker.date]];
+     }
+     [confirmTableview reloadData];
+     [confirmTableview endEditing:YES];
 }
 
 
@@ -2674,11 +2776,11 @@ static dispatch_once_t onceToken;
     
     startDateTextField.inputView =self.startMalFunctionDatePicker;
     
-    UIToolbar *myDatePickerToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 100, 320, 56)];
+   self.mypickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 100, 320, 56)];
     
-    myDatePickerToolBar.barStyle = UIBarStyleBlackOpaque;
+    self.mypickerToolbar.barStyle = UIBarStyleBlackOpaque;
     
-    [myDatePickerToolBar sizeToFit];
+    [self.mypickerToolbar sizeToFit];
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     
@@ -2694,9 +2796,9 @@ static dispatch_once_t onceToken;
     
     [barItems addObject:doneBtn];
     
-    [myDatePickerToolBar setItems:barItems animated:YES];
+    [self.mypickerToolbar setItems:barItems animated:YES];
     
-    startDateTextField.inputAccessoryView = myDatePickerToolBar;
+    startDateTextField.inputAccessoryView = self.mypickerToolbar;
 }
 
 -(void)datePickerForMalFuncEndDate{
@@ -2707,11 +2809,11 @@ static dispatch_once_t onceToken;
     
     endDatetTextfield.inputView =self.EndMalFunctionDatePicker;
     
-    UIToolbar *myDatePickerToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 100, 320, 56)];
+    self.mypickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 100, 320, 56)];
     
-    myDatePickerToolBar.barStyle = UIBarStyleBlackOpaque;
+    self.mypickerToolbar.barStyle = UIBarStyleBlackOpaque;
     
-    [myDatePickerToolBar sizeToFit];
+    [self.mypickerToolbar sizeToFit];
     
     NSMutableArray *barItems = [[NSMutableArray alloc] init];
     
@@ -2727,9 +2829,9 @@ static dispatch_once_t onceToken;
     
     [barItems addObject:doneBtn];
     
-    [myDatePickerToolBar setItems:barItems animated:YES];
+    [self.mypickerToolbar setItems:barItems animated:YES];
     
-    endDatetTextfield.inputAccessoryView = myDatePickerToolBar;
+    endDatetTextfield.inputAccessoryView = self.mypickerToolbar;
 }
 
 -(void)pickerDoneStartDateClicked
@@ -2746,13 +2848,16 @@ static dispatch_once_t onceToken;
     [endDatetTextfield resignFirstResponder];
     if (![endDatetTextfield.text isEqual:@""]) {
         dateFlag = YES;
-        self.minEndDate = [dateFormat dateFromString:endDatetTextfield.text];
+        self.minEndDate = [dateFormat dateFromString:[[ccHeaderDataArray objectAtIndex:1] objectAtIndex:2]];
         NSInteger comparisionResult = [AppDelegate daysBetweenDate:self.minStartDate andDate:self.minEndDate];
         
         NSLog(@"%i",(int)comparisionResult);
         NSString *comparisionString = [NSString stringWithFormat:@"%i",(int)comparisionResult];
         if ([[comparisionString substringToIndex:1] isEqualToString:@"-"]) {
             startDateTextField.text = @"";
+            
+            [[ccHeaderDataArray objectAtIndex:1] replaceObjectAtIndex:2 withObject:@""];
+             startDateTextField.text=@"";
             
             [self showAlertMessageWithTitle:@"Alert" message:@"Start Date has to be earlier than End Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
           }
@@ -2772,12 +2877,15 @@ static dispatch_once_t onceToken;
     
     if (![startDateTextField.text isEqual:@""]) {
         dateFlag = NO;
-        self.minStartDate = [dateFormat dateFromString:startDateTextField.text];
+        self.minStartDate = [dateFormat dateFromString:[[ccHeaderDataArray objectAtIndex:0] objectAtIndex:2]];
         NSInteger comparisionResult = [AppDelegate daysBetweenDate:self.minStartDate andDate:self.minEndDate];
         NSLog(@"%i",(int)comparisionResult);
         NSString *comparisionString = [NSString stringWithFormat:@"%i",(int)comparisionResult];
         if ([[comparisionString substringToIndex:1] isEqualToString:@"-"]) {
             endDatetTextfield.text = @"";
+            
+            [[ccHeaderDataArray objectAtIndex:0] replaceObjectAtIndex:2 withObject:@""];
+
  
             [self showAlertMessageWithTitle:@"Alert" message:@"End Date has to be later than Start Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
             
@@ -2796,6 +2904,8 @@ static dispatch_once_t onceToken;
     
     [startDateTextField resignFirstResponder];
     [endDatetTextfield resignFirstResponder];
+    
+    [confirmTableview endEditing:YES];
     
 }
 
@@ -3756,6 +3866,8 @@ static dispatch_once_t onceToken;
     
     [orderSystemStatusArray addObjectsFromArray:[[DataBase sharedInstance] fetchOrderSystemStatusOnly:uuid]];
     
+    [systemStatusView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    
     [self.view addSubview:systemStatusView];
     [systemStatusTableView reloadData];
 }
@@ -4002,31 +4114,29 @@ static dispatch_once_t onceToken;
     
 }
 
-
-
-
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    textfieldTag=(int)textField.tag;
+    indexPathRow=(int)textField.tag;
     
-    if (textfieldTag==10)
-    {
-        self.minStartDate =[self.startDatePicker date];
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"MMM dd, yyyy"];
-        textField.text = [dateFormat stringFromDate:self.minStartDate];
-        startDate = textField.text;
+    if (indexPathRow==5) {
+        
+        [[ccHeaderDataArray objectAtIndex:5] replaceObjectAtIndex:5 withObject:@""];
+        
     }
-    else if (textfieldTag==20)
-    {
-        self.minStartDate =[self.EndDatePicker date];
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"MMM dd, yyyy"];
-        textField.text = [dateFormat stringFromDate:self.minStartDate];
-        endDate = textField.text;
-    }
+   
+    [confirmTableview endEditing:YES];
     
     return YES;
+}
+
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    indexPathRow = (int)textView.superview.tag;
+    [[ccHeaderDataArray objectAtIndex:4] replaceObjectAtIndex:2 withObject:textView.text];
+    
+    [confirmTableview endEditing:YES];
+
 }
 
 
@@ -4148,6 +4258,10 @@ static dispatch_once_t onceToken;
         return [orderSystemStatusArray count];
         
     }
+    else if (tableView==confirmTableview){
+        
+        return [ccHeaderDataArray count];
+     }
  
     return 0;
 }
@@ -4329,7 +4443,6 @@ static dispatch_once_t onceToken;
                 
                 cell.statusCodeLabel.text = @"Released";
                 [cell.statusButton setBackgroundColor:UIColorFromRGB(0, 150, 136)];
-                
                 [cell.statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 
             }
@@ -4949,84 +5062,218 @@ static dispatch_once_t onceToken;
         
         return cell;
    }
-//    else if (tableView==systemStatusTableView){
-//
-//        if (systemStatusTableView.contentSize.height < systemStatusTableView.frame.size.height) {
-//            systemStatusTableView.scrollEnabled = NO;
-//        }
-//        else
-//            systemStatusTableView.scrollEnabled = YES;
-//
-//        static NSString *CellIdentifier = @"Cell";
-//
-//        OrderSystemStatusTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//
-//        if (cell==nil) {
-//            cell=[[OrderSystemStatusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//        }
-//
-//        if (indexPath.row % 2 == 0){
-//            cell.backgroundColor =UIColorFromRGB(249, 249, 249);
-//        }
-//        else {
-//            cell.backgroundColor =[UIColor whiteColor];
-//        }
-//
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//
-//        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-//
-//        static NSInteger checkboxTag = 123;
-//        NSInteger x,y;x = 8.0; y = 14.0;
-//
-//        UIButton *checkBoxNRadioButtonSelectionForSystemStatusButton = (UIButton *) [cell.contentView viewWithTag:checkboxTag];
-//
-//        if (!checkBoxNRadioButtonSelectionForSystemStatusButton)
-//        {
-//            checkBoxNRadioButtonSelectionForSystemStatusButton = [[UIButton alloc] initWithFrame:(CGRectMake(x,y,20,20))];
-//            checkBoxNRadioButtonSelectionForSystemStatusButton.tag = checkboxTag;
-//            [cell.contentView addSubview:checkBoxNRadioButtonSelectionForSystemStatusButton];
-//        }
-//
-//        checkBoxNRadioButtonSelectionForSystemStatusButton.adjustsImageWhenHighlighted = YES;
-//
-//        cell.txt04.text=[[orderSystemStatusArray objectAtIndex:indexPath.row] objectForKey:@"orders_txt04"];
-//        cell.Txt30.text=[[orderSystemStatusArray objectAtIndex:indexPath.row] objectForKey:@"orders_txt30"];
-//
-//        if ([[[orderSystemStatusArray objectAtIndex:indexPath.row] objectForKey:@"orders_act"] isEqualToString:@"X"]) {
-//
-//            [checkBoxNRadioButtonSelectionForSystemStatusButton  setImage:[UIImage imageNamed:@"checkBoxSelection.png"]   forState:UIControlStateNormal];
-//        }
-//        else{
-//
-//            [checkBoxNRadioButtonSelectionForSystemStatusButton  setImage:[UIImage imageNamed:@"checkBoxUnselection.png"]   forState:UIControlStateNormal];
-//        }
-//
-//        return cell;
-//    }
-//
+    else if (tableView==systemStatusTableView){
+
+        if (systemStatusTableView.contentSize.height < systemStatusTableView.frame.size.height) {
+            systemStatusTableView.scrollEnabled = NO;
+        }
+        else
+            systemStatusTableView.scrollEnabled = YES;
+
+        static NSString *CellIdentifier = @"Cell";
+
+        OrderSystemStatusTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+        if (cell==nil) {
+            cell=[[OrderSystemStatusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+
+        if (indexPath.row % 2 == 0){
+            cell.backgroundColor =UIColorFromRGB(249, 249, 249);
+        }
+        else {
+            cell.backgroundColor =[UIColor whiteColor];
+        }
+
+        cell.accessoryType = UITableViewCellAccessoryNone;
+
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        
+        cell.systemStatusView.layer.cornerRadius = 2.0f;
+        cell.systemStatusView.layer.masksToBounds = YES;
+        cell.systemStatusView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+        cell.systemStatusView.layer.borderWidth = 1.0f;
+
+        static NSInteger checkboxTag = 123;
+        NSInteger x,y;x = 8.0; y = 14.0;
+
+        UIButton *checkBoxNRadioButtonSelectionForSystemStatusButton = (UIButton *) [cell.contentView viewWithTag:checkboxTag];
+
+        if (!checkBoxNRadioButtonSelectionForSystemStatusButton)
+        {
+            checkBoxNRadioButtonSelectionForSystemStatusButton = [[UIButton alloc] initWithFrame:(CGRectMake(x,y,20,20))];
+            checkBoxNRadioButtonSelectionForSystemStatusButton.tag = checkboxTag;
+            [cell.contentView addSubview:checkBoxNRadioButtonSelectionForSystemStatusButton];
+        }
+
+        checkBoxNRadioButtonSelectionForSystemStatusButton.adjustsImageWhenHighlighted = YES;
+
+        cell.txt04.text=[[orderSystemStatusArray objectAtIndex:indexPath.row] objectForKey:@"orders_txt04"];
+        cell.Txt30.text=[[orderSystemStatusArray objectAtIndex:indexPath.row] objectForKey:@"orders_txt30"];
+
+        if ([[[orderSystemStatusArray objectAtIndex:indexPath.row] objectForKey:@"orders_act"] isEqualToString:@"X"]) {
+
+            [checkBoxNRadioButtonSelectionForSystemStatusButton  setImage:[UIImage imageNamed:@"checkBoxSelection.png"]   forState:UIControlStateNormal];
+        }
+        else{
+
+            [checkBoxNRadioButtonSelectionForSystemStatusButton  setImage:[UIImage imageNamed:@"checkBoxUnselection.png"]   forState:UIControlStateNormal];
+        }
+
+        return cell;
+    }
+
     else if (tableView==attachmentsTableView){
-        
+
         static NSString *CellIdentifier = @"attachmentCell";
-        
+
         AttachmentsTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
+
         if (cell==nil) {
             cell=[[AttachmentsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        
+
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        cell.uploadedLabel.text=[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:2];
-        
+
+        //cell.uploadedLabel.text=[[self.attachmentArray objectAtIndex:indexPath.row] objectAtIndex:2];
+
         // cell.idLabel.text=[[self.attachmentsArray objectAtIndex:indexPath.row] objectForKey:@"id"];
-        
+
         UIImage *ret = [UIImage imageWithContentsOfFile:[arr_images objectAtIndex:indexPath.row]];
-        
+
         cell.attachmentImage.image=ret;
-        
-        
+ 
         return cell;
+    }
+    else if (tableView==confirmTableview){
+ 
+        if (indexPath.row==0||indexPath.row==1) {
+            
+            static NSString *CellIdentifier = @"DateTimeCell";
+            
+            DateandTimeTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell==nil) {
+                cell=[[DateandTimeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            cell.dateTextField.superview.tag = indexPath.row;
+            cell.dateTextField.delegate = self;
+            
+            cell.timeTextField.superview.tag = indexPath.row;
+            cell.timeTextField.delegate = self;
+            
+            
+            [cell.dateTextField setTag:25];
+            [cell.timeTextField setTag:35];
+
+            
+            cell.dateContentView.layer.cornerRadius = 2.0f;
+            cell.dateContentView.layer.masksToBounds = YES;
+            cell.dateContentView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+            cell.dateContentView.layer.borderWidth = 1.0f;
+            
+            cell.titleLabel.text=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:0];
+            cell.dateTextField.text=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:2];
+            cell.timeTextField.text=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:3];
+            
+            return cell;
+        }
+        else if (indexPath.row==2||indexPath.row==3){
+            
+            static NSString *CellIdentifier = @"breakCell";
+            
+            BreakDownTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell==nil) {
+                cell=[[BreakDownTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            }
+            
+            [cell.breakDownBtn addTarget:self action:@selector(breakDownBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            
+            cell.breakdownContentView.layer.cornerRadius = 2.0f;
+            cell.breakdownContentView.layer.masksToBounds = YES;
+            cell.breakdownContentView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+            cell.breakdownContentView.layer.borderWidth = 1.0f;
+            
+            cell.titleLabel.text=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:0];
+            
+            if ([[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:2] isEqualToString:@"X"]) {
+                
+                [cell.breakDownBtn setImage:[UIImage imageNamed:@"CheckBoxSelection"] forState:UIControlStateNormal];
+            }
+            
+            else{
+                
+                [cell.breakDownBtn setImage:[UIImage imageNamed:@"checkBoxUnSelection"] forState:UIControlStateNormal];
+            }
+            
+            return cell;
+         }
+        
+         else if (indexPath.row==4){
+            
+            static NSString *CellIdentifier = @"confirmTextcell";
+            
+            FinalConfirmationTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell==nil) {
+                cell=[[FinalConfirmationTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            }
+            
+            cell.confirmTextview.superview.tag = indexPath.row;
+            cell.confirmTextview.delegate = self;
+            
+            cell.confirmTextview.layer.cornerRadius = 2.0f;
+            cell.confirmTextview.layer.masksToBounds = YES;
+            cell.confirmTextview.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+            cell.confirmTextview.layer.borderWidth = 1.0f;
+            
+            cell.titleLabel.text=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:0];
+            cell.confirmTextview.text=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:3];
+            
+            return cell;
+        }
+        
+         else{
+             
+             static NSString *CellIdentifier = @"InputDropDownCell";
+             
+             InputDropDownTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+             
+             if (cell==nil) {
+                 cell=[[InputDropDownTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+             }
+             
+             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+ 
+             cell.InputTextField.superview.tag = indexPath.row;
+             cell.InputTextField.delegate = self;
+             
+             cell.dropDownImageView.hidden=NO;
+             
+             cell.notifView.layer.cornerRadius = 2.0f;
+             cell.notifView.layer.masksToBounds = YES;
+             cell.notifView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+             cell.notifView.layer.borderWidth = 1.0f;
+             
+ 
+             cell.dropDownImageView.hidden=YES;
+             cell.longTextBtn.hidden=YES;
+             cell.madatoryLabel.hidden=YES;
+             
+             
+             cell.titleLabel.text=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:0];
+             
+             cell.InputTextField.placeholder=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:1];
+             
+             cell.InputTextField.text=[[ccHeaderDataArray objectAtIndex:indexPath.row] objectAtIndex:2];
+             
+             return cell;
+         }
+       
     }
     
     return cell;
@@ -5180,6 +5427,53 @@ static dispatch_once_t onceToken;
 //    }
 }
 
+
+-(void)breakDownBtnClicked:(id)sender
+{
+    NSIndexPath *ip = [self GetCellFromTableView:confirmTableview Sender:sender];
+    
+    UIButton *tappedButton = (UIButton*)sender;
+    
+    if (ip.row==2) {
+        
+        if([tappedButton.currentImage isEqual:[UIImage imageNamed:@"checkBoxUnSelection"]])
+        {
+            
+            [tappedButton setImage:[UIImage imageNamed:@"CheckBoxSelection"] forState:UIControlStateNormal];
+            
+            [[ccHeaderDataArray objectAtIndex:2] replaceObjectAtIndex:2 withObject:@"X"];
+            
+        }
+        else{
+            
+            [tappedButton setImage:[UIImage imageNamed:@"checkBoxUnSelection"] forState:UIControlStateNormal];
+            
+            [[ccHeaderDataArray objectAtIndex:2] replaceObjectAtIndex:2 withObject:@""];
+            
+        }
+    }
+    
+    else if (ip.row==3){
+        
+        if([tappedButton.currentImage isEqual:[UIImage imageNamed:@"checkBoxUnSelection"]])
+        {
+            
+            [tappedButton setImage:[UIImage imageNamed:@"CheckBoxSelection"] forState:UIControlStateNormal];
+            
+            [[ccHeaderDataArray objectAtIndex:3] replaceObjectAtIndex:2 withObject:@"X"];
+            
+        }
+        else{
+            
+            [tappedButton setImage:[UIImage imageNamed:@"checkBoxUnSelection"] forState:UIControlStateNormal];
+            
+            [[ccHeaderDataArray objectAtIndex:3] replaceObjectAtIndex:2 withObject:@""];
+            
+        }
+    }
+    
+    [confirmTableview reloadData];
+}
 
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -5443,6 +5737,18 @@ static dispatch_once_t onceToken;
         
         return 236;
     }
+    else if (tableView==confirmTableview){
+        
+        if (indexPath.row==4) {
+            
+            return 130;
+        }
+        else{
+            
+            return 74;
+
+        }
+    }
     else
     {
         return 40;
@@ -5643,6 +5949,8 @@ static dispatch_once_t onceToken;
     NSIndexPath *ip = [self GetCellFromTableView:MyOrdersTableView Sender:sender];
     
     [self systemStatus:[[self.OrderListArray objectAtIndex:ip.row] objectForKey:@"orderh_id"]];
+    
+    
 }
 
 -(void)selectedWocoButton:(id)sender{
@@ -5800,39 +6108,8 @@ static dispatch_once_t onceToken;
 }
 -(void)detailConfirmOperationCheckBoxSelected:(id)sender{
     
-    //    startDateTextField.text=[[self.OrderListArray objectAtIndex:selectedIndex] objectAtIndex:13];
-    //    endDatetTextfield.text=[[self.OrderListArray objectAtIndex:selectedIndex] objectAtIndex:14];
-    
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    //            NSString *filterString = [NSString stringWithFormat:@"oh_objectID like '%@%%' or orderh_shorttext like '%@%%' or orderh_priority_name like '%@%%' or orderh_startdate like '%@%%' or orderh_status like '%@%%' or orderh_euipno_id like '%@%%'",searchText,searchText,searchText,searchText,searchText,searchText];
-    
-    NSDate *startDateFormatter = [dateFormatter dateFromString:[[self.OrderListArray objectAtIndex:selectedIndex] objectForKey:@"orderh_startdate"]];
-    NSDate *endDateFormatter = [dateFormatter dateFromString:[[self.OrderListArray objectAtIndex:selectedIndex] objectForKey:@"orderh_enddate"]];
-    
-    // Convert date object into desired format
-    [dateFormatter setDateFormat:@"MMM dd, yyyy"];
-    
-    NSString *convertedStartDateString = [dateFormatter stringFromDate:startDateFormatter];
-    
-    NSString *convertedEndDateString = [dateFormatter stringFromDate:endDateFormatter];
-    
-    if ([NullChecker isNull:convertedStartDateString]) {
-        
-        convertedStartDateString=@"";
-    }
-    
-    if ([NullChecker isNull:convertedEndDateString]) {
-        
-        convertedEndDateString=@"";
-    }
-    
-    startDateTextField.text=convertedStartDateString;
-    endDatetTextfield.text=convertedEndDateString;
-    [self disableOperationFields];
-    confirmScrollview.contentInset=UIEdgeInsetsMake(0.0,0.0,400,0.0);
+    [self loadFinalCCHeaderData];
+  
     [confirmationView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
      [self.view addSubview:confirmationView];
  
@@ -10589,6 +10866,19 @@ static dispatch_once_t onceToken;
                                 [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"Usr04"] forKey:@"usr05"];
                             }
                             
+                             [currentHeaderDictionary setObject:@"" forKey:@"POSID"];
+                            if ([headerDictionary objectForKey:@"Posid"]) {
+                                
+                                [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"Posid"] forKey:@"POSID"];
+                            }
+                            
+                            [currentHeaderDictionary setObject:@"" forKey:@"REVNR"];
+                            if ([headerDictionary objectForKey:@"REVNR"]) {
+                                
+                                [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"REVNR"] forKey:@"REVNR"];
+                             }
+                            
+  
                             [orderDetailDictionary setObject:[NSMutableArray arrayWithObjects:currentHeaderDictionary,[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array], nil] forKey:[currentHeaderDictionary objectForKey:@"OBJECTID"]];
                         }
                     }
@@ -18021,6 +18311,18 @@ static dispatch_once_t onceToken;
                                             [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"Usr04"] forKey:@"usr05"];
                                         }
                                         
+                                        [currentHeaderDictionary setObject:@"" forKey:@"POSID"];
+                                        if ([headerDictionary objectForKey:@"Posid"]) {
+                                            
+                                            [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"Posid"] forKey:@"POSID"];
+                                        }
+                                        
+                                        [currentHeaderDictionary setObject:@"" forKey:@"REVNR"];
+                                        if ([headerDictionary objectForKey:@"REVNR"]) {
+                                            
+                                            [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"REVNR"] forKey:@"REVNR"];
+                                        }
+                                                                                
                                         [orderDetailDictionary setObject:[NSMutableArray arrayWithObjects:currentHeaderDictionary,[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array], nil] forKey:[currentHeaderDictionary objectForKey:@"OBJECTID"]];
                                     }
                                 }
@@ -21120,8 +21422,12 @@ static dispatch_once_t onceToken;
                                 }
                             }
                         }
- 
-                    }
+                        
+                        else if ([[[[parsedDictionary objectForKey:@"Message"] substringToIndex:1] uppercaseString] isEqualToString:@"E"]){
+                            
+                            [self showAlertMessageWithTitle:@"Error" message:[[parsedDictionary objectForKey:@"Message"] substringFromIndex:1] cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:@"Release Response"];
+                         }
+                     }
                     
                     else if ([parsedDictionary objectForKey:@"ERROR"]){
                         

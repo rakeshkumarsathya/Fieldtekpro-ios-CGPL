@@ -15,6 +15,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *checkBoxNRadioButtonSelectionForSystemStatusButton;
 
 
+
 @property  IBOutlet UIView *systemStatusView;
 
 

@@ -22,6 +22,8 @@
 #import "ELCImagePickerController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "WorkcenterViewController.h"
+#import "DateandTimeTableViewCell.h"
+
 
 
 typedef enum ORDERHEADERDETAILSMAPPING{
@@ -93,7 +95,7 @@ typedef enum ORDERHEADERDETAILSMAPPING{
     NSString * UploadType;
     NSURL * PDFUrl;
     
-    
+    int indexPathRow;
     int tag;
     NSInteger selectedIndexpath,wocoSelectedIndex;
     
@@ -122,8 +124,6 @@ typedef enum ORDERHEADERDETAILSMAPPING{
     
     //collectiveConfirmation
     IBOutlet UITableView *operationsTableView,*measurementDocTableView,*attachmentsTableView;
-    
-    
     IBOutlet UIButton *selectedAllChekBoxButton,*saveOperationDetailsButton;
     
     //measurementDocuments
@@ -178,18 +178,14 @@ typedef enum ORDERHEADERDETAILSMAPPING{
     MBProgressHUD *hud;
 
     IBOutlet UIButton *searchBtn,*filterBtn,*sortBtn,*refreshBtn;
-    
-    int selectedRow,attachmentCurrentIndex;
-    
-    IBOutlet UITextField *mPointTextField,*mreadingTextField,*mDatetextfield,*mTimetextField,*mvaluationTextField,*mNotesTextField;
-    
-    IBOutlet UIView *mPointView,*mreadingView,*mDateView,*mTimeView,*mvaluationView,*mresultView,*mNotesView;
-    
-    UIImageView  *arrow;
-
+     int selectedRow,attachmentCurrentIndex;
+     IBOutlet UITextField *mPointTextField,*mreadingTextField,*mDatetextfield,*mTimetextField,*mvaluationTextField,*mNotesTextField;
+     IBOutlet UIView *mPointView,*mreadingView,*mDateView,*mTimeView,*mvaluationView,*mresultView,*mNotesView;
+     UIImageView  *arrow;
     Response *res_obj;
-
-}
+    
+    IBOutlet UITableView *confirmTableview;
+ }
 
 + (id)sharedInstance;
 

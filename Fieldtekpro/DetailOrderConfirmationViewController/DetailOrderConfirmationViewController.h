@@ -11,6 +11,10 @@
 #import "InputDropDownTableViewCell.h"
 #import "BreakDownTableViewCell.h"
 #import "DurationTableViewCell.h"
+#import "ConfirmationTableViewCell.h"
+#import "FinalConfirmationTableViewCell.h"
+#import "DataBase.h"
+#import "MBProgressHUD.h"
 
 
 @interface DetailOrderConfirmationViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
@@ -25,8 +29,18 @@
      IBOutlet UILabel *confirmOrderStatusLabel,*confirmOrderStatusLabelinFinish,*confirmOperationStatusLabel;
      NSString *aueruid,*noremainingWork;
      IBOutlet UIView *finalConfirmView;
-     int headerCommonIndex,headerFinalConfirmIndex;
+     int headerCommonIndex,headerFinalConfirmIndex,tag;
  
+    BOOL finalFlag;
+    
+    MBProgressHUD *hud;
+    
+    NSMutableDictionary *orderHeaderDetails;
+
+    NSString *decryptedUserName;
+    
+    NSString * finalworkunitString;
+
 }
 
 @property (nonatomic, strong) UITableView *dropDownTableView;
@@ -39,9 +53,9 @@
 
 @property (nonatomic, retain) NSDate *minStartDate,*minEndDate,*measureMentDocumentTime,*measureMentDocumentDate;
 
-@property(nonatomic,retain) NSArray *detailOperationsArray;
+@property(nonatomic,retain) NSArray *detailOperationsArray,*headerDetailsArray;
 
-@property(nonatomic,retain) NSString *orderNuber,*statusString;
+@property(nonatomic,retain) NSString *orderNuber,*statusString,*udidString;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 

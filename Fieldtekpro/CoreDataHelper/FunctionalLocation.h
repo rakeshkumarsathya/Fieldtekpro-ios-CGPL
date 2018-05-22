@@ -23,7 +23,7 @@
 @property (nonatomic, retain) NSString *plannerGroup;//Ingrp
 @property (nonatomic, retain) NSString *tplma;//Tplma
 @property (nonatomic, retain) NSString *level;//level
-@property (nonatomic, retain) NSString *stplnr;//level
+@property (nonatomic, retain) NSString *stplnr,*iwerks;//level
 
 
 @end

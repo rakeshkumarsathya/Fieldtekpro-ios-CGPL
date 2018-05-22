@@ -10,6 +10,10 @@
 		140502511FD8EC5B007F5EF5 /* ReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 140502501FD8EC5B007F5EF5 /* ReservationViewController.m */; };
 		1405582A1FE4F293006B8449 /* radiounselection.png in Resources */ = {isa = PBXBuildFile; fileRef = 140558281FE4F293006B8449 /* radiounselection.png */; };
 		1405582B1FE4F293006B8449 /* radioselection.png in Resources */ = {isa = PBXBuildFile; fileRef = 140558291FE4F293006B8449 /* radioselection.png */; };
+		1405AB8B20AD5BA200B2DF82 /* ConfirmationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405AB8920AD5BA200B2DF82 /* ConfirmationTableViewCell.m */; };
+		1405AB8C20AD5BA200B2DF82 /* ConfirmationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1405AB8A20AD5BA200B2DF82 /* ConfirmationTableViewCell.xib */; };
+		1405AB9520AD989500B2DF82 /* FinalConfirmationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405AB9320AD989400B2DF82 /* FinalConfirmationTableViewCell.m */; };
+		1405AB9620AD989500B2DF82 /* FinalConfirmationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1405AB9420AD989400B2DF82 /* FinalConfirmationTableViewCell.xib */; };
 		1405C36B1FE41DC700DADACB /* EquipmentHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405C36A1FE41DC700DADACB /* EquipmentHistoryViewController.m */; };
 		1405C36E1FE41EE600DADACB /* EquipmentHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405C36D1FE41EE600DADACB /* EquipmentHistoryTableViewCell.m */; };
 		1405D23F1FD99D3800AD0E25 /* FilterSortTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405D23E1FD99D3800AD0E25 /* FilterSortTableViewCell.m */; };
@@ -21,6 +25,7 @@
 		141539B72088A04A00A9FCCA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 141539B62088A04A00A9FCCA /* GoogleService-Info.plist */; };
 		1415FC11206D05650019A242 /* EquipmentFncLocDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1415FC10206D05650019A242 /* EquipmentFncLocDetailsViewController.m */; };
 		14160251204D103F002AB07C /* AttachmentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14160250204D103E002AB07C /* AttachmentsTableViewCell.m */; };
+		14168F0E20AA911900499145 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14168F0D20AA911900499145 /* Photos.framework */; };
 		141885762060AFF800C5CE0F /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 141885752060AFF700C5CE0F /* search.png */; };
 		141C18E92054128E00AF28E8 /* InspectionChecklistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141C18E82054128E00AF28E8 /* InspectionChecklistViewController.m */; };
 		141D282B2089C37E00E31BA3 /* splashscreen_activity_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 141D282A2089C37E00E31BA3 /* splashscreen_activity_background.png */; };
@@ -249,6 +254,12 @@
 		140502501FD8EC5B007F5EF5 /* ReservationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReservationViewController.m; sourceTree = "<group>"; };
 		140558281FE4F293006B8449 /* radiounselection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radiounselection.png; sourceTree = "<group>"; };
 		140558291FE4F293006B8449 /* radioselection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radioselection.png; sourceTree = "<group>"; };
+		1405AB8820AD5BA200B2DF82 /* ConfirmationTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmationTableViewCell.h; sourceTree = "<group>"; };
+		1405AB8920AD5BA200B2DF82 /* ConfirmationTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfirmationTableViewCell.m; sourceTree = "<group>"; };
+		1405AB8A20AD5BA200B2DF82 /* ConfirmationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmationTableViewCell.xib; sourceTree = "<group>"; };
+		1405AB9220AD989400B2DF82 /* FinalConfirmationTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FinalConfirmationTableViewCell.h; sourceTree = "<group>"; };
+		1405AB9320AD989400B2DF82 /* FinalConfirmationTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinalConfirmationTableViewCell.m; sourceTree = "<group>"; };
+		1405AB9420AD989400B2DF82 /* FinalConfirmationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FinalConfirmationTableViewCell.xib; sourceTree = "<group>"; };
 		1405C3691FE41DC700DADACB /* EquipmentHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EquipmentHistoryViewController.h; sourceTree = "<group>"; };
 		1405C36A1FE41DC700DADACB /* EquipmentHistoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EquipmentHistoryViewController.m; sourceTree = "<group>"; };
 		1405C36C1FE41EE600DADACB /* EquipmentHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipmentHistoryTableViewCell.h; sourceTree = "<group>"; };
@@ -269,6 +280,7 @@
 		1415FC10206D05650019A242 /* EquipmentFncLocDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EquipmentFncLocDetailsViewController.m; sourceTree = "<group>"; };
 		1416024F204D103E002AB07C /* AttachmentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsTableViewCell.h; sourceTree = "<group>"; };
 		14160250204D103E002AB07C /* AttachmentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsTableViewCell.m; sourceTree = "<group>"; };
+		14168F0D20AA911900499145 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		141885752060AFF700C5CE0F /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		141C18E72054128E00AF28E8 /* InspectionChecklistViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspectionChecklistViewController.h; sourceTree = "<group>"; };
 		141C18E82054128E00AF28E8 /* InspectionChecklistViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspectionChecklistViewController.m; sourceTree = "<group>"; };
@@ -603,6 +615,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14168F0E20AA911900499145 /* Photos.framework in Frameworks */,
 				E15B5D0C20049BEE00A3C77A /* CloudKit.framework in Frameworks */,
 				E155C1CB1FF384260028931E /* CoreLocation.framework in Frameworks */,
 				E155C1C91FF384190028931E /* MapKit.framework in Frameworks */,
@@ -748,7 +761,13 @@
 				14B5DDA920A417E00051BB10 /* DetailOrderConfirmationViewController.m */,
 				14149D3020A9838900FA71F3 /* DurationTableViewCell.h */,
 				14149D3120A9838900FA71F3 /* DurationTableViewCell.m */,
+				1405AB8820AD5BA200B2DF82 /* ConfirmationTableViewCell.h */,
+				1405AB8920AD5BA200B2DF82 /* ConfirmationTableViewCell.m */,
+				1405AB8A20AD5BA200B2DF82 /* ConfirmationTableViewCell.xib */,
 				14149D3320A9928100FA71F3 /* DurationTableviewCell.xib */,
+				1405AB9220AD989400B2DF82 /* FinalConfirmationTableViewCell.h */,
+				1405AB9320AD989400B2DF82 /* FinalConfirmationTableViewCell.m */,
+				1405AB9420AD989400B2DF82 /* FinalConfirmationTableViewCell.xib */,
 			);
 			path = DetailOrderConfirmationViewController;
 			sourceTree = "<group>";
@@ -1385,6 +1404,7 @@
 		E6B6E826D5D9D29961C26ADF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				14168F0D20AA911900499145 /* Photos.framework */,
 				E15B5D0B20049BEE00A3C77A /* CloudKit.framework */,
 				E155C1CA1FF384260028931E /* CoreLocation.framework */,
 				E155C1C81FF384190028931E /* MapKit.framework */,
@@ -1535,6 +1555,7 @@
 				E14A3C4B1FF61CFF00A3AABB /* yes_icon.png in Resources */,
 				E14A3C4C1FF61CFF00A3AABB /* yellow_traffic.png in Resources */,
 				E155C1D01FF386E00028931E /* MeasureMentDocumentTableViewCell_Iphone5.xib in Resources */,
+				1405AB9620AD989500B2DF82 /* FinalConfirmationTableViewCell.xib in Resources */,
 				E15BA154200F1BEA00BBA7DD /* EquipNumberTableViewCell.xib in Resources */,
 				E14A3C491FF61CFF00A3AABB /* red_traffic.png in Resources */,
 				14C9D3CF20908C6C00C86CF4 /* StandardCheckPointTableViewCell_Iphone5.xib in Resources */,
@@ -1545,6 +1566,7 @@
 				141885762060AFF800C5CE0F /* search.png in Resources */,
 				14C0E950206015F100EBDA12 /* add.png in Resources */,
 				E15BA15E200F1BEA00BBA7DD /* AvailabilityDetailTableViewCell_iPhone5.xib in Resources */,
+				1405AB8C20AD5BA200B2DF82 /* ConfirmationTableViewCell.xib in Resources */,
 				142CEFE820A4B6E300DA5E9E /* cancel-image.png in Resources */,
 				E1871F93200DC943001B2141 /* Menu.png in Resources */,
 				E1689B571FDE7DB00018C261 /* PlantMaintenance.sqlite in Resources */,
@@ -1830,6 +1852,7 @@
 				E11679AC1FFCBA9D00B5D99D /* ScanBarcodeViewController.m in Sources */,
 				14160251204D103F002AB07C /* AttachmentsTableViewCell.m in Sources */,
 				E19CB9BD1FFBB1A900EFA764 /* NotifOrderTableViewCell.m in Sources */,
+				1405AB8B20AD5BA200B2DF82 /* ConfirmationTableViewCell.m in Sources */,
 				E15BA16B200F5F2600BBA7DD /* MISViewController.m in Sources */,
 				14653FAC1FDAF3A7003502E3 /* MaintPlanTableViewCell.m in Sources */,
 				E15C9D2B1FFE52320017AFB7 /* ELCAlbumPickerController.m in Sources */,
@@ -1886,6 +1909,7 @@
 				E15BA161200F1BEA00BBA7DD /* NotifDescriptionTableViewCell.m in Sources */,
 				E15C1E7120186B7C00426E03 /* ApllicationsDropDownViewController.m in Sources */,
 				E155C1C71FF3830A0028931E /* MyOrdersTableViewCell.m in Sources */,
+				1405AB9520AD989500B2DF82 /* FinalConfirmationTableViewCell.m in Sources */,
 				14AA2F301FD8437600F354DC /* BomOverViewController.m in Sources */,
 				E157D5441F8CD137006879C4 /* ListofCauseCodesTableViewCell.m in Sources */,
 				E1601029200732FA006F8958 /* ComponentViewController.m in Sources */,

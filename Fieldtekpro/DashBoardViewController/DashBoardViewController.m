@@ -1465,10 +1465,9 @@
                                     
 
                                 }
-                               
                                 
+                                    [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
                                 
-                                  //  [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
                                    // [self performSelectorOnMainThread:@selector(dispatchQueuesForJSAValueHelps) withObject:nil waitUntilDone:YES];
                             
                        //     [self performSelectorOnMainThread:@selector(dispatchQueuesForMeasurementDocuments) withObject:nil waitUntilDone:YES];
@@ -1498,7 +1497,7 @@
                                 
                                 [self performSelectorOnMainThread:@selector(dispatchQueuesForValueHelps) withObject:nil waitUntilDone:YES];
                                 
-                              //  [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
+                                [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
                                 
  
                              //   [self performSelectorOnMainThread:@selector(dispatchQueuesForJSAValueHelps) withObject:nil waitUntilDone:YES];
@@ -1528,7 +1527,7 @@
                 
                 NSMutableDictionary *parsedDictionary = [[Response sharedInstance] parseForValueHelps:resultData];
                 
-                NSLog(@"get value help called");
+                NSLog(@"get value help called %@",resultData);
 
                 [DashBoardViewController functionForActivityTypeData:[parsedDictionary objectForKey:@"resultLstar"]];
                 [DashBoardViewController functionForNotifType:[parsedDictionary objectForKey:@"resultNotifTypes"]];
@@ -1549,8 +1548,7 @@
                 [DashBoardViewController functionForNotifEffect:[parsedDictionary objectForKey:@"resultNotifEffect"]];
                 [DashBoardViewController functionForOrderSystemCondition:[parsedDictionary objectForKey:@"resultOrderSystemCondition"]];
                 [DashBoardViewController functionForNotifOrderTypeRelationMaster:[parsedDictionary objectForKey:@"resultEtTq80"]];
-                
-                [DashBoardViewController functionForPlannerGroupMaster:[parsedDictionary objectForKey:@"resultInGrp"]];//PlannerGroup
+                 [DashBoardViewController functionForPlannerGroupMaster:[parsedDictionary objectForKey:@"resultInGrp"]];//PlannerGroup
                 
                 [DashBoardViewController functionForPersonResponsibleMaster:[parsedDictionary objectForKey:@"resultPernr"]];//PersonResponsible
                 
@@ -1595,8 +1593,11 @@
                 [DashBoardViewController functionForUsagesMaster:[parsedDictionary objectForKey:@"resultUsages"]];//WCMUsage
                  [DashBoardViewController functionForWCMWork:[parsedDictionary objectForKey:@"resultWcmWork"]];//WCMWork
                  [DashBoardViewController functionForWCMRequirements:[parsedDictionary objectForKey:@"resultWcmRequirements"]];//WCMRequirements
-                
-                
+ 
+                [DashBoardViewController functionForEtwbs:[parsedDictionary objectForKey:@"resultWBS"]];//resultWBS
+                [DashBoardViewController functionForEvRevnr:[parsedDictionary objectForKey:@"resultRevnr"]];//resultRevnr
+
+ 
                 //WSM
                 /*  [DashBoardViewController functionForWsmRisks:[parsedDictionary objectForKey:@"resultWSMRisks"]];
                  [DashBoardViewController functionForWsmResponses:[parsedDictionary objectForKey:@"resultWSMResponses"]];
@@ -2651,7 +2652,15 @@
                                         [Docs addObject:@""];
                                     }
                                     
-                                    [Docs addObject:@""];//Content
+                                    if ([DocsDictionary objectForKey:@"Content"]) {
+                                        [Docs addObject:[[DocsDictionary objectForKey:@"Content"] copy]];
+                                    }
+                                    else{
+                                        
+                                        [Docs addObject:@""];
+
+                                    }
+                                    
                                     [Docs addObject:@""];//Action
                                     
                                     [[[notificationDetailDictionary objectForKey:[DocsDictionary objectForKey:@"Zobjid"]] objectAtIndex:1] addObject:Docs];
@@ -4298,6 +4307,21 @@
                                 
                                 [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"Usr04"] forKey:@"usr05"];
                             }
+                            
+                            
+                            [currentHeaderDictionary setObject:@"" forKey:@"POSID"];
+                            if ([headerDictionary objectForKey:@"Posid"]) {
+                                
+                                [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"Posid"] forKey:@"POSID"];
+                            }
+                            
+                            [currentHeaderDictionary setObject:@"" forKey:@"REVNR"];
+                            if ([headerDictionary objectForKey:@"REVNR"]) {
+                                
+                                [currentHeaderDictionary setObject:[headerDictionary objectForKey:@"REVNR"] forKey:@"REVNR"];
+                            }
+                            
+
                             
                             [orderDetailDictionary setObject:[NSMutableArray arrayWithObjects:currentHeaderDictionary,[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array],[NSMutableArray array], nil] forKey:[currentHeaderDictionary objectForKey:@"OBJECTID"]];
                         }
@@ -8447,8 +8471,36 @@
     }
     
     [[DataBase sharedInstance] insertintoWCMRequirements:vhlpWCMRequirementsArray];
+}
+
++(void)functionForEtwbs :(id)resultWBSData{
     
+    NSMutableArray *vhlpWBSArray = [NSMutableArray new];
     
+    if ([resultWBSData isKindOfClass:[NSDictionary class]]) {
+        [vhlpWBSArray addObject:[NSMutableArray arrayWithObject:resultWBSData]];
+    }
+    else if ([resultWBSData isKindOfClass:[NSArray class]]){
+        
+        [vhlpWBSArray addObjectsFromArray:resultWBSData];
+    }
+    
+    [[DataBase sharedInstance] insertintoETWBSData:vhlpWBSArray];
+}
+
++(void)functionForEvRevnr :(id)resultRevenrData{
+    
+    NSMutableArray *vhlpRevnrArray = [NSMutableArray new];
+    
+    if ([resultRevenrData isKindOfClass:[NSDictionary class]]) {
+        [vhlpRevnrArray addObject:[NSMutableArray arrayWithObject:resultRevenrData]];
+    }
+    else if ([resultRevenrData isKindOfClass:[NSArray class]]){
+        
+        [vhlpRevnrArray addObjectsFromArray:resultRevenrData];
+    }
+    
+    [[DataBase sharedInstance] insertintoETREVRData:resultRevenrData];
     
 }
 

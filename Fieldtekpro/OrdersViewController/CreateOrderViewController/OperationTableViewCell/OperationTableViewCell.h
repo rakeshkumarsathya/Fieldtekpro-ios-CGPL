@@ -10,7 +10,7 @@
 
 @interface OperationTableViewCell : UITableViewCell
 @property(nonatomic, retain) IBOutlet UILabel *operationTextLabel,*durationLabel;
-@property (nonatomic,strong) IBOutlet UIImageView *operationsStatusImageView;
+@property (nonatomic,strong) IBOutlet UIImageView *operationsStatusImageView,*trafficImage;
 @property (nonatomic,strong) UIView *bottomLineView;
 @property (nonatomic,strong) IBOutlet UILabel *operationCountLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *trafficSymbolImageView;

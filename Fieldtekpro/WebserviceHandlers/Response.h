@@ -122,7 +122,7 @@
 @property (nonatomic) int selectedIndex;
 
 @property (nonatomic, strong) NSUserDefaults *defaults;
-@property (nonatomic, retain)  NSArray *myArray,*permitTextArray,*permitSecondTextArray,*notifHeaderArray,*notifTypeArray,*functionLocationArray,*materialsSearchListArray,*workcenterArray,*selectedindexesArray;
+@property (nonatomic, retain)  NSArray *myArray,*permitTextArray,*permitSecondTextArray,*notifHeaderArray,*notifTypeArray,*functionLocationArray,*materialsSearchListArray,*workcenterArray,*selectedindexesArray,*applicationTypesArray;
 @property (nonatomic, retain) NSDictionary *misDictionary;
 
 - (NSMutableDictionary *)parseForMeasurementDocs:(NSDictionary *)resultDictionary;

@@ -14,6 +14,7 @@
 
 @property (nonatomic, retain) IBOutlet UITextField *durationtextfield,*durationInputTextfield;
 
+@property IBOutlet UIView *durationContentView;
 
 
 @end

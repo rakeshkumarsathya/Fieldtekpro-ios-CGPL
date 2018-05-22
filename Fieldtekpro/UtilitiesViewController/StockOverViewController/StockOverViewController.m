@@ -932,9 +932,8 @@
 
                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-                                    [self showAlertMessageWithTitle:@"Info" message:@"No changes for you." cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-
-                                }
+                                  //  [self showAlertMessageWithTitle:@"Info" message:@"No changes for you." cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+                                 }
                             }
                             else{
                                 
