@@ -26,7 +26,14 @@
     
       res_obj=[Response sharedInstance];
  
-     [workcenterArray addObjectsFromArray:[[DataBase sharedInstance] getListOfWorkCenterwithKeys]];
+    if (self.iwerkString.length) {
+        
+        [workcenterArray addObjectsFromArray:[[DataBase sharedInstance] getListOfWorkCenter:self.iwerkString]];
+     }
+     else{
+        
+        [workcenterArray addObjectsFromArray:[[DataBase sharedInstance] getListOfWorkCenterwithKeys]];
+     }
     
      headerTitleLabel.text = [NSString stringWithFormat:@"Work Center (%i)",(int)workcenterArray.count];
 
@@ -84,7 +91,14 @@
 
 -(IBAction)backButton:(id)sender{
     
-    NSMutableArray *selectedIdsArray=[NSMutableArray new];
+    if ([self.searchString isEqualToString:@"X"]) {
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+ 
+    else{
+    
+     NSMutableArray *selectedIdsArray=[NSMutableArray new];
 
      if ([checkBoxSelectedArray count]) {
          
@@ -117,6 +131,8 @@
             
             [(MyNotifcationsViewController *)self.delegate dismissWorkcenterView];
         }
+     }
+        
     }
  
  }
@@ -177,6 +193,14 @@
         cell.wrkCenterView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
         cell.wrkCenterView.layer.borderWidth = 1.0f;
         
+          cell.checkBoxBtn.hidden=NO;
+
+        
+        if ([self.searchString isEqualToString:@"X"]) {
+            
+            cell.checkBoxBtn.hidden=YES;
+        }
+        
         if (wrkCenterTableview.tag==0) {
             
              cell.titleLabel.text=[[workcenterArray objectAtIndex:indexPath.row] objectForKey:@"workcenter_id"];
@@ -209,6 +233,21 @@
      return nil;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.searchString isEqualToString:@"X"]) {
+        
+        res_obj.workcenterString=[[workcenterArray objectAtIndex:indexPath.row] objectForKey:@"workcenter_id"];
+        
+        if ([(CreateOrderViewController *)self.delegate respondsToSelector:@selector(dismissWorkcenterView)]) {
+            
+            [(CreateOrderViewController *)self.delegate dismissWorkcenterView];
+            
+        }
+        
+     }
+    
+}
 
 -(NSIndexPath *) GetCellFromTableView: (UITableView *)tableView Sender:(id)sender
 {

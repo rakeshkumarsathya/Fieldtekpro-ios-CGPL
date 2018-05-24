@@ -13,7 +13,7 @@
 #define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
 
 
-@interface CreateOrderViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>{
+@interface CreateOrderViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,ViewControllerBDelegate>{
     
     NSArray *iwerkArray;
 }
@@ -126,6 +126,19 @@
 }
 
 
+-(void)addItemsViewController:(PermitViewController *)controller workApprovalsData:(NSMutableArray *)item withWorkApplicationsArray:(NSMutableArray *)workApplications withIsolationsData:(NSMutableArray *)isolationsData{
+ 
+    self.workApprovalDetailsArray=[item copy];
+    self.workApplicationDetailsArray=[workApplications copy];
+ 
+    [applicationTypeTableView reloadData];
+ 
+    [applicationTypeView setFrame:CGRectMake(0, 0, commonlistTableView.frame.size.width, commonlistTableView.frame.size.height)];
+    [commonlistTableView addSubview:applicationTypeView];
+    
+    
+}
+
 -(void)setBorderlayerContentViewforView:(UIView *)contentView
 {
     contentView.layer.cornerRadius = 2.0f;
@@ -138,7 +151,7 @@
 {
     headerCommonIndex = (int)textField.superview.tag;
     
-    tag=(int)textField.text;
+     tag=(int)textField.text;
     
     [self.dropDownArray removeAllObjects];
     
@@ -193,10 +206,8 @@
     else if (textField==opWcdObjectTextField){
         
         if ([opWcdTypeTexfield.text isEqualToString:@""]) {
-            
-            UIAlertView *failureAlertView = [[UIAlertView alloc]initWithTitle:@"Information" message:@"Please select 'Type' field" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-            
-            [failureAlertView show];
+ 
+            [self showAlertMessageWithTitle:@"Information" message:@"Please select 'Type' field" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
             
         }
         else{
@@ -933,21 +944,57 @@
     [addOperationView removeFromSuperview];
     submitResetView.hidden=NO;
  }
-
-
+ 
 - (IBAction)dismissWorkCenterClicked:(id)sender
 {
     [searchDropDownView removeFromSuperview];
+ 
+ }
+
+-(void)dismissWorkcenterView
+{
     
-     if (equipmentEnableFlag) {
+    if (createOrderFlag) {
+            
+    if (equipmentEnableFlag) {
+                
+        [[headerDataArray objectAtIndex:8] replaceObjectAtIndex:3 withObject:res_obj.workcenterString];
         
-         [[headerDataArray objectAtIndex:8] replaceObjectAtIndex:2 withObject:res_obj.workcenterString];
-         
-         
-         
-     }
+        [[headerDataArray objectAtIndex:8] replaceObjectAtIndex:2 withObject:res_obj.workcenterString];
+
+    }
+    else{
+        
+        [[headerDataArray objectAtIndex:9] replaceObjectAtIndex:3 withObject:res_obj.workcenterString];
+        
+        [[headerDataArray objectAtIndex:9] replaceObjectAtIndex:2 withObject:res_obj.workcenterString];
+
+      }
+    }
     
-}
+    else{
+        
+        if (equipmentEnableFlag) {
+            
+            [[headerDataArray objectAtIndex:9] replaceObjectAtIndex:3 withObject:res_obj.workcenterString];
+            
+            [[headerDataArray objectAtIndex:9] replaceObjectAtIndex:2 withObject:res_obj.workcenterString];
+
+            
+        }
+        else{
+            
+            [[headerDataArray objectAtIndex:10] replaceObjectAtIndex:3 withObject:res_obj.workcenterString];
+            
+            [[headerDataArray objectAtIndex:10] replaceObjectAtIndex:2 withObject:res_obj.workcenterString];
+
+        }
+    }
+    [commonlistTableView reloadData];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+ 
+ }
 
 -(void)showAlertMessageWithTitle:(NSString*)title message:(NSString*)message cancelButtonTitle:(NSString *)cancelBtnTitle withactionType:(NSString *)actionString forMethod:(NSString *)methodNameString
 {
@@ -1004,7 +1051,14 @@
                                             hud.mode = MBProgressHUDAnimationFade;
                                             hud.label.text = @"Changes in progress...";
                                             
-                                            [self insertChangeSeviceOrder];
+                                            if (equipmentEnableFlag) {
+                                                
+                                                [self changeOrderwithoutequipment];
+                                            }
+                                            else{
+                                                
+                                                [self insertChangeSeviceOrder];
+                                             }
                                             
                                         }
  
@@ -1536,20 +1590,18 @@
     
     [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:8] objectAtIndex:3] forKey:@"WORKCENTERNAME"];
     
- 
     [self.orderHeaderDetails setObject:@"" forKey:@"PLANNERGROUP"];
     
-    if (plannerGrouplID.length) {
+    if (![NullChecker isNull:[[headerDataArray objectAtIndex:5] objectAtIndex:3]]) {
         
-        [self.orderHeaderDetails setObject:plannerGrouplID forKey:@"PLANNERGROUP"];
-        
-    }
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:8] objectAtIndex:3] forKey:@"PLANNERGROUP"];
+     }
     
     [self.orderHeaderDetails setObject:@"" forKey:@"PLANNERGROUPNAME"];
     
-    if (plannerGroupNameString.length)
-    {
-        [self.orderHeaderDetails setObject:plannerGroupNameString forKey:@"PLANNERGROUPNAME"];
+    if (![NullChecker isNull:[[headerDataArray objectAtIndex:5] objectAtIndex:2]]) {
+        
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:8] objectAtIndex:3] forKey:@"PLANNERGROUPNAME"];
         
     }
     
@@ -2023,6 +2075,360 @@
 //        }
 //
        // [ActivityView dismiss];
+    }
+    
+    return;
+}
+
+-(void)changeOrderwithoutequipment
+{
+    self.orderHeaderDetails = [[NSMutableDictionary alloc] init];
+    
+    [self.orderHeaderDetails setObject:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_id"] forKey:@"ID"];
+    
+    [self.orderHeaderDetails setObject:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_type_id"] forKey:@"OID"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"DOCS"];
+    
+    //    [self getAttachedDocuments];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"ID"];
+    
+    if ([self.orderHeaderDetails objectForKey:@"OBJECTID"]) {
+        
+    }
+    
+    if ([[[headerDataArray objectAtIndex:0] objectAtIndex:3] length])
+    {
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:0] objectAtIndex:3] forKey:@"OID"];
+    }
+    
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:0] objectAtIndex:2] forKey:@"ONAME"];
+    
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:3] objectAtIndex:3] forKey:@"FID"];
+    
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:3] objectAtIndex:2] forKey:@"FNAME"];
+    
+ 
+    [self.orderHeaderDetails setObject:@"" forKey:@"EQID"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"EQNAME"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"OPID"];
+    [self.orderHeaderDetails setObject:@"" forKey:@"OPNAME"];
+    
+    if ([[[headerDataArray objectAtIndex:4] objectAtIndex:3] length])
+    {
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:4] objectAtIndex:3] forKey:@"OPID"];
+    }
+    
+    if ([[[headerDataArray objectAtIndex:4] objectAtIndex:2] length])
+    {
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:4] objectAtIndex:2] forKey:@"OPNAME"];
+    }
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"ACCINCID"];
+    [self.orderHeaderDetails setObject:@"" forKey:@"ACCINCNAME"];
+    
+    [self.orderHeaderDetails setObject:@"New" forKey:@"OSTATUS"];
+    [self.orderHeaderDetails setObject:@"Create" forKey:@"OSYNCSTATUS"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"LATITUDE"];
+    [self.orderHeaderDetails setObject:@"" forKey:@"LONGITUDE"];
+    [self.orderHeaderDetails setObject:@"" forKey:@"ALTITUDE"];
+    
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"LATITUDE"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"LONGITUDE"];
+    [self.orderHeaderDetails setObject:@"" forKey:@"ALTITUDE"];
+    
+    //    @"MMM dd, yyyy hh:mm a"
+    
+    NSDateFormatter *StartdateFormatter = [[NSDateFormatter alloc] init];
+    [StartdateFormatter setDateFormat:@"MMM dd, yyyy hh:mm a"];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MMM dd, yyyy"];
+    NSDate *startDate = [dateFormatter dateFromString:[[headerDataArray objectAtIndex:7] objectAtIndex:2]];
+    
+    NSDate *endDate = [dateFormatter dateFromString:[[headerDataArray objectAtIndex:7] objectAtIndex:2]];
+    
+    //    NSDate *startMalfunctionDate = [StartdateFormatter dateFromString:malfunctionStartDateTextField.text];
+    //    NSDate *endMalfunctionDate = [StartdateFormatter dateFromString:malfunctionEndDateTextField.text];
+    
+    // Convert date object into desired format
+    [dateFormatter setDateFormat:@"yyyyMMdd"];
+    
+    [StartdateFormatter setDateFormat:@"yyyyMMdd"];
+    NSString *convertedStartDateString = [StartdateFormatter stringFromDate:startDate];
+    
+    if ([NullChecker isNull:convertedStartDateString]) {
+        convertedStartDateString = @"";
+    }
+    
+    NSString *convertedEndDateString = [StartdateFormatter stringFromDate:endDate];
+    
+    if ([NullChecker isNull:convertedEndDateString]) {
+        convertedEndDateString = @"";
+    }
+    
+    //    NSString *convertedMalStartDateString = [dateFormatter stringFromDate:startMalfunctionDate];
+    //
+    //    if ([NullChecker isNull:convertedMalStartDateString]) {
+    //        convertedMalStartDateString = @"";
+    //    }
+    //
+    //    NSString *convertedMalEndDateString = [dateFormatter stringFromDate:endMalfunctionDate];
+    //    if ([NullChecker isNull:convertedMalEndDateString]) {
+    //        convertedMalEndDateString = @"";
+    //    }
+    //
+    [self.orderHeaderDetails setObject:[NSString stringWithFormat:@"%@",@""] forKey:@"MALFUNCTIONSTARTDATE"];
+    [self.orderHeaderDetails setObject:[NSString stringWithFormat:@"%@",@""] forKey:@"MALFUNCTIONENDDATE"];
+    [self.orderHeaderDetails setObject:[NSString stringWithFormat:@"%@",convertedStartDateString] forKey:@"SDATE"];
+    [self.orderHeaderDetails setObject:[NSString stringWithFormat:@"%@",convertedEndDateString] forKey:@"EDATE"];
+    
+    if (operationTextFieldString.length) {
+        
+        [self.orderHeaderDetails setObject:operationTextFieldString forKey:@"SHORTTEXT"];
+        
+    }
+    else{
+        
+        [self.orderHeaderDetails setObject:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_shorttext"] forKey:@"SHORTTEXT"];
+    }
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"LONGTEXT"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"BREAKDOWN"];
+    
+    [self.orderHeaderDetails setObject:decryptedUserName forKey:@"REPORTEDBY"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"NREPORTEDBY"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"EFFECTID"];
+    
+    //    if (effectID.length) {
+    //        [self.orderHeaderDetails setObject:effectID forKey:@"EFFECTID"];
+    //    }
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"EFFECTNAME"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"SYSTEMCONDITIONID"];
+    
+    if ([[[headerDataArray objectAtIndex:11] objectAtIndex:3] length]) {
+        
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:11] objectAtIndex:3] forKey:@"SYSTEMCONDITIONID"];
+    }
+    
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:11] objectAtIndex:2] forKey:@"SYSTEMCONDITIONTEXT"];
+    
+    [self.orderHeaderDetails setObject:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"oh_objectID"] forKey:@"OBJECTID"];
+    
+    
+    //    if (!workCenterID.length)
+    //    {
+    //        workCenterID = workcenterheaderTextField.text;
+    //    }
+    
+    //    [[headerDataArray objectAtIndex:9] replaceObjectAtIndex:2 withObject:[[self.dropDownArray objectAtIndex:indexPath.row] objectAtIndex:1]];
+    //    [[headerDataArray objectAtIndex:9] replaceObjectAtIndex:3 withObject:[[self.dropDownArray objectAtIndex:indexPath.row] objectAtIndex:0]];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"PLANTID"];
+    
+    if (plantID.length) {
+        [self.orderHeaderDetails setObject:plantID forKey:@"PLANTID"];
+    }
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"PLANTNAME"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"WORKCENTERID"];
+    
+    if ([[[headerDataArray objectAtIndex:9] objectAtIndex:3] length])
+    {
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:9] objectAtIndex:3] forKey:@"WORKCENTERID"];
+    }
+    
+    [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:9] objectAtIndex:3] forKey:@"WORKCENTERNAME"];
+    
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"PLANNERGROUP"];
+    
+    if (plannerGrouplID.length) {
+        
+        [self.orderHeaderDetails setObject:plannerGrouplID forKey:@"PLANNERGROUP"];
+        
+    }
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"PLANNERGROUPNAME"];
+    
+    if (plannerGroupNameString.length)
+    {
+        [self.orderHeaderDetails setObject:plannerGroupNameString forKey:@"PLANNERGROUPNAME"];
+        
+    }
+    
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"PARNRID"];
+    
+    if (![NullChecker isNull:[[headerDataArray objectAtIndex:6] objectAtIndex:3]]) {
+        
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:6] objectAtIndex:3] forKey:@"PARNRID"];
+    }
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"NAMEVW"];
+    
+    if (personresponsibleNameString.length)
+    {
+        [self.orderHeaderDetails setObject:personresponsibleNameString forKey:@"NAMEVW"];
+        
+    }
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"workarea"];
+    [self.orderHeaderDetails setObject:@"" forKey:@"costcenter"];
+    
+ 
+    if (headerWorkArea.length) {
+        
+        [self.orderHeaderDetails setObject:headerWorkArea forKey:@"workarea"];
+    }
+    
+    if ([[[headerDataArray objectAtIndex:10] objectAtIndex:3] length]) {
+        
+        [self.orderHeaderDetails setObject:[[headerDataArray objectAtIndex:10] objectAtIndex:3] forKey:@"costcenter"];
+    }
+    
+    NSDateFormatter *getDate = [[NSDateFormatter alloc] init];
+    [getDate setDateFormat:@"yyyyMMdd HH:mm:ss"];
+    NSArray *dateTimeArray = [NSArray arrayWithArray:[[getDate stringFromDate:[NSDate date]] componentsSeparatedByString:@" "]];
+    
+    [self.orderHeaderDetails setObject:[dateTimeArray firstObject] forKey:@"DATE"];
+    [self.orderHeaderDetails setObject:[dateTimeArray lastObject] forKey:@"TIME"];
+    [self.orderHeaderDetails setObject:self.customHeaderDetailsArray forKey:@"CFH"];
+    
+    if (headerWorkArea.length) {
+        int valuekoklString = [headerWorkArea intValue];
+        NSString *koklString=[NSString stringWithFormat:@"%d",valuekoklString];
+        [self.orderHeaderDetails setObject:koklString forKey:@"workarea"];
+    }
+    
+    if (headerCostCenter.length) {
+        int valueKOkrs = [headerCostCenter intValue];
+        NSString *kokrsString=[NSString stringWithFormat:@"%d",valueKOkrs];
+        [self.orderHeaderDetails setObject:kokrsString forKey:@"costcenter"];
+    }
+    
+    if ([self.attachmentArray count]) {
+        [self.orderHeaderDetails setObject:@"X" forKey:@"DOCS"];
+    }
+    else{
+        [self.orderHeaderDetails setObject:@"" forKey:@"DOCS"];
+    }
+    
+    [self.orderHeaderDetails setObject:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_qmnum"] forKey:@"QMNUM"];
+    
+    if (self.partDetailsArray == nil) {
+        self.partDetailsArray = [NSMutableArray new];
+    }
+    
+    
+    //   [self getAttachedDocuments];
+    
+    [self.operationDetailsArray addObjectsFromArray:self.operationDetailDeleteArray];
+    [self.permitsDetailsArray addObjectsFromArray:self.permitsDetailDeleteArray];
+    
+    [self.partDetailsArray addObjectsFromArray:self.componentDetailDeleteArray];
+    
+    
+    if (!orderNoString.length) {
+        [[DataBase sharedInstance] deleteRecordinOrderForUUID:orderUDID ObjectcID:orderNoString ReportedBY:decryptedUserName];
+    }
+    
+    [self.orderHeaderDetails setObject:self.customHeaderDetailsArray forKey:@"CFH"];
+    [self.orderHeaderDetails setObject:self.partDetailsArray forKey:@"PARTS"];
+    
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"POSID"];
+    [self.orderHeaderDetails setObject:@"" forKey:@"REVISION"];
+    
+ 
+    // [[DataBase sharedInstance] insertDataIntoOrderHeader:self.orderHeaderDetails withAttachments:self.attachmentArray withPermits:self.permitsDetailsArray withTransaction:self.operationDetailsArray];
+    
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"WSM"];
+    
+    [self.orderHeaderDetails setObject:@"" forKey:@"WCM"];
+    
+    NSMutableArray *temporderSystemStatusArray = [NSMutableArray new];
+    
+    if ([orderSystemStatusArray count])
+    {
+        [temporderSystemStatusArray addObjectsFromArray:[[orderSystemStatusArray objectAtIndex:0] firstObject]];
+        [temporderSystemStatusArray addObjectsFromArray:[[orderSystemStatusArray objectAtIndex:1] firstObject]];
+    }
+    
+    [[DataBase sharedInstance] insertDataIntoOrderHeader:self.orderHeaderDetails withAttachments:self.attachmentArray withPermitWorkApprovalsDetails:self.workApprovalDetailsArray withOperation:self.operationDetailsArray withParts:self.partDetailsArray withWSM:[NSMutableArray array] withObjects:[NSMutableArray array] withSystemStatus:temporderSystemStatusArray withPermitsWorkApplications:[NSMutableArray array] withIssuePermits:[NSMutableArray array] withPermitsOperationWCD:[NSMutableArray array] withPermitsOperationWCDTagiingConditions:[NSMutableArray array] withPermitsStandardCheckPoints:[NSMutableArray array] withMeasurementDocs:[NSMutableArray new]];
+    
+    if ([[ConnectionManager defaultManager] isConnectionQueueIsActive]) {
+        [[ConnectionManager defaultManager] stopCurrentConnetion];
+    }
+    
+    [self.orderHeaderDetails setObject:self.operationDetailsArray forKey:@"ITEMS"];
+    [self.orderHeaderDetails setObject:self.workApprovalDetailsArray forKey:@"WCMWORKAPPROVALS"];
+    [self.orderHeaderDetails setObject:self.workApplicationDetailsArray forKey:@"WCMWORKAPPlICATIONS"];
+    [self.orderHeaderDetails setObject:self.issuePermitsDetailArray forKey:@"WCMISSUEPERMITS"];
+    [self.orderHeaderDetails setObject:self.permitsOperationWCD forKey:@"WCMOPERATIONWCD"];
+    //    [self.orderHeaderDetails setObject:self.permitsDetailsArray forKey:@"PERMITS"];
+    [self.orderHeaderDetails setObject:self.attachmentArray forKey:@"ATTACHMENTS"];
+    
+    [self.orderHeaderDetails setObject:[NSMutableArray array] forKey:@"WSMTRANSACTIONS"];
+    
+    [self.orderHeaderDetails setObject:temporderSystemStatusArray forKey:@"SYSTEMSTATUS"];
+    
+    if([[ConnectionManager defaultManager] isReachable] &&[[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"oh_objectID"]length])
+        
+    {
+        NSMutableDictionary *endPointDictionary = [NSMutableDictionary new];
+        [endPointDictionary setObject:@"U" forKey:@"ACTIVITY"];
+        [endPointDictionary setObject:@"W" forKey:@"DOCTYPE"];
+        [endPointDictionary setObject:[defaults objectForKey:@"ENDPOINT"] forKey:@"ENDPOINT"];
+        NSArray *endPointArray = [[DataBase sharedInstance] getEndPointURL:endPointDictionary];
+        NSLog(@"endPoint :%@",[[endPointArray objectAtIndex:0] objectAtIndex:0]);
+        [self.orderHeaderDetails setObject:[[endPointArray objectAtIndex:0] objectAtIndex:0] forKey:@"URL_ENDPOINT"];
+        [self.orderHeaderDetails setObject:@"" forKey:@"TRANSMITTYPE"];
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CSRF"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [Request makeWebServiceRequest:ORDER_CHANGE parameters:self.orderHeaderDetails delegate:self];
+    }
+    else if([[ConnectionManager defaultManager] isReachable] && ![[self.orderHeaderDetails objectForKey:@"OBJECTID"] length])
+    {
+        NSMutableDictionary *endPointDictionary = [NSMutableDictionary new];
+        [endPointDictionary setObject:@"I" forKey:@"ACTIVITY"];
+        [endPointDictionary setObject:@"W" forKey:@"DOCTYPE"];
+        [endPointDictionary setObject:[defaults objectForKey:@"ENDPOINT"] forKey:@"ENDPOINT"];
+        NSArray *endPointArray = [[DataBase sharedInstance] getEndPointURL:endPointDictionary];
+        NSLog(@"endPoint :%@",[[endPointArray objectAtIndex:0] objectAtIndex:0]);
+        [self.orderHeaderDetails setObject:[[endPointArray objectAtIndex:0] objectAtIndex:0] forKey:@"URL_ENDPOINT"];
+        [self.orderHeaderDetails setObject:@"" forKey:@"TRANSMITTYPE"];
+        [Request makeWebServiceRequest:ORDER_CREATE parameters:self.orderHeaderDetails delegate:self];
+    }
+    else
+    {
+        [[DataBase sharedInstance] updateOrderStatus:orderUDID :@"Changed"];
+        
+        if ([[defaults objectForKey:@"ACTIVATELOGS"] isEqualToString:@"X"])
+        {
+            [[DataBase sharedInstance] writToLogFile:[NSString stringWithFormat:@"#INFO#.com.enstrapp.fieldtekpro#Order #OrderNo:%@ #Activity:Change Order #Mode:Offline #Class:Very Important #MUser:%@ #DeviceId:%@",orderNoString,decryptedUserName,[defaults objectForKey:@"edeviceid"]]];
+        }
+        
+        //        if ([(MyOrdersViewController *)self.delegate respondsToSelector:@selector(dismissMyordersViewController)]) {
+        //            [(MyOrdersViewController *)self.delegate dismissMyordersViewController];
+        //        }
+        //
+        // [ActivityView dismiss];
     }
     
     return;
@@ -2923,6 +3329,12 @@
         WBSElementsFlag=YES;
     }
     
+    else if ([[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_type_id"] isEqualToString:@"PM08"]){
+        
+        equipmentEnableFlag=YES;
+
+    }
+    
     [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Order Text",@"Enter Order text",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_shorttext"],@"", nil]];
     
     [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Notification No",@"",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_qmnum"],@"", nil]];
@@ -2930,11 +3342,14 @@
     [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Function Location",@"Search or Enter Function Location ",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_funcloc_name"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_funcloc_id"], nil]];
     
     funcLocName=[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_funcloc_name"];
-    
     funcLocnId=[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_funcloc_id"];
- 
-    [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Equipment Number",@"Search or Scan Equipment Number ",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_euipno_name"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_euipno_id"], nil]];
     
+    if (!equipmentEnableFlag) {
+        
+         [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Equipment Number",@"Search or Scan Equipment Number ",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_euipno_name"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_euipno_id"], nil]];
+    }
+ 
+ 
    self.equipmentsDetailsArray=[NSMutableArray new];
     
     [self.equipmentsDetailsArray addObjectsFromArray:[[DataBase sharedInstance] getiWerksForequipment:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_euipno_id"]]];
@@ -2954,11 +3369,9 @@
     }
     else{
         [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Planner group",@"Select Planner Group",@"",@"", nil]];
-
-    }
+     }
     
-    
-    if (![NullChecker isNull:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_text"]]) {
+     if (![NullChecker isNull:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_text"]]) {
         
           [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Person Responsible",@"Select Person Responsible",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_text"],[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_personresponsible_id"], nil]];
         
@@ -2971,8 +3384,6 @@
         
           [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Person Responsible",@"Select Person Responsible",@"",@"", nil]];
     }
-  //  [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Reported By",@"Enter Reported By",[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_reported_by"],@"", nil]];
-    
  
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
@@ -3069,10 +3480,25 @@
             
             [headerDataArray addObject:[NSMutableArray arrayWithObjects:@"Revision",@"Select Revision",@"",@"", nil]];
         }
- 
-    }
+     }
     
-      iwerkArray=[[DataBase sharedInstance] getiWerksForequipment:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_euipno_id"]];
+    iwerkString=[NSMutableString new];
+    
+    if (equipmentEnableFlag) {
+        
+        iwerkArray=[[DataBase sharedInstance] getiWerksForfunctionLocation:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_funcloc_id"]];
+        
+        [iwerkString setString:[[iwerkArray objectAtIndex:0] objectForKey:@"iwerks"]];
+
+     }
+    
+    else{
+        
+        iwerkArray=[[DataBase sharedInstance] getiWerksForequipment:[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_euipno_id"]];
+     }
+    
+    NSLog(@"iwerk are %@",iwerkString);
+    
     
     
      [commonlistTableView registerNib:[UINib nibWithNibName:@"InputDropDownTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"InputDropDownCell"];
@@ -3794,26 +4220,38 @@
 - (IBAction)addApplicationTypesClicked:(id)sender
 {
     
-     ApllicationsDropDownViewController *appVc = [self.storyboard instantiateViewControllerWithIdentifier:@"addApplicationVC"];
+     PermitViewController *appVc = [self.storyboard instantiateViewControllerWithIdentifier:@"permitsVc"];
     
        appVc.delegate=self;
-    
-    if (!createOrderFlag) {
-        
-        if ([self.equipmentsDetailsArray count]) {
-            
-            appVc.plantWorkCenterID=[[self.equipmentsDetailsArray objectAtIndex:0] objectForKey:@"iwerks"];
 
-        }
+    if (!createOrderFlag) {
+
+        if ([self.equipmentsDetailsArray count]) {
+
+            appVc.iwerkString=[[self.equipmentsDetailsArray objectAtIndex:0] objectForKey:@"iwerks"];
+         }
+        else{
+
+            appVc.iwerkString=iwerkString;
+         }
      }
-    else{
-        
-         appVc.plantWorkCenterID=res_obj.iwerkString;
+      else{
+
+         appVc.iwerkString=iwerkString;
       }
     
-     [self showViewController:appVc sender:self];
+        if (createOrderFlag) {
+             appVc.createOrderString=@"X";
+         }
+        else{
+             appVc.createOrderString=@"";
+         }
+ 
+      appVc.headerDetailsArray=[headerDataArray copy];
+      [self showViewController:appVc sender:self];
     
-}
+    
+ }
 
 -(void)addOperationDetailsBydefault{
     
@@ -4252,7 +4690,14 @@
         
     }
     
-    [tempArray addObject:plantWorkCenterID];
+       if (plantWorkCenterID.length) {
+        
+         [tempArray addObject:plantWorkCenterID];
+        }
+        else{
+           
+             [tempArray addObject:@""];
+         }
     
     if (wcmUsageID.length) {
         
@@ -4279,7 +4724,7 @@
     NSDate *startDate = [dateFormatter dateFromString:wcmFromDateTextfield.text];
     NSDate *endDate = [dateFormatter dateFromString:wcmToDateTextfield.text];
     // Convert date object into desired format
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateFormatter setDateFormat:@"yyyyMMdd"];
     
     NSString *convertedStartDateString = [dateFormatter stringFromDate:startDate];
     
@@ -4493,7 +4938,7 @@
         NSDate *startDate = [dateFormatter dateFromString:wcmFromDateTextfield.text];
         NSDate *endDate = [dateFormatter dateFromString:wcmToDateTextfield.text];
         // Convert date object into desired format
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"yyyyMMdd"];
         
         NSString *convertedStartDateString = [dateFormatter stringFromDate:startDate];
         
@@ -4511,8 +4956,7 @@
         
         [tempArray addObject:wcmFromTimeTextfield.text];//TimeFr
         
-        
-        NSString *convertedEndDateString = [dateFormatter stringFromDate:endDate];
+         NSString *convertedEndDateString = [dateFormatter stringFromDate:endDate];
         
         if (![NullChecker isNull:convertedEndDateString]) {
             [tempArray addObject:convertedEndDateString];//DateTo
@@ -4626,11 +5070,9 @@
         
         if (![self.workApplicationDetailsArray count]){
             
-            UIAlertView *failureAlertView = [[UIAlertView alloc]initWithTitle:@"Information" message:@"Please Add Atleast One Application" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Add Atleast One Application" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
             
-            [failureAlertView show];
-            
-            [self.view addSubview:workApprovalHeaderView];
+             [self.view addSubview:workApprovalHeaderView];
             
         }
         else{
@@ -4642,18 +5084,15 @@
             else{
                 
                 [self.workApprovalDetailsArray replaceObjectAtIndex:0 withObject:tempArray];
-                
-            }
+             }
             
-            [workApprovalTableView reloadData];
+              [workApprovalTableView reloadData];
             
         }
-        
-    }
+     }
     
     else
     {
-        
         
         NSMutableArray *tempArray=[NSMutableArray new];
         
@@ -4664,14 +5103,13 @@
             
             [tempArray addObject:[NSString stringWithFormat:@"WA%@",vornrApplicationString]];//applicationID
             
-            
-            if (!createOrderFlag) {
+             if (!createOrderFlag) {
                 
                 [tempArray addObject:plantWorkCenterID];
              }
             else{
                 
-                [tempArray addObject:res_obj.iwerkString];
+                [tempArray addObject:iwerkString];
 
             }
             
@@ -4765,16 +5203,12 @@
             
             [tempArray addObject:@""];//objnr
             [tempArray addObject:@"WW0001"];//refobj
-            
-        }
+         }
         else{
             
             [tempArray addObject:objnrIdPosition];//objnr
-            
             [tempArray addObject:refObjString];//refobj
-            
-            
-        }
+         }
         
         [tempArray addObject:@""];//created
         
@@ -4786,7 +5220,7 @@
         }
         
         [tempArray addObject:@""];//comp
-        
+ 
         
         if (!changeApplicationFlag) {
             
@@ -4845,8 +5279,9 @@
                 else {
                     
                     [tempArray addObject:@"Y"]; //appr
-                    
-                }
+                 }
+                
+                
             }
             
         }
@@ -4935,7 +5370,7 @@
                     
                     [[[self.hazardsControlSCheckpointsArray objectAtIndex:0] objectAtIndex:i] replaceObjectAtIndex:0 withObject:res_obj.applicationObjArt];
                     
-                    [[[self.hazardsControlSCheckpointsArray objectAtIndex:0] objectAtIndex:i] replaceObjectAtIndex:1 withObject:res_obj.applicationObjArt];
+                    [[[self.hazardsControlSCheckpointsArray objectAtIndex:0] objectAtIndex:i] replaceObjectAtIndex:1 withObject:res_obj.applicationTypeString];
                 }
                 
             }
@@ -4992,13 +5427,12 @@
                 [[self.workApplicationDetailsArray objectAtIndex:workApplicationSelectedIndex] replaceObjectAtIndex:0 withObject:tempArray];
              }
             
+             [self loadWorkApprovalsData];
             
-            [self loadWorkApprovalsData];
+               [applicationTypeTableView reloadData];
+              //[self.view addSubview:applicationTypeView];
             
-            [applicationTypeTableView reloadData];
-            //[self.view addSubview:applicationTypeView];
-            
-            [applicationTypeView setFrame:CGRectMake(0, 0, commonlistTableView.frame.size.width, commonlistTableView.frame.size.height)];
+             [applicationTypeView setFrame:CGRectMake(0, 0, commonlistTableView.frame.size.width, commonlistTableView.frame.size.height)];
              [commonlistTableView addSubview:applicationTypeView];
             
             
@@ -5143,22 +5577,19 @@
     {
         [self.hazardsControlSCheckpointsArray removeAllObjects];
     }
-    
-    
+ 
     if (!changeApplicationFlag) {
         
         if (createOrderFlag) {
             
-            [self.hazardsControlSCheckpointsArray addObjectsFromArray:[[DataBase sharedInstance] fetchWCMRequestsforCreateApplicationType:res_obj.iwerkString forUsage:wcmUsageID]];
+            [self.hazardsControlSCheckpointsArray addObjectsFromArray:[[DataBase sharedInstance] fetchWCMRequestsforCreateApplicationType:iwerkString forUsage:wcmUsageID]];
          }
         
         else{
             
-            if ([iwerkArray count]) {
-                
-                [self.hazardsControlSCheckpointsArray addObjectsFromArray:[[DataBase sharedInstance] fetchWCMRequestsforCreateApplicationType:[[iwerkArray objectAtIndex:0] objectForKey:@"iwerks"] forUsage:wcmUsageID]];
-             }
-          }
+            [self.hazardsControlSCheckpointsArray addObjectsFromArray:[[DataBase sharedInstance] fetchWCMRequestsforCreateApplicationType:iwerkString forUsage:wcmUsageID]];
+           }
+        
      }
     else{
         
@@ -5282,6 +5713,8 @@
             controlFlag=@"X";
         }
         
+        
+        
         if ([[[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:i] objectAtIndex:13] isEqualToString:@"X"]){
             
             [[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:i] replaceObjectAtIndex:5 withObject:@"Y"];
@@ -5350,18 +5783,11 @@
     
     if (createOrderFlag) {
         
-        [tempArray addObject:res_obj.iwerkString];
+        [tempArray addObject:iwerkString];
      }
      else{
  
-         if ([iwerkArray count]) {
-             
-             [tempArray addObject:[[iwerkArray objectAtIndex:0] objectForKey:@"iwerk"]];
-          }
-         else{
-             
-             [tempArray addObject:@""];
-          }
+         [tempArray addObject:iwerkString];
      }
     
  
@@ -5871,20 +6297,13 @@
                  
                  else if (i==8){
                      
-                     if (self.workcenterArray==nil) {
-                         self.workcenterArray=[NSMutableArray new];
-                     }
-                     else{
-                         
-                         [self.workcenterArray removeAllObjects];
-                      }
+ 
+                     WorkcenterViewController *equipVc = [self.storyboard instantiateViewControllerWithIdentifier:@"wrkcenterVC"];
+                     equipVc.delegate=self;
+                     equipVc.searchString=@"X";
+                     equipVc.iwerkString=plantID;
+                     [self showViewController:equipVc sender:self];
                      
-                     [self.workcenterArray addObjectsFromArray:[[DataBase sharedInstance] getListOfWorkCenter:iwerkString]];
-                     
-                     funcLocnHeaderLabel.text = [NSString stringWithFormat:@"Work Center (%lu)",(unsigned long)[self.workcenterArray count]];
-                     [searchDropDownView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-                     [seachDropdownTableView reloadData];
-                     [self.view addSubview:searchDropDownView];
                  }
               }
              
@@ -5910,27 +6329,14 @@
                  
                  else if (i==9){
                      
-                     if (self.workcenterArray==nil) {
-                         self.workcenterArray=[NSMutableArray new];
-                     }
-                     else{
-                         
-                         [self.workcenterArray removeAllObjects];
-                         
-                     }
-                     
-                     [self.workcenterArray addObjectsFromArray:[[DataBase sharedInstance] getListOfWorkCenter]];
-                     
-                     funcLocnHeaderLabel.text = [NSString stringWithFormat:@"Work Center (%lu)",(unsigned long)[self.workcenterArray count]];
-                     [seachDropdownTableView registerNib:[UINib nibWithNibName:@"WorkcenterTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"WorkcenterCell"];
-                     [searchDropDownView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-                     [seachDropdownTableView reloadData];
-                     [self.view addSubview:searchDropDownView];
+                     WorkcenterViewController *equipVc = [self.storyboard instantiateViewControllerWithIdentifier:@"wrkcenterVC"];
+                     equipVc.delegate=self;
+                     equipVc.searchString=@"X";
+                     equipVc.iwerkString=plantID;
+                     [self showViewController:equipVc sender:self];
                  }
-
-             }
-             
-         }
+              }
+          }
          
          else{
              
@@ -5948,22 +6354,12 @@
  
                  else if (i==9){
  
-                     if (self.workcenterArray==nil) {
-                         
-                         self.workcenterArray=[NSMutableArray new];
-                     }
-                     else{
-                         
-                         [self.workcenterArray removeAllObjects];
-                      }
+                     WorkcenterViewController *equipVc = [self.storyboard instantiateViewControllerWithIdentifier:@"wrkcenterVC"];
+                     equipVc.delegate=self;
+                     equipVc.searchString=@"X";
+                     equipVc.iwerkString=[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_plant_id"];
+                     [self showViewController:equipVc sender:self];
                      
-                     [self.workcenterArray addObjectsFromArray:[[DataBase sharedInstance] getListOfWorkCenter]];
-                     
-                     funcLocnHeaderLabel.text = [NSString stringWithFormat:@"Work Center (%lu)",(unsigned long)[self.workcenterArray count]];
-                     [seachDropdownTableView registerNib:[UINib nibWithNibName:@"WorkcenterTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"WorkcenterCell"];
-                     [searchDropDownView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-                     [seachDropdownTableView reloadData];
-                     [self.view addSubview:searchDropDownView];
                   }
               }
              
@@ -5989,23 +6385,13 @@
                  
                  else if (i==10){
  
-                     if (self.workcenterArray==nil) {
-                         
-                         self.workcenterArray=[NSMutableArray new];
-                     }
-                     else{
-                         
-                         [self.workcenterArray removeAllObjects];
-                         
-                     }
+                     WorkcenterViewController *equipVc = [self.storyboard instantiateViewControllerWithIdentifier:@"wrkcenterVC"];
+                     equipVc.delegate=self;
+                     equipVc.searchString=@"X";
+                     equipVc.iwerkString=[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"orderh_plant_id"];
+                     [self showViewController:equipVc sender:self];
                      
-                     [self.workcenterArray addObjectsFromArray:[[DataBase sharedInstance] getListOfWorkCenter]];
                      
-                     funcLocnHeaderLabel.text = [NSString stringWithFormat:@"Work Center (%lu)",(unsigned long)[self.workcenterArray count]];
-                     [seachDropdownTableView registerNib:[UINib nibWithNibName:@"WorkcenterTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"WorkcenterCell"];
-                     [searchDropDownView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-                     [seachDropdownTableView reloadData];
-                     [self.view addSubview:searchDropDownView];
                  }
              }
           }
@@ -6150,7 +6536,6 @@
 
 -(void)addWorkApprovaslDataClicked
 {
-    
  
         wcmShortTextField.text=[[headerDataArray objectAtIndex:1] objectAtIndex:2];
         wcmFunctionLocationTextfield.text=[[headerDataArray objectAtIndex:2] objectAtIndex:3];
@@ -6173,14 +6558,14 @@
         {
             if (currentHour > 6 && (currentMinute >=0 || currentSecond >=0))
             {
-                wcmFromTimeTextfield.text=@"6:00:00";
-                wcmToTimeTextfield.text=@"14:00:00";
+                wcmFromTimeTextfield.text=@"60000";
+                wcmToTimeTextfield.text=@"140000";
                 NSLog(@"Shift A");
             }
             else
             {
-                wcmFromTimeTextfield.text=@"22:00:00";
-                wcmToTimeTextfield.text=@"6:00:00";
+                wcmFromTimeTextfield.text=@"220000";
+                wcmToTimeTextfield.text=@"60000";
                 NSLog(@"Shift C");
             }
         }
@@ -6188,20 +6573,31 @@
         {
             if ((currentHour < 22 && (currentMinute >=0 || currentSecond >= 0)) || (currentHour == 22 && (currentMinute == 0 && currentSecond == 0)))
             {
-                wcmFromTimeTextfield.text=@"14:00:00";
-                wcmToTimeTextfield.text=@"22:00:00";
+                wcmFromTimeTextfield.text=@"140000";
+                wcmToTimeTextfield.text=@"220000";
                 NSLog(@"Shift B");
             }
             else
             {
-                wcmFromTimeTextfield.text=@"22:00:00";
-                wcmToTimeTextfield.text=@"6:00:00";
+                wcmFromTimeTextfield.text=@"220000";
+                wcmToTimeTextfield.text=@"60000";
                 NSLog(@"Shift C");
                 
             }
         }
     
-      wcmPriorityTextfield.text=[[headerDataArray objectAtIndex:4] objectAtIndex:2];
+    
+    if (equipmentEnableFlag) {
+        
+         wcmPriorityTextfield.text=[[headerDataArray objectAtIndex:3] objectAtIndex:2];
+
+    }
+    
+    else{
+        
+        wcmPriorityTextfield.text=[[headerDataArray objectAtIndex:4] objectAtIndex:2];
+
+    }
     
  }
  
@@ -6222,6 +6618,8 @@
        
         standardCheckPointBtn.hidden=YES;
         opWCDBtn.hidden=NO;
+        
+        isolationlistBtn.hidden=NO;
  
         [workApprovalHeaderView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         
@@ -6230,6 +6628,8 @@
       }
      else
      {
+         isolationlistBtn.hidden=YES;
+
         opWCDBtn.hidden=YES;
         standardCheckPointBtn.hidden=NO;
         wcmUsergrouptextField.text=@"";
@@ -6259,6 +6659,7 @@
         
         if (createOrderFlag) {
             
+            
             if (res_obj.idString) {
                 
                 [[headerDataArray objectAtIndex:3] replaceObjectAtIndex:2 withObject:res_obj.nameString];
@@ -6283,8 +6684,7 @@
                 plantID=res_obj.plantIdString;
                 
                 plantComponentTextField.text = plantID;
-                
-                
+ 
                 plantworkcenterTextField.text=[NSString stringWithFormat:@"%@-%@",plantID,res_obj.workcenterString];
                 
                 if ([plannerGroupDetails count]) {
@@ -6712,10 +7112,10 @@
             [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Order Long Text" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
             
         }
-        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:3] objectAtIndex:2]])
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:4] objectAtIndex:2]])
         {
             
-            [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Equipment Number" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+            [self showAlertMessageWithTitle:@"Information" message:@"Please Select Priority" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
             
         }
         else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:5] objectAtIndex:2]])
@@ -6724,21 +7124,21 @@
             [self showAlertMessageWithTitle:@"Information" message:@"Please Select Planner group" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
             
         }
-        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:8] objectAtIndex:2]])
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:7] objectAtIndex:2]])
         {
             
             [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Basic Start Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
             
         }
-        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:9] objectAtIndex:2]])
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:8] objectAtIndex:2]])
         {
             [self showAlertMessageWithTitle:@"Information" message:@"Please Enter Basic End Date" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
         }
-        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:10] objectAtIndex:2]])
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:9] objectAtIndex:2]])
         {
             [self showAlertMessageWithTitle:@"Information" message:@"Please Select Work center" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
         }
-        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:11] objectAtIndex:2]])
+        else if(![JEValidator validateTextValue:[[headerDataArray objectAtIndex:10] objectAtIndex:2]])
         {
             [self showAlertMessageWithTitle:@"Information" message:@"Please Select Cost Center" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
         }
@@ -6771,6 +7171,7 @@
         if (equipmentEnableFlag) {
             
             [self changeOrderValidationwithoutEquipment];
+            
         }
         else{
  
@@ -6960,28 +7361,29 @@
                       
                       if (createOrderFlag) {
                           
-                        static NSString *CellIdentifier = @"SearchInputDropDownCell";
-                          
-                          SearchInputDropdownTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-                          
-                          if (cell==nil) {
-                              cell=[[SearchInputDropdownTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                          }
-                          
-                          
-                          cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                          
-                          cell.notifView.layer.cornerRadius = 2.0f;
-                          cell.notifView.layer.masksToBounds = YES;
-                          cell.notifView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-                          cell.notifView.layer.borderWidth = 1.0f;
-                          
-                          cell.madatoryLabel.hidden=YES;
-                          cell.InputTextField.superview.tag = indexPath.row;
-                          cell.InputTextField.delegate = self;
  
-                          
                           if (equipmentEnableFlag) {
+                              
+                              static NSString *CellIdentifier = @"SearchInputDropDownCell";
+                              
+                              SearchInputDropdownTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                              
+                              if (cell==nil) {
+                                  cell=[[SearchInputDropdownTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                              }
+                              
+                              
+                              cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                              
+                              cell.notifView.layer.cornerRadius = 2.0f;
+                              cell.notifView.layer.masksToBounds = YES;
+                              cell.notifView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+                              cell.notifView.layer.borderWidth = 1.0f;
+                              
+                              cell.madatoryLabel.hidden=YES;
+                              cell.InputTextField.superview.tag = indexPath.row;
+                              cell.InputTextField.delegate = self;
+                              
  
                               cell.scanBtn.hidden=YES;
                               cell.historyBtn.hidden=YES;
@@ -6989,8 +7391,13 @@
                               cell.madatoryLabel.hidden=YES;
  
                               if (indexPath.row==2||indexPath.row==8) {
-                                  
  
+                                  if (indexPath.row==8) {
+                                      
+                                      cell.madatoryLabel.hidden=NO;
+
+                                  }
+                                  
                                   [cell.searchBtn addTarget:self action:@selector(functionLocationSearchAction:) forControlEvents:UIControlEventTouchUpInside];
                                   
                                   [cell.scanBtn addTarget:self action:@selector(scanSearchAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -7050,20 +7457,12 @@
                                   
                                 if (indexPath.row==5||indexPath.row==10) {
                                       
-                                      cell.madatoryLabel.hidden=YES;
+                                     cell.madatoryLabel.hidden=YES;
                                       
-                                  }
+                                }
                                   
                                   cell.longTextBtn.hidden=YES;
                                   
-                                  if (WBSElementsFlag) {
-                                      
-                                      if (indexPath.row==11||indexPath.row==12) {
-                                          
-                                          cell.madatoryLabel.hidden=YES;
-                                       }
-                                  }
- 
                                   if (indexPath.row==6||indexPath.row==7){
                                       
                                       cell.dropDownImageView.hidden=NO;
@@ -7083,6 +7482,27 @@
                           
                            else{
  
+                               
+                               static NSString *CellIdentifier = @"SearchInputDropDownCell";
+                               
+                               SearchInputDropdownTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                               
+                               if (cell==nil) {
+                                   cell=[[SearchInputDropdownTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                               }
+                               
+                               
+                               cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                               
+                               cell.notifView.layer.cornerRadius = 2.0f;
+                               cell.notifView.layer.masksToBounds = YES;
+                               cell.notifView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+                               cell.notifView.layer.borderWidth = 1.0f;
+                               
+                               cell.madatoryLabel.hidden=YES;
+                               cell.InputTextField.superview.tag = indexPath.row;
+                               cell.InputTextField.delegate = self;
+                               
                               
                               if (indexPath.row==2||indexPath.row==3||indexPath.row==9) {
                                   
@@ -7163,8 +7583,7 @@
                                   }
                                   
                                   cell.madatoryLabel.hidden=NO;
-                                  
-                                  
+ 
                                   if (indexPath.row==6||indexPath.row==11) {
                                       
                                       cell.madatoryLabel.hidden=YES;
@@ -7201,34 +7620,37 @@
                       
                 else{
                     
-                    
-                    
-                    static NSString *CellIdentifier = @"SearchInputDropDownCell";
-                    
-                    SearchInputDropdownTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-                    
-                    if (cell==nil) {
-                        cell=[[SearchInputDropdownTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                    }
-                    
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    
-                    cell.notifView.layer.cornerRadius = 2.0f;
-                    cell.notifView.layer.masksToBounds = YES;
-                    cell.notifView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-                    cell.notifView.layer.borderWidth = 1.0f;
-                    
-                    cell.madatoryLabel.hidden=YES;
-                    cell.InputTextField.superview.tag = indexPath.row;
-                    cell.InputTextField.delegate = self;
-                    
+ 
                     if (equipmentEnableFlag) {
                         
+                        
+                        static NSString *CellIdentifier = @"SearchInputDropDownCell";
+                        
+                        SearchInputDropdownTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                        
+                        if (cell==nil) {
+                            cell=[[SearchInputDropdownTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                        }
+                        
+                        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                        
+                        cell.notifView.layer.cornerRadius = 2.0f;
+                        cell.notifView.layer.masksToBounds = YES;
+                        cell.notifView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+                        cell.notifView.layer.borderWidth = 1.0f;
+                        
+                        cell.madatoryLabel.hidden=YES;
+                        cell.InputTextField.superview.tag = indexPath.row;
+                        cell.InputTextField.delegate = self;
                         if (indexPath.row==3||indexPath.row==9) {
                             
                             cell.scanBtn.hidden=YES;
                             cell.historyBtn.hidden=YES;
                             cell.scanLabel.hidden=YES;
+                            
+                             if (indexPath.row==9) {
+                                 cell.madatoryLabel.hidden=NO;
+                             }
                             
                             [cell.searchBtn addTarget:self action:@selector(functionLocationSearchAction:) forControlEvents:UIControlEventTouchUpInside];
                             
@@ -7329,27 +7751,15 @@
                             
                             cell.madatoryLabel.hidden=NO;
                             
-                            if (indexPath.row==5||indexPath.row==10) {
+                            if (indexPath.row==11||indexPath.row==6) {
                                 
                                 cell.madatoryLabel.hidden=YES;
                             }
                             
+                             cell.longTextBtn.hidden=YES;
                             
-                            if (WBSElementsFlag) {
-                                
-                                if (indexPath.row==12||indexPath.row==13) {
-                                    
-                                    cell.madatoryLabel.hidden=YES;
-                                }
-                            }
-                            
-                            cell.longTextBtn.hidden=YES;
-                            
-                            if (indexPath.row==1) {
-                                cell.longTextBtn.hidden=NO;
-                            }
-                            
-                            else if (indexPath.row==7||indexPath.row==8){
+ 
+                              if (indexPath.row==7||indexPath.row==8){
                                 
                                 cell.dropDownImageView.hidden=NO;
                                 
@@ -7366,6 +7776,25 @@
                      }
                      else{
  
+ 
+                         static NSString *CellIdentifier = @"SearchInputDropDownCell";
+                         
+                         SearchInputDropdownTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                         
+                         if (cell==nil) {
+                             cell=[[SearchInputDropdownTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                         }
+                         
+                         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                         
+                         cell.notifView.layer.cornerRadius = 2.0f;
+                         cell.notifView.layer.masksToBounds = YES;
+                         cell.notifView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+                         cell.notifView.layer.borderWidth = 1.0f;
+                         
+                         cell.madatoryLabel.hidden=YES;
+                         cell.InputTextField.superview.tag = indexPath.row;
+                         cell.InputTextField.delegate = self;
                           if (indexPath.row==3||indexPath.row==4||indexPath.row==10) {
  
                              if (indexPath.row==10) {
@@ -7493,11 +7922,8 @@
                             
                             cell.longTextBtn.hidden=YES;
                             
-                            if (indexPath.row==1) {
-                                cell.longTextBtn.hidden=NO;
-                            }
-                            
-                            else if (indexPath.row==8||indexPath.row==9){
+ 
+                             if (indexPath.row==8||indexPath.row==9){
                                 
                                 cell.dropDownImageView.hidden=NO;
                                 
@@ -7922,27 +8348,39 @@
 
 
                 cell.appIDLabel.text=[[[self.workApplicationDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:2];
-                NSMutableDictionary *fetchData = [NSMutableDictionary new];
-                [fetchData setObject:[[[self.workApplicationDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:4] forKey:@"ObjTypeID"];
-                 [fetchData setObject:plantWorkCenterID forKey:@"PlantID"];
- 
-                NSArray *objTypeTextArray = [[DataBase sharedInstance] getApplicationNameForObjType:fetchData];
-
-                if ([objTypeTextArray count]) {
-                    cell.applicationNameLabel.text = [objTypeTextArray objectAtIndex:0];
+                
+                if ([res_obj.applicationTypesArray count]) {
+                    
+                    cell.applicationNameLabel.text = [res_obj.applicationTypesArray objectAtIndex:3];
                 }
+                
                 else{
-
-                    if ([res_obj.applicationTypesArray count]) {
-                        
-                        cell.applicationNameLabel.text = [res_obj.applicationTypesArray objectAtIndex:3];
-                     }
-                    
-                    else{
-                        cell.applicationNameLabel.text = [[[self.workApplicationDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:6];
-                    }
-                    
-                  }
+                    cell.applicationNameLabel.text = [[[self.workApplicationDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:6];
+                }
+                
+                
+//                NSMutableDictionary *fetchData = [NSMutableDictionary new];
+//                [fetchData setObject:[[[self.workApplicationDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:4] forKey:@"ObjTypeID"];
+//
+//                [fetchData setObject:plantWorkCenterID forKey:@"PlantID"];
+//
+//                NSArray *objTypeTextArray = [[DataBase sharedInstance] getApplicationNameForObjType:fetchData];
+//
+//                if ([objTypeTextArray count]) {
+//                    cell.applicationNameLabel.text = [objTypeTextArray objectAtIndex:0];
+//                }
+//                else{
+//
+//                    if ([res_obj.applicationTypesArray count]) {
+//
+//                        cell.applicationNameLabel.text = [res_obj.applicationTypesArray objectAtIndex:3];
+//                     }
+//
+//                    else{
+//                        cell.applicationNameLabel.text = [[[self.workApplicationDetailsArray objectAtIndex:indexPath.row] firstObject] objectAtIndex:6];
+//                    }
+//
+//                  }
  
                 return cell;
  
@@ -8149,9 +8587,9 @@
           
           [cell.yesBtn addTarget:self action:@selector(radioBoxYesClicked:)   forControlEvents:UIControlEventTouchDown];
           
-          [cell.noBtn addTarget:self action:@selector(radioBoxNoClicked:)   forControlEvents:UIControlEventTouchDown];
-          
-          [cell.naBtn addTarget:self action:@selector(radioBoxNAClicked:)   forControlEvents:UIControlEventTouchDown];
+//          [cell.noBtn addTarget:self action:@selector(radioBoxNoClicked:)   forControlEvents:UIControlEventTouchDown];
+//
+//          [cell.naBtn addTarget:self action:@selector(radioBoxNAClicked:)   forControlEvents:UIControlEventTouchDown];
           
           if (indexPath.row % 2 == 0){
               cell.backgroundColor =UIColorFromRGB(249, 249, 249);
@@ -8171,27 +8609,24 @@
               
               if ([[[[self.hazardsControlSCheckpointsArray firstObject] objectAtIndex:indexPath.row] objectAtIndex:5] isEqualToString:@"Y"]) {
                   
-                  [cell.yesBtn  setImage:[UIImage imageNamed:@"radioselection.png"]   forState:UIControlStateNormal];
+                  [cell.yesBtn  setImage:[UIImage imageNamed:@"CheckBoxSelection"]   forState:UIControlStateNormal];
                   
-                  [cell.noBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+                //  [cell.noBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
                   
-                  //  [cell.naBtn  setImage:[UIImage imageNamed:@"checkbox_unselected.png"]   forState:UIControlStateNormal];
-              }
+               }
               else if ([[[[self.hazardsControlSCheckpointsArray firstObject] objectAtIndex:indexPath.row] objectAtIndex:5] isEqualToString:@"N"]) {
                   
-                  [cell.noBtn  setImage:[UIImage imageNamed:@"radioselection.png"]   forState:UIControlStateNormal];
+                //  [cell.noBtn  setImage:[UIImage imageNamed:@"radioselection.png"]   forState:UIControlStateNormal];
                   
-                  [cell.yesBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+                  [cell.yesBtn  setImage:[UIImage imageNamed:@"checkBoxUnSelection"]   forState:UIControlStateNormal];
                   
-                  //  [cell.naBtn  setImage:[UIImage imageNamed:@"checkbox_unselected.png"]   forState:UIControlStateNormal];
-              }
+               }
               else{
                   
-                  //  [cell.naBtn  setImage:[UIImage imageNamed:@"checkbox_selected.png"]   forState:UIControlStateNormal];
+ 
+                  [cell.yesBtn  setImage:[UIImage imageNamed:@"checkBoxUnSelection"]   forState:UIControlStateNormal];
                   
-                  [cell.yesBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
-                  
-                  [cell.noBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+               //   [cell.noBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
               }
               
               if ([[[[self.hazardsControlSCheckpointsArray firstObject] objectAtIndex:indexPath.row] objectAtIndex:14] isEqualToString:@""]) {
@@ -8207,17 +8642,17 @@
               
               if ([[[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:indexPath.row] objectAtIndex:5] isEqualToString:@"Y"]||[[[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:indexPath.row] objectAtIndex:13] isEqualToString:@"X"]) {
                   
-                  [cell.yesBtn  setImage:[UIImage imageNamed:@"radioselection.png"]   forState:UIControlStateNormal];
+                  [cell.yesBtn  setImage:[UIImage imageNamed:@"CheckBoxSelection"]   forState:UIControlStateNormal];
                   
-                  [cell.noBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+                //  [cell.noBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
                   
                   // [cell.naBtn  setImage:[UIImage imageNamed:@"checkbox_unselected.png"]   forState:UIControlStateNormal];
               }
               else if ([[[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:indexPath.row] objectAtIndex:5] isEqualToString:@"N"]||[[[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:indexPath.row] objectAtIndex:13] isEqualToString:@"X"]) {
                   
-                  [cell.noBtn  setImage:[UIImage imageNamed:@"radioselection.png"]   forState:UIControlStateNormal];
+               //   [cell.noBtn  setImage:[UIImage imageNamed:@"radioselection.png"]   forState:UIControlStateNormal];
                   
-                  [cell.yesBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+                  [cell.yesBtn  setImage:[UIImage imageNamed:@"checkBoxUnSelection"]   forState:UIControlStateNormal];
                   
                   //  [cell.naBtn  setImage:[UIImage imageNamed:@"checkbox_unselected.png"]   forState:UIControlStateNormal];
               }
@@ -8225,9 +8660,9 @@
                   
                   //  [cell.naBtn  setImage:[UIImage imageNamed:@"checkbox_selected.png"]   forState:UIControlStateNormal];
                   
-                  [cell.yesBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+                  [cell.yesBtn  setImage:[UIImage imageNamed:@"checkBoxUnSelection"]   forState:UIControlStateNormal];
                   
-                  [cell.noBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
+                 // [cell.noBtn  setImage:[UIImage imageNamed:@"radiounselection.png"]   forState:UIControlStateNormal];
               }
               
               if ([[[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:indexPath.row] objectAtIndex:14] isEqualToString:@""]) {
@@ -8587,13 +9022,10 @@
             opWCDBtn.hidden=YES;
             switchingScreenBtn.hidden=NO;
             changeWorkApprovalFlag=YES;
-            
  
             [self trafficSignalforWorkApproval];
-            
             headerWorkApprovalLabel.text=@"Change Work Approval";
-            
-             [commonlistTableView addSubview:workApprovalHeaderView];
+            [commonlistTableView addSubview:workApprovalHeaderView];
             
         }
     }
@@ -9441,31 +9873,49 @@
     NSIndexPath *ip = [self GetCellFromTableView:checkPointTableView Sender:sender];
     NSInteger i = ip.row;
     
-    //    UIButton *tappedButton = (UIButton*)sender;
-    //
-    //    if([tappedButton.currentImage isEqual:[UIImage imageNamed:@"checkbox_unselected.png"]]) {
-    //        [sender  setImage:[UIImage imageNamed: @"checkbox_selected.png"] forState:UIControlStateNormal];
-    //
-    //    }
-    //    else
-    //    {
-    //        [sender setImage:[UIImage imageNamed:@"checkbox_unselected.png"]forState:UIControlStateNormal];
-    //
-    //    }
+        UIButton *tappedButton = (UIButton*)sender;
     
-    if (checkPointTableView.tag==0) {
-        
-        checkPointFlag=YES;
-        
-        [[[self.hazardsControlSCheckpointsArray firstObject] objectAtIndex:i] replaceObjectAtIndex:5 withObject:@"Y"];
-    }
-    else if (checkPointTableView.tag==1){
-        
-        checkPointFlag=NO;
-        
-        [[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:i] replaceObjectAtIndex:5 withObject:@"Y"];
-    }
+        if([tappedButton.currentImage isEqual:[UIImage imageNamed:@"checkBoxUnSelection"]]) {
+            
+           // [sender  setImage:[UIImage imageNamed: @"CheckBoxSelection"] forState:UIControlStateNormal];
     
+            if (checkPointTableView.tag==0) {
+                
+                checkPointFlag=YES;
+                
+                [[[self.hazardsControlSCheckpointsArray firstObject] objectAtIndex:i] replaceObjectAtIndex:5 withObject:@"Y"];
+ 
+             }
+            else if (checkPointTableView.tag==1){
+                
+                checkPointFlag=NO;
+                
+                  [[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:i] replaceObjectAtIndex:5 withObject:@"Y"];
+            }
+            
+
+        }
+        else
+        {
+           // [sender setImage:[UIImage imageNamed:@"checkBoxUnSelection"]forState:UIControlStateNormal];
+            
+            if (checkPointTableView.tag==0) {
+                
+                checkPointFlag=YES;
+                
+                [[[self.hazardsControlSCheckpointsArray firstObject] objectAtIndex:i] replaceObjectAtIndex:5 withObject:@""];
+
+            }
+            else if (checkPointTableView.tag==1){
+                
+                checkPointFlag=NO;
+                
+                [[[self.hazardsControlSCheckpointsArray lastObject] objectAtIndex:i] replaceObjectAtIndex:5 withObject:@""];
+            }
+ 
+        }
+    
+  
     [checkPointTableView reloadData];
     
 }
@@ -9693,9 +10143,17 @@
  
                 [self showAlertMessageWithTitle:@"Authentication Failed!!" message:@"kindly check your password" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
                 
+                  return;
+             }
+            
+            else if (statusCode==400){
                 
-                return;
-            }
+                [self showAlertMessageWithTitle:@"Error" message:@"Failed to Create Order" cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+                
+             }
             
             if (!errorDescription.length) {
                 
@@ -13640,15 +14098,9 @@
                             }
                           }
                         
-                        if ([parsedDictionary objectForKey:@"MESSAGE"]) {
-                            
-                            [self showAlertMessageWithTitle:@"Error" message:[[parsedDictionary objectForKey:@"MESSAGE"] substringFromIndex:1] cancelButtonTitle:@"Ok" withactionType:@"Single" forMethod:nil];
-                         }
- 
                        }
                 }
                 else if ([parsedDictionary objectForKey:@"ERROR"] || [parsedDictionary objectForKey:@"MESSAGE"]){
-                    
  
                     [[DataBase sharedInstance] updateSyncLogErrorForCategory:@"Order" action:@"Create" objectid:@"" UUID:[self.orderHeaderDetails objectForKey:@"ID"] message:[[parsedDictionary objectForKey:@"MESSAGE"] substringFromIndex:1] Date:[self.orderHeaderDetails objectForKey:@"DATE"] timestamp:[self.orderHeaderDetails objectForKey:@"TIME"]];
  
@@ -13660,17 +14112,16 @@
                     else{
                      
                          [self showAlertMessageWithTitle:@"Order is not Created" message:[parsedDictionary objectForKey:@"ERROR"] cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
-                    }
+                      }
                     }
                 
-                   [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-                  }
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                 }
                 else
                 {
+                    
                     [[DataBase sharedInstance] updateSyncLogErrorForCategory:@"Order" action:@"Create" objectid:@"" UUID:[self.orderHeaderDetails objectForKey:@"ID"] message:NSLocalizedString(@"ErrorMessage", nil) Date:[self.orderHeaderDetails objectForKey:@"DATE"] timestamp:[self.orderHeaderDetails objectForKey:@"TIME"]];
  
-                    
                     [self showAlertMessageWithTitle:@"Information" message:[NSString stringWithFormat:NSLocalizedString(@"ErrorMessage", nil)] cancelButtonTitle:@"OK" withactionType:@"Single" forMethod:nil];
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];

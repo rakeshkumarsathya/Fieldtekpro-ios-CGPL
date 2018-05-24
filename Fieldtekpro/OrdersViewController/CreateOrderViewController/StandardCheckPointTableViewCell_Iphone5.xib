@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,78 +19,42 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j0b-AI-bce">
-                        <rect key="frame" x="8" y="7" width="179" height="35"/>
+                        <rect key="frame" x="8" y="7" width="272" height="35"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="179" id="Fc8-zB-NkH"/>
+                            <constraint firstAttribute="height" constant="35" id="VNy-M3-X9p"/>
+                            <constraint firstAttribute="width" constant="272" id="j1I-12-Q6q"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Y" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yH-gZ-ZxX">
-                        <rect key="frame" x="224" y="14" width="27" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="HX4-49-bW7"/>
-                            <constraint firstAttribute="width" constant="27" id="dyE-6z-7SB"/>
-                            <constraint firstAttribute="height" constant="21" id="pQ6-KW-P3j"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fU3-SN-f9M">
-                        <rect key="frame" x="290" y="14" width="27" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="edM-l8-NwC"/>
-                            <constraint firstAttribute="width" constant="27" id="zAd-xo-k6Q"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T38-wP-yyO">
-                        <rect key="frame" x="257" y="12" width="25" height="25"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="25" id="rch-M4-JlN"/>
-                        </constraints>
-                        <state key="normal" image="radioselection.png"/>
-                    </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QgL-qP-wXS">
-                        <rect key="frame" x="196" y="12" width="25" height="25"/>
+                        <rect key="frame" x="288" y="11" width="25" height="25"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="25" id="VXG-px-w9d"/>
-                            <constraint firstAttribute="height" constant="25" id="gKA-hh-Sra"/>
+                            <constraint firstAttribute="width" constant="25" id="WbK-MW-qsf"/>
+                            <constraint firstAttribute="height" constant="25" id="vTV-Yo-h53"/>
                         </constraints>
-                        <state key="normal" image="radiounselection.png"/>
+                        <state key="normal" image="checkBoxUnSelection"/>
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="j0b-AI-bce" firstAttribute="centerY" secondItem="T38-wP-yyO" secondAttribute="centerY" id="3HD-b3-JDU"/>
-                    <constraint firstItem="QgL-qP-wXS" firstAttribute="leading" secondItem="j0b-AI-bce" secondAttribute="trailing" constant="9" id="6hw-9J-lvU"/>
-                    <constraint firstItem="fU3-SN-f9M" firstAttribute="leading" secondItem="T38-wP-yyO" secondAttribute="trailing" constant="8" symbolic="YES" id="GUz-LM-X9y"/>
-                    <constraint firstItem="T38-wP-yyO" firstAttribute="leading" secondItem="6yH-gZ-ZxX" secondAttribute="trailing" constant="6" id="HI1-sC-6Rc"/>
-                    <constraint firstItem="T38-wP-yyO" firstAttribute="top" secondItem="ia7-vu-HXo" secondAttribute="topMargin" constant="1" id="NNq-Wp-HYQ"/>
-                    <constraint firstAttribute="trailing" secondItem="T38-wP-yyO" secondAttribute="trailing" constant="38" id="NPC-Vs-lk5"/>
-                    <constraint firstItem="j0b-AI-bce" firstAttribute="top" secondItem="ia7-vu-HXo" secondAttribute="topMargin" constant="-4" id="Ouf-xs-eY0"/>
-                    <constraint firstItem="j0b-AI-bce" firstAttribute="centerY" secondItem="ia7-vu-HXo" secondAttribute="centerY" id="ebd-Bi-uoC"/>
-                    <constraint firstItem="T38-wP-yyO" firstAttribute="top" secondItem="QgL-qP-wXS" secondAttribute="top" id="iF7-om-dh5"/>
-                    <constraint firstItem="j0b-AI-bce" firstAttribute="centerY" secondItem="6yH-gZ-ZxX" secondAttribute="centerY" id="n0A-Ad-FTC"/>
-                    <constraint firstItem="j0b-AI-bce" firstAttribute="leading" secondItem="ia7-vu-HXo" secondAttribute="leadingMargin" constant="-8" id="nlJ-nI-cn2"/>
-                    <constraint firstItem="j0b-AI-bce" firstAttribute="centerY" secondItem="QgL-qP-wXS" secondAttribute="centerY" id="p4s-XE-tCk"/>
-                    <constraint firstItem="j0b-AI-bce" firstAttribute="centerY" secondItem="fU3-SN-f9M" secondAttribute="centerY" id="pqJ-70-Tff"/>
-                    <constraint firstItem="6yH-gZ-ZxX" firstAttribute="leading" secondItem="QgL-qP-wXS" secondAttribute="trailing" constant="3" id="zRq-V9-ciP"/>
+                    <constraint firstAttribute="bottom" secondItem="j0b-AI-bce" secondAttribute="bottom" constant="7.5" id="41A-M1-J7r"/>
+                    <constraint firstItem="j0b-AI-bce" firstAttribute="top" secondItem="ia7-vu-HXo" secondAttribute="top" constant="7" id="7BW-iq-TY8"/>
+                    <constraint firstAttribute="bottom" secondItem="QgL-qP-wXS" secondAttribute="bottom" constant="13.5" id="8k8-FS-h2H"/>
+                    <constraint firstItem="j0b-AI-bce" firstAttribute="leading" secondItem="ia7-vu-HXo" secondAttribute="leading" constant="8" id="GwF-96-sWb"/>
+                    <constraint firstAttribute="trailing" secondItem="QgL-qP-wXS" secondAttribute="trailing" constant="7" id="POs-Y2-CeM"/>
+                    <constraint firstItem="QgL-qP-wXS" firstAttribute="leading" secondItem="j0b-AI-bce" secondAttribute="trailing" constant="8" id="W5E-HC-Szc"/>
+                    <constraint firstItem="QgL-qP-wXS" firstAttribute="top" secondItem="ia7-vu-HXo" secondAttribute="top" constant="11" id="n85-gE-Ptc"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="checkPointLabel" destination="j0b-AI-bce" id="sVv-nC-7of"/>
-                <outlet property="noBtn" destination="T38-wP-yyO" id="xuA-Fm-ILY"/>
                 <outlet property="yesBtn" destination="QgL-qP-wXS" id="ovi-eM-VxD"/>
             </connections>
             <point key="canvasLocation" x="33" y="54"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="radioselection.png" width="32" height="32"/>
-        <image name="radiounselection.png" width="32" height="32"/>
+        <image name="checkBoxUnSelection" width="25" height="25"/>
     </resources>
 </document>

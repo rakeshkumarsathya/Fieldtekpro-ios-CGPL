@@ -18,14 +18,13 @@
      NSMutableArray *workcenterArray,*checkBoxSelectedArray;
     
     Response *res_obj;
-     IBOutlet UILabel *headerTitleLabel;
+    IBOutlet UILabel *headerTitleLabel;
  }
 
 @property (nonatomic,weak)id delegate;
 
 @property (nonatomic, retain) NSArray *filteredArray;
-
-@property (nonatomic, retain) NSString *selectedClass;
+@property (nonatomic, retain) NSString *selectedClass,*searchString,*iwerkString;
 
 
 

@@ -1499,13 +1499,11 @@
                                 
                                 [self performSelectorOnMainThread:@selector(dispatchQueuesForWCMValueHelps) withObject:nil waitUntilDone:YES];
                                 
- 
-                             //   [self performSelectorOnMainThread:@selector(dispatchQueuesForJSAValueHelps) withObject:nil waitUntilDone:YES];
+                              //   [self performSelectorOnMainThread:@selector(dispatchQueuesForJSAValueHelps) withObject:nil waitUntilDone:YES];
                                 
                                 [self performSelectorOnMainThread:@selector(dispatchQueues) withObject:nil waitUntilDone:YES];
-
  
-                                [self performSelectorOnMainThread:@selector(setDevicToken) withObject:nil waitUntilDone:YES];
+                                 [self performSelectorOnMainThread:@selector(setDevicToken) withObject:nil waitUntilDone:YES];
                             }
                             else{
                                 

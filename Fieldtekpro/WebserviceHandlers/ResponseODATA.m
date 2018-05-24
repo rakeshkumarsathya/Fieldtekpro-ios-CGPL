@@ -3258,7 +3258,7 @@
             
             //WCM
             if ([parsedDictionaryCheckPoints objectForKey:@"EtWcmWaChkReq"]) {
-                 if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWaChkReq"]]) {
+                 if (![NullChecker isNull:[parsedDictionaryCheckPoints objectForKey:@"EtWcmWaChkReq"]]) {
                    parsedDictionaryCheckPoints = [parsedDictionaryCheckPoints objectForKey:@"EtWcmWaChkReq"];
                    if ([parsedDictionaryCheckPoints objectForKey:@"results"]) {
                     parsedDictionaryCheckPoints = [parsedDictionaryCheckPoints objectForKey:@"results"];
@@ -3272,9 +3272,11 @@
                   }
                 }
             }
+        
+ 
             
             if ([parsedDictionaryWorkApplications objectForKey:@"EtWcmWaData"]) {
-                 if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWaData"]]) {
+                 if (![NullChecker isNull:[parsedDictionaryWorkApplications objectForKey:@"EtWcmWaData"]]) {
                     parsedDictionaryWorkApplications = [parsedDictionaryWorkApplications objectForKey:@"EtWcmWaData"];
                   if ([parsedDictionaryWorkApplications objectForKey:@"results"]) {
                     parsedDictionaryWorkApplications = [parsedDictionaryWorkApplications objectForKey:@"results"];
@@ -3290,7 +3292,7 @@
             }
             
             if ([parsedDictionaryWcagns objectForKey:@"EtWcmWcagns"]) {
-                if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWcagns"]]) {
+                if (![NullChecker isNull:[parsedDictionaryWcagns objectForKey:@"EtWcmWcagns"]]) {
                  parsedDictionaryWcagns = [parsedDictionaryWcagns objectForKey:@"EtWcmWcagns"];
                 if ([parsedDictionaryWcagns objectForKey:@"results"]) {
                     parsedDictionaryWcagns = [parsedDictionaryWcagns objectForKey:@"results"];
@@ -3307,7 +3309,7 @@
             
             if ([parsedDictionaryOpWCDDetails objectForKey:@"EtWcmWdData"]) {
  
-                if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWdData"]]) {
+                if (![NullChecker isNull:[parsedDictionaryOpWCDDetails objectForKey:@"EtWcmWdData"]]) {
                    parsedDictionaryOpWCDDetails = [parsedDictionaryOpWCDDetails objectForKey:@"EtWcmWdData"];
                 if ([parsedDictionaryOpWCDDetails objectForKey:@"results"]) {
                     parsedDictionaryOpWCDDetails = [parsedDictionaryOpWCDDetails objectForKey:@"results"];
@@ -3323,7 +3325,7 @@
             }
             
             if ([parsedDictionaryOpWCDItemDetails objectForKey:@"EtWcmWdItemData"]) {
-                 if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWdItemData"]]) {
+                 if (![NullChecker isNull:[parsedDictionaryOpWCDItemDetails objectForKey:@"EtWcmWdItemData"]]) {
                  parsedDictionaryOpWCDItemDetails = [parsedDictionaryOpWCDItemDetails objectForKey:@"EtWcmWdItemData"];
                 if ([parsedDictionaryOpWCDItemDetails objectForKey:@"results"]) {
                     parsedDictionaryOpWCDItemDetails = [parsedDictionaryOpWCDItemDetails objectForKey:@"results"];
@@ -3339,7 +3341,7 @@
             }
  
             if ([parsedDictionaryWorkApprovalDetails objectForKey:@"EtWcmWwData"]) {
-              if (![NullChecker isNull:[parseHeaderDictionary objectForKey:@"EtWcmWwData"]]) {
+              if (![NullChecker isNull:[parsedDictionaryWorkApprovalDetails objectForKey:@"EtWcmWwData"]]) {
                  parsedDictionaryWorkApprovalDetails = [parsedDictionaryWorkApprovalDetails objectForKey:@"EtWcmWwData"];
                 if ([parsedDictionaryWorkApprovalDetails objectForKey:@"results"]) {
                     parsedDictionaryWorkApprovalDetails = [parsedDictionaryWorkApprovalDetails objectForKey:@"results"];

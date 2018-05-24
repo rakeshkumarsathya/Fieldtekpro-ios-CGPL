@@ -1094,8 +1094,7 @@
             [queryString appendFormat:@" (%@)",queryStringStatus];
         }
     }
-    
-    
+ 
     
     if ([[[[self.structuredFilterSortedArray firstObject] objectAtIndex:4] firstObject] containsObject:@"X"]) {
         

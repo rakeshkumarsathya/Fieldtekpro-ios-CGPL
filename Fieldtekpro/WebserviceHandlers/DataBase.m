@@ -755,7 +755,7 @@ static dispatch_once_t onceToken;
     NSMutableString *queryString = [[NSMutableString alloc] init];
     [queryString appendFormat:@"select * from WORKCENTERMASTER where plant_id ='%@'",SelectedPlant];
     if ([self set_query:queryString]) {
-        return [self run_Queries_WITHDATA];
+        return [self run_Queries_WITHDICTIONARY];
     }
     return [NSMutableArray array];
 }
@@ -12358,6 +12358,37 @@ static dispatch_once_t onceToken;
     
     return dataArray;
     
+}
+
+-(NSArray *)getiWerksForfunctionLocation:(NSString *)locationId {
+    
+    NSMutableArray *dataArray = [NSMutableArray new];
+    
+    NSManagedObjectContext *context = [[(AppDelegate *)[[UIApplication sharedApplication] delegate] coreDataControlObject] context];
+    [context reset];
+    
+    NSFetchRequest *equipmentRequest = [NSFetchRequest fetchRequestWithEntityName:@"FunctionalLocation"];
+    equipmentRequest.resultType = NSDictionaryResultType;
+    
+    NSPredicate *predicate;
+    
+    if (locationId.length) {
+        
+        predicate = [NSPredicate predicateWithFormat:@"locationid == %@",locationId];
+        
+        [equipmentRequest setPredicate:[[NSCompoundPredicate alloc] initWithType:NSOrPredicateType subpredicates:@[predicate]]];
+    }
+    
+    NSError *error;
+    NSArray *tempArray = [context executeFetchRequest:equipmentRequest error:&error];
+    
+    if (error) {
+        [ConsoleLogHandler showLog:error.description];
+    }
+    
+    [dataArray addObjectsFromArray:tempArray];
+    
+    return dataArray;
 }
 
 -(NSArray *)getiWerksForequipment:(NSString *)equipmentId {

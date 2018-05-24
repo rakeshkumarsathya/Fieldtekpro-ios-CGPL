@@ -30,6 +30,7 @@
 #import "StandardCheckPointTableViewCell.h"
 
 #import "DetailOrderConfirmationViewController.h"
+#import "PermitViewController.h"
 
 #define ID_INDEX 0
 #define NAME_INDEX 1
@@ -64,6 +65,7 @@ typedef enum SelectedDropDownInOrders{
     ORDER_REVISION=45
     
 }SelectedDropDownInOrders;
+
 
 
 @interface CreateOrderViewController : UIViewController<YAScrollSegmentControlDelegate>
@@ -227,6 +229,7 @@ typedef enum SelectedDropDownInOrders{
 -(void)dismissApplicationTypesClicked;
 -(void)dismissequipmentNumberView;
 -(void)dismissScanView;
+-(void)dismissWorkcenterView;
 
 @property (nonatomic, strong) NSUserDefaults *defaults;
 

@@ -2488,10 +2488,11 @@
                 NSMutableArray *orderOperations = [[NSMutableArray alloc] init];
                 NSMutableArray *orderComponents = [[NSMutableArray alloc] init];
                 NSMutableArray *longTextItems = [[NSMutableArray alloc] init];
-                
                 NSMutableArray *wcmApplicationItems = [[NSMutableArray alloc] init];
-                
                 NSMutableArray *wcmWorkRequirentsItems = [[NSMutableArray alloc] init];
+                
+                NSMutableArray *wcmWorkApprovalsItems = [[NSMutableArray alloc] init];
+
 
 
                 
@@ -2550,6 +2551,8 @@
                     }
                   }
                 
+                
+                
 //                if ([[requestData objectForKey:@"ITEMS"] count]) {
 //                    
 //                    NSArray *operationLongTextArray = [requestData objectForKey:@"ITEMS"];
@@ -2567,17 +2570,15 @@
 //                    }
 //                }
 //
-                
-                
-                
+ 
                   if ([[requestData objectForKey:@"WCMWORKAPPlICATIONS"] count]) {
                     
                      NSArray *wcmWorkApplication = [requestData objectForKey:@"WCMWORKAPPlICATIONS"];
  
                       for (int i =0; i<[wcmWorkApplication count]; i++) {
                         
-                         [wcmApplicationItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:1],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:2],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:3],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:5],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:6],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:7],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:8],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:9],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:10],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:11],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:12],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:29],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:30],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:13],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:14],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:15],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:16],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:17],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:18],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:19],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:20],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:21],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:22],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:23],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:24],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:25],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:26],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:27],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:28], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objart",@"Wapinr",@"Iwerk",@"Objtyp",@"Usage",@"Usagex",@"Train",@"Trainx",@"Anlzu",@"Anlzux",@"Etape",@"Etapex",@"Begru",@"Begtx",@"Stxt",@"Datefr",@"Timefr",@"Dateto",@"Timeto",@"Priok",@"Priokx",@"Rctime",@"Rcunit",@"Objnr",@"Refobj",@"Crea",@"Prep",@"Comp",@"Appr",@"Action",nil]]];
-                        
+                         [wcmApplicationItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:1],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:2],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:3],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:5],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:6],@"",@"",@"",@"",@"",@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:29],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:30],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:13],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:14],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:15],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:16],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:17],@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:19],@"",@"",@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:23],@"",@"",@"",@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:28], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objart",@"Wapinr",@"Iwerk",@"Objtyp",@"Usage",@"Usagex",@"Train",@"Trainx",@"Anlzu",@"Anlzux",@"Etape",@"Etapex",@"Begru",@"Begtx",@"Stxt",@"Datefr",@"Timefr",@"Dateto",@"Timeto",@"Priok",@"Priokx",@"Rctime",@"Rcunit",@"Objnr",@"Refobj",@"Crea",@"Prep",@"Comp",@"Appr",@"Action",nil]]];
+                          
  
                         if (![[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4] isEqualToString:@"1"] || ![[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4] isEqualToString:@"7"]) {
                             
@@ -2597,14 +2598,30 @@
                                 
                                 checkPointDescriptionString = [self getcodeforkeys:[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:6]];
  
-                                [wcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:0],[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:1],@"R",[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:4],[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:5],checkPointDescriptionString, nil] forKeys:[NSArray arrayWithObjects:@"Wapinr",@"Wapityp",@"ChkPointType",@"Needid",@"Value",@"Desctext",nil]]];
+                                [wcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:0],[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:1],@"R",[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:4],[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:5],checkPointDescriptionString, nil] forKeys:[NSArray arrayWithObjects:@"Wapinr",@"Wapityp",@"ChkPointType",@"Needid",@"Value",@"Desctext",nil]]];
 
                             }
                          }
                     }
                 }
-                
-                
+ 
+            
+                if ([[requestData objectForKey:@"WCMWORKAPPROVALS"] count]) {
+                    
+                    NSArray *wcmWorkApproval = [requestData objectForKey:@"WCMWORKAPPROVALS"];
+ 
+                    for (int i =0; i<[wcmWorkApproval count]; i++) {
+ 
+//                        [wcmWorkApprovalsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"",[[wcmWorkApproval objectAtIndex:i] objectAtIndex:1],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:2],@"",[[wcmWorkApproval objectAtIndex:i] objectAtIndex:4],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:4],@"",@"",@"",@"",@"",@"",[[wcmWorkApproval objectAtIndex:i] objectAtIndex:29],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:30],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:12],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:12],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:13],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:14],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:15],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:16],@"",[[wcmWorkApproval objectAtIndex:i] objectAtIndex:18],@"",@"",@"",@"",@"",@"",@"",@"",@"",[[wcmWorkApproval objectAtIndex:i] objectAtIndex:28], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objart",@"Wapnr",@"Iwerk",@"Usage",@"Usagex",@"Train",@"Trainx",@"Anlzu",@"Anlzux",@"Etape",@"Etapex",@"Begru",@"Begtx",@"Stxt",@"Datefr",@"Timefr",@"Dateto",@"Timeto",@"Priok",@"Priokx",@"Rctime",@"Rcunit",@"Objnr",@"Refobj",@"Crea",@"Prep",@"Comp",@"Appr",@"Pappr",@"Action",nil]]];
+                        
+                         [wcmWorkApprovalsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"",[[wcmWorkApproval objectAtIndex:i] objectAtIndex:1],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:2],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:3],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:4],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:5],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:6],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:7],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:8],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:9],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:10],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:11],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:29],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:30],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:12],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:13],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:14],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:15],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:16],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:17],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:18],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:19],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:20],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:21],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:22],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:23],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:24],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:25],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:26],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:27],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:28], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objart",@"Wapnr",@"Iwerk",@"Usage",@"Usagex",@"Train",@"Trainx",@"Anlzu",@"Anlzux",@"Etape",@"Etapex",@"Begru",@"Begtx",@"Stxt",@"Datefr",@"Timefr",@"Dateto",@"Timeto",@"Priok",@"Priokx",@"Rctime",@"Rcunit",@"Objnr",@"Refobj",@"Crea",@"Prep",@"Comp",@"Appr",@"Pappr",@"Action",nil]]];
+                        
+//                           [soapMessage appendFormat:@"<item><Aufnr>%@</Aufnr><Objart>%@</Objart><Wapnr>%@</Wapnr><Iwerk>%@</Iwerk><Usage>%@</Usage><Usagex>%@</Usagex><Train>%@</Train><Trainx>%@</Trainx><Anlzu>%@</Anlzu><Anlzux>%@</Anlzux><Etape>%@</Etape><Etapex>%@</Etapex><Begru>%@</Begru><Begtx>%@</Begtx><Stxt>%@</Stxt><Datefr>%@</Datefr><Timefr>%@</Timefr><Dateto>%@</Dateto><Timeto>%@</Timeto><Priok>%@</Priok><Priokx>%@</Priokx><Rctime>%@</Rctime><Rcunit>%@</Rcunit><Objnr>%@</Objnr><Refobj>%@</Refobj><Crea>%@</Crea><Prep>%@</Prep><Comp>%@</Comp><Appr>%@</Appr><Pappr>%@</Pappr><Action>%@</Action></item>",[requestData objectForKey:@"OBJECTID"],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:1],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:2],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:3],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:4],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:5],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:6],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:7],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:8],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:9],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:10],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:11],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:29],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:30],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:12],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:13],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:14],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:15],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:16],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:17],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:18],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:19],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:20],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:21],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:22],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:23],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:24],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:25],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:26],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:27],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:28]];
+//
+                        
+                        }
+                  }
+ 
                 NSMutableDictionary *orderCreate = [[NSMutableDictionary alloc] init];
                 NSMutableArray *etOrderHeaderItems=[NSMutableArray new];
                 NSMutableArray *etOrderMessageItems=[NSMutableArray new];
@@ -2614,6 +2631,8 @@
                 NSMutableArray *etLongtextItems=[NSMutableArray new];
                 NSMutableArray *etwcmApplicationItems=[NSMutableArray new];
                 NSMutableArray *etwcmWorkRequirentsItems=[NSMutableArray new];
+                
+                NSMutableArray *etwcmWorkApprovalsItems=[NSMutableArray new];
 
  
                 [etLongtextItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
@@ -2626,8 +2645,9 @@
                 [etOrderMessageItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                  [etwcmApplicationItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
                 [etwcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                
+                [etwcmWorkApprovalsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
 
-           
  
                 BOOL isCommit=true;
                 [orderCreate setObject:headerFieldsItems forKey:@"ItOrderHeader"];
@@ -2636,6 +2656,8 @@
                 
                 [orderCreate setObject:wcmApplicationItems forKey:@"ItWcmWaData"];
                 [orderCreate setObject:wcmWorkRequirentsItems forKey:@"ItWcmWaChkReq"];
+                [orderCreate setObject:wcmWorkApprovalsItems forKey:@"ItWcmWwData"];
+ 
 
                 [orderCreate setObject:[[requestData objectForKey:@"REPORTEDBY"] uppercaseString] forKey:@"IvUser"];
               //  [orderCreate setObject:attachmentsItems forKey:@"ItDocs"];
@@ -2656,7 +2678,7 @@
                 [orderCreate setObject:etOrderStatusItems forKey:@"EsAufnr"];
                 [orderCreate setObject:wcmApplicationItems forKey:@"EtWcmWaData"];
                 [orderCreate setObject:wcmWorkRequirentsItems forKey:@"EtWcmWaChkReq"];
- 
+                [orderCreate setObject:etwcmWorkApprovalsItems forKey:@"EtWcmWwData"];
 
                 
                  NSError *error;

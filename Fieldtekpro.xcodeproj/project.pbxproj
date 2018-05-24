@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		140502511FD8EC5B007F5EF5 /* ReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 140502501FD8EC5B007F5EF5 /* ReservationViewController.m */; };
+		140521F020B5C5E5000DBA88 /* PopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 140521EE20B5C5E4000DBA88 /* PopoverViewController.m */; };
 		1405582A1FE4F293006B8449 /* radiounselection.png in Resources */ = {isa = PBXBuildFile; fileRef = 140558281FE4F293006B8449 /* radiounselection.png */; };
 		1405582B1FE4F293006B8449 /* radioselection.png in Resources */ = {isa = PBXBuildFile; fileRef = 140558291FE4F293006B8449 /* radioselection.png */; };
 		1405AB8B20AD5BA200B2DF82 /* ConfirmationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405AB8920AD5BA200B2DF82 /* ConfirmationTableViewCell.m */; };
@@ -29,9 +30,15 @@
 		141885762060AFF800C5CE0F /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 141885752060AFF700C5CE0F /* search.png */; };
 		141C18E92054128E00AF28E8 /* InspectionChecklistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141C18E82054128E00AF28E8 /* InspectionChecklistViewController.m */; };
 		141D282B2089C37E00E31BA3 /* splashscreen_activity_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 141D282A2089C37E00E31BA3 /* splashscreen_activity_background.png */; };
+		141EFB2420B692520010967E /* OperationWCDTableViewCell_Iphone6.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141EFB2320B692520010967E /* OperationWCDTableViewCell_Iphone6.xib */; };
+		141EFB2720B694910010967E /* OperationWCDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141EFB2620B694900010967E /* OperationWCDTableViewCell.m */; };
+		141EFB2920B6B1870010967E /* menu-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 141EFB2820B6B1870010967E /* menu-white.png */; };
+		141EFB2D20B6BDB90010967E /* TaggingConditionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141EFB2A20B6BDB80010967E /* TaggingConditionTableViewCell.m */; };
+		141EFB2E20B6BDB90010967E /* TaggingConditionTableViewCell_Iphone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141EFB2B20B6BDB80010967E /* TaggingConditionTableViewCell_Iphone5.xib */; };
 		141F11BD20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F11BB20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.m */; };
 		141F11BE20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141F11BC20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.xib */; };
 		141F11C120A6CEDD00CCCBA6 /* WorkcenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F11C020A6CEDD00CCCBA6 /* WorkcenterViewController.m */; };
+		141F55D720B521DE001538CD /* PermitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F55D620B521DE001538CD /* PermitViewController.m */; };
 		142CEFE720A4B6E300DA5E9E /* gallery-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CEFE420A4B6E200DA5E9E /* gallery-image.png */; };
 		142CEFE820A4B6E300DA5E9E /* cancel-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CEFE520A4B6E300DA5E9E /* cancel-image.png */; };
 		142CEFE920A4B6E300DA5E9E /* camera-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 142CEFE620A4B6E300DA5E9E /* camera-image.png */; };
@@ -252,6 +259,8 @@
 		08A9A8DCD2D35E4DB447C16E /* Pods_Fieldtekpro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fieldtekpro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1405024F1FD8EC5B007F5EF5 /* ReservationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReservationViewController.h; sourceTree = "<group>"; };
 		140502501FD8EC5B007F5EF5 /* ReservationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReservationViewController.m; sourceTree = "<group>"; };
+		140521EE20B5C5E4000DBA88 /* PopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverViewController.m; sourceTree = "<group>"; };
+		140521EF20B5C5E4000DBA88 /* PopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverViewController.h; sourceTree = "<group>"; };
 		140558281FE4F293006B8449 /* radiounselection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radiounselection.png; sourceTree = "<group>"; };
 		140558291FE4F293006B8449 /* radioselection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radioselection.png; sourceTree = "<group>"; };
 		1405AB8820AD5BA200B2DF82 /* ConfirmationTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfirmationTableViewCell.h; sourceTree = "<group>"; };
@@ -285,11 +294,20 @@
 		141C18E72054128E00AF28E8 /* InspectionChecklistViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspectionChecklistViewController.h; sourceTree = "<group>"; };
 		141C18E82054128E00AF28E8 /* InspectionChecklistViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspectionChecklistViewController.m; sourceTree = "<group>"; };
 		141D282A2089C37E00E31BA3 /* splashscreen_activity_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splashscreen_activity_background.png; sourceTree = "<group>"; };
+		141EFB2320B692520010967E /* OperationWCDTableViewCell_Iphone6.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OperationWCDTableViewCell_Iphone6.xib; sourceTree = "<group>"; };
+		141EFB2520B694900010967E /* OperationWCDTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OperationWCDTableViewCell.h; sourceTree = "<group>"; };
+		141EFB2620B694900010967E /* OperationWCDTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationWCDTableViewCell.m; sourceTree = "<group>"; };
+		141EFB2820B6B1870010967E /* menu-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-white.png"; sourceTree = "<group>"; };
+		141EFB2A20B6BDB80010967E /* TaggingConditionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaggingConditionTableViewCell.m; sourceTree = "<group>"; };
+		141EFB2B20B6BDB80010967E /* TaggingConditionTableViewCell_Iphone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaggingConditionTableViewCell_Iphone5.xib; sourceTree = "<group>"; };
+		141EFB2C20B6BDB80010967E /* TaggingConditionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaggingConditionTableViewCell.h; sourceTree = "<group>"; };
 		141F11BA20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilterWorkcenterTableViewCell.h; sourceTree = "<group>"; };
 		141F11BB20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilterWorkcenterTableViewCell.m; sourceTree = "<group>"; };
 		141F11BC20A6C66E00CCCBA6 /* FilterWorkcenterTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterWorkcenterTableViewCell.xib; sourceTree = "<group>"; };
 		141F11BF20A6CEDD00CCCBA6 /* WorkcenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkcenterViewController.h; sourceTree = "<group>"; };
 		141F11C020A6CEDD00CCCBA6 /* WorkcenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkcenterViewController.m; sourceTree = "<group>"; };
+		141F55D520B521DE001538CD /* PermitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PermitViewController.h; sourceTree = "<group>"; };
+		141F55D620B521DE001538CD /* PermitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PermitViewController.m; sourceTree = "<group>"; };
 		142CEFE420A4B6E200DA5E9E /* gallery-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery-image.png"; sourceTree = "<group>"; };
 		142CEFE520A4B6E300DA5E9E /* cancel-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel-image.png"; sourceTree = "<group>"; };
 		142CEFE620A4B6E300DA5E9E /* camera-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-image.png"; sourceTree = "<group>"; };
@@ -691,6 +709,23 @@
 			path = WorkcenterTableviewcell;
 			sourceTree = "<group>";
 		};
+		141F55D420B5213A001538CD /* PermitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				141F55D520B521DE001538CD /* PermitViewController.h */,
+				141F55D620B521DE001538CD /* PermitViewController.m */,
+				140521EF20B5C5E4000DBA88 /* PopoverViewController.h */,
+				140521EE20B5C5E4000DBA88 /* PopoverViewController.m */,
+				141EFB2520B694900010967E /* OperationWCDTableViewCell.h */,
+				141EFB2620B694900010967E /* OperationWCDTableViewCell.m */,
+				141EFB2320B692520010967E /* OperationWCDTableViewCell_Iphone6.xib */,
+				141EFB2B20B6BDB80010967E /* TaggingConditionTableViewCell_Iphone5.xib */,
+				141EFB2C20B6BDB80010967E /* TaggingConditionTableViewCell.h */,
+				141EFB2A20B6BDB80010967E /* TaggingConditionTableViewCell.m */,
+			);
+			path = PermitViewController;
+			sourceTree = "<group>";
+		};
 		145FA0F71FA0E56D0031355E /* TaskCodeTableviewcell */ = {
 			isa = PBXGroup;
 			children = (
@@ -883,6 +918,7 @@
 				1452697120639F450011932A /* notification-white.png */,
 				14C0E951206016FC00EBDA12 /* addContact.png */,
 				141D282A2089C37E00E31BA3 /* splashscreen_activity_background.png */,
+				141EFB2820B6B1870010967E /* menu-white.png */,
 				E1689B471FDE5E290018C261 /* NullChecker */,
 				E1689B361FDE4F4A0018C261 /* ClientSideValidators */,
 				E1689B181FDE4D870018C261 /* CoreDataHelper */,
@@ -1074,6 +1110,7 @@
 				E155C1C21FF3812F0028931E /* MyOrdersViewController.m */,
 				E155C1C51FF3830A0028931E /* MyOrdersTableViewCell.h */,
 				E155C1C61FF3830A0028931E /* MyOrdersTableViewCell.m */,
+				141F55D420B5213A001538CD /* PermitViewController */,
 				E14A3C341FF60B5600A3AABB /* CreateOrderViewController */,
 			);
 			path = OrdersViewController;
@@ -1589,6 +1626,7 @@
 				E15BA152200F1BEA00BBA7DD /* BrkDownDetailsTableViewCell_iPhone6.xib in Resources */,
 				E14A3C511FF6586D00A3AABB /* ApplicationTableViewCell_Iphone5.xib in Resources */,
 				E15BA12B200F163A00BBA7DD /* AvailabilityReport.png in Resources */,
+				141EFB2420B692520010967E /* OperationWCDTableViewCell_Iphone6.xib in Resources */,
 				14149D3420A9928100FA71F3 /* DurationTableviewCell.xib in Resources */,
 				E15C9D321FFE52480017AFB7 /* ELCAssetTablePicker.xib in Resources */,
 				E10141531F8B472A0025DC49 /* LaunchScreen.storyboard in Resources */,
@@ -1597,6 +1635,7 @@
 				E157D5321F8C9928006879C4 /* SearchInputDropdownTableViewCell.xib in Resources */,
 				E15BA15F200F1BEA00BBA7DD /* NotifDetailTableCell_iphone5.xib in Resources */,
 				E10141501F8B472A0025DC49 /* Assets.xcassets in Resources */,
+				141EFB2E20B6BDB90010967E /* TaggingConditionTableViewCell_Iphone5.xib in Resources */,
 				E14A3C4A1FF61CFF00A3AABB /* green_traffic.png in Resources */,
 				E157D53C1F8C9D7E006879C4 /* BreakDownTableViewCell.xib in Resources */,
 				E15C9D311FFE52480017AFB7 /* ELCAssetPicker.xib in Resources */,
@@ -1629,6 +1668,7 @@
 				142CEFE920A4B6E300DA5E9E /* camera-image.png in Resources */,
 				14FF30582007B3960077F438 /* availabilitycheck_icon.png in Resources */,
 				E15BA12A200F163A00BBA7DD /* Breakdown.png in Resources */,
+				141EFB2920B6B1870010967E /* menu-white.png in Resources */,
 				E1572A7B1FFF87420012ABDE /* Checked-Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1828,12 +1868,15 @@
 			files = (
 				E15C9D281FFE52320017AFB7 /* ELCAssetTablePicker.m in Sources */,
 				1405C36E1FE41EE600DADACB /* EquipmentHistoryTableViewCell.m in Sources */,
+				141EFB2D20B6BDB90010967E /* TaggingConditionTableViewCell.m in Sources */,
 				E15C9D2A1FFE52320017AFB7 /* ELCConsole.m in Sources */,
 				14F01D2A1F8E73FF003FE1A7 /* CustomInputDorpdownTableViewCell.m in Sources */,
 				E15BA15A200F1BEA00BBA7DD /* PermitTableViewCell.m in Sources */,
 				E1689B341FDE4DAE0018C261 /* EquipmentBOMTransaction.m in Sources */,
 				E15BA153200F1BEA00BBA7DD /* FilterTableViewCell.m in Sources */,
+				141F55D720B521DE001538CD /* PermitViewController.m in Sources */,
 				E18C810B1FE7966400E725D0 /* TaskCodeTableViewCell.m in Sources */,
+				140521F020B5C5E5000DBA88 /* PopoverViewController.m in Sources */,
 				E15C9D251FFE52320017AFB7 /* ELCOverlayImageView.m in Sources */,
 				E1689B161FDE4D500018C261 /* NSData+AESCrypt.m in Sources */,
 				E15B2FA820241FE2002632F9 /* IsolationViewController.m in Sources */,
@@ -1884,6 +1927,7 @@
 				E1633E361FFA1B680003F523 /* ApplicationSettingsViewController.m in Sources */,
 				E15BA155200F1BEA00BBA7DD /* SimpleBarChart.m in Sources */,
 				141482D72063652300B974BF /* LongtextViewController.m in Sources */,
+				141EFB2720B694910010967E /* OperationWCDTableViewCell.m in Sources */,
 				E1689B301FDE4DAE0018C261 /* FlocMptt.m in Sources */,
 				E1689B351FDE4DAE0018C261 /* CoreDataHelper.m in Sources */,
 				E1689B0B1FDE4CD60018C261 /* ModelClass.m in Sources */,

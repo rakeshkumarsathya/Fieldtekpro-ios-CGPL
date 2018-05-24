@@ -605,7 +605,7 @@
 -(NSArray *)getFunctionLocations:(NSDictionary *)fetchRequest;
 - (NSArray *)getMapData:(NSString *)OrderId;
 -(NSArray *)getiWerksForequipment:(NSString *)equipmentId;
-
+-(NSArray *)getiWerksForfunctionLocation:(NSString *)locationId;
 
 //MIS
 -(NSMutableArray *)fetchWCMTypesforPermitReport:(NSMutableArray *)objectTypeID;
