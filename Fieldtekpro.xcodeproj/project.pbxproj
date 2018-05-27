@@ -27,6 +27,15 @@
 		1415FC11206D05650019A242 /* EquipmentFncLocDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1415FC10206D05650019A242 /* EquipmentFncLocDetailsViewController.m */; };
 		14160251204D103F002AB07C /* AttachmentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14160250204D103E002AB07C /* AttachmentsTableViewCell.m */; };
 		14168F0E20AA911900499145 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14168F0D20AA911900499145 /* Photos.framework */; };
+		14178A5320B92A38007229A0 /* JSAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14178A5220B92A38007229A0 /* JSAViewController.m */; };
+		14178A5620B92BC9007229A0 /* CreateJSAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14178A5520B92BC9007229A0 /* CreateJSAViewController.m */; };
+		14178A5920B9754A007229A0 /* JSAListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14178A5820B9754A007229A0 /* JSAListTableViewCell.m */; };
+		14178A5D20B9809B007229A0 /* JobStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14178A5B20B9809B007229A0 /* JobStepTableViewCell.m */; };
+		14178A5E20B9809B007229A0 /* JobStepTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14178A5C20B9809B007229A0 /* JobStepTableViewCell.xib */; };
+		14178A6220BA4831007229A0 /* HazardsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14178A6020BA4831007229A0 /* HazardsTableViewCell.m */; };
+		14178A6320BA4831007229A0 /* HazardsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14178A6120BA4831007229A0 /* HazardsTableViewCell.xib */; };
+		14178A6720BA61E7007229A0 /* ImpactControlsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14178A6520BA61E7007229A0 /* ImpactControlsTableViewCell.m */; };
+		14178A6820BA61E7007229A0 /* ImpactControlsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14178A6620BA61E7007229A0 /* ImpactControlsTableViewCell.xib */; };
 		141885762060AFF800C5CE0F /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 141885752060AFF700C5CE0F /* search.png */; };
 		141C18E92054128E00AF28E8 /* InspectionChecklistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141C18E82054128E00AF28E8 /* InspectionChecklistViewController.m */; };
 		141D282B2089C37E00E31BA3 /* splashscreen_activity_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 141D282A2089C37E00E31BA3 /* splashscreen_activity_background.png */; };
@@ -290,6 +299,21 @@
 		1416024F204D103E002AB07C /* AttachmentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsTableViewCell.h; sourceTree = "<group>"; };
 		14160250204D103E002AB07C /* AttachmentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsTableViewCell.m; sourceTree = "<group>"; };
 		14168F0D20AA911900499145 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		14178A5120B92A38007229A0 /* JSAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSAViewController.h; sourceTree = "<group>"; };
+		14178A5220B92A38007229A0 /* JSAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSAViewController.m; sourceTree = "<group>"; };
+		14178A5420B92BC9007229A0 /* CreateJSAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateJSAViewController.h; sourceTree = "<group>"; };
+		14178A5520B92BC9007229A0 /* CreateJSAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CreateJSAViewController.m; sourceTree = "<group>"; };
+		14178A5720B9754A007229A0 /* JSAListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSAListTableViewCell.h; sourceTree = "<group>"; };
+		14178A5820B9754A007229A0 /* JSAListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSAListTableViewCell.m; sourceTree = "<group>"; };
+		14178A5A20B9809B007229A0 /* JobStepTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JobStepTableViewCell.h; sourceTree = "<group>"; };
+		14178A5B20B9809B007229A0 /* JobStepTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JobStepTableViewCell.m; sourceTree = "<group>"; };
+		14178A5C20B9809B007229A0 /* JobStepTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JobStepTableViewCell.xib; sourceTree = "<group>"; };
+		14178A5F20BA4831007229A0 /* HazardsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HazardsTableViewCell.h; sourceTree = "<group>"; };
+		14178A6020BA4831007229A0 /* HazardsTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HazardsTableViewCell.m; sourceTree = "<group>"; };
+		14178A6120BA4831007229A0 /* HazardsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HazardsTableViewCell.xib; sourceTree = "<group>"; };
+		14178A6420BA61E7007229A0 /* ImpactControlsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImpactControlsTableViewCell.h; sourceTree = "<group>"; };
+		14178A6520BA61E7007229A0 /* ImpactControlsTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImpactControlsTableViewCell.m; sourceTree = "<group>"; };
+		14178A6620BA61E7007229A0 /* ImpactControlsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImpactControlsTableViewCell.xib; sourceTree = "<group>"; };
 		141885752060AFF700C5CE0F /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		141C18E72054128E00AF28E8 /* InspectionChecklistViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InspectionChecklistViewController.h; sourceTree = "<group>"; };
 		141C18E82054128E00AF28E8 /* InspectionChecklistViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InspectionChecklistViewController.m; sourceTree = "<group>"; };
@@ -688,6 +712,28 @@
 			path = LongtextViewController;
 			sourceTree = "<group>";
 		};
+		14178A5020B92A14007229A0 /* JSAViewcontroller */ = {
+			isa = PBXGroup;
+			children = (
+				14178A5120B92A38007229A0 /* JSAViewController.h */,
+				14178A5220B92A38007229A0 /* JSAViewController.m */,
+				14178A5420B92BC9007229A0 /* CreateJSAViewController.h */,
+				14178A5520B92BC9007229A0 /* CreateJSAViewController.m */,
+				14178A5720B9754A007229A0 /* JSAListTableViewCell.h */,
+				14178A5820B9754A007229A0 /* JSAListTableViewCell.m */,
+				14178A5A20B9809B007229A0 /* JobStepTableViewCell.h */,
+				14178A5B20B9809B007229A0 /* JobStepTableViewCell.m */,
+				14178A5C20B9809B007229A0 /* JobStepTableViewCell.xib */,
+				14178A5F20BA4831007229A0 /* HazardsTableViewCell.h */,
+				14178A6020BA4831007229A0 /* HazardsTableViewCell.m */,
+				14178A6120BA4831007229A0 /* HazardsTableViewCell.xib */,
+				14178A6420BA61E7007229A0 /* ImpactControlsTableViewCell.h */,
+				14178A6520BA61E7007229A0 /* ImpactControlsTableViewCell.m */,
+				14178A6620BA61E7007229A0 /* ImpactControlsTableViewCell.xib */,
+			);
+			path = JSAViewcontroller;
+			sourceTree = "<group>";
+		};
 		141C18E62054124400AF28E8 /* InspectionChecklistViewcontroller */ = {
 			isa = PBXGroup;
 			children = (
@@ -862,6 +908,7 @@
 				E10141471F8B47290025DC49 /* AppDelegate.m */,
 				E10141491F8B472A0025DC49 /* ViewController.h */,
 				E101414A1F8B472A0025DC49 /* ViewController.m */,
+				14178A5020B92A14007229A0 /* JSAViewcontroller */,
 				E1689B3A1FDE55610018C261 /* PlantMaintenance.sqlite */,
 				141F11B420A6C14D00CCCBA6 /* WorkcenterTableviewcell */,
 				14B5DDA720A4170D0051BB10 /* DetailOrderConfirmationViewController */,
@@ -1642,6 +1689,8 @@
 				E14A3C411FF6115C00A3AABB /* cr_sp_co22.png in Resources */,
 				E14A3C3D1FF6113400A3AABB /* WorkApprovalTableViewCell_Iphone5.xib in Resources */,
 				E101414E1F8B472A0025DC49 /* Main.storyboard in Resources */,
+				14178A6820BA61E7007229A0 /* ImpactControlsTableViewCell.xib in Resources */,
+				14178A5E20B9809B007229A0 /* JobStepTableViewCell.xib in Resources */,
 				E18B79CD1FDFE0150070BB5F /* DetailFunctionalLocationTableviewCell.xib in Resources */,
 				E19CB9BE1FFBB1AA00EFA764 /* NotifOrderTableViewCell.xib in Resources */,
 				E15BA12C200F163A00BBA7DD /* Inventory-Management.png in Resources */,
@@ -1667,6 +1716,7 @@
 				E15BA12E200F164800BBA7DD /* NotificationReport.png in Resources */,
 				142CEFE920A4B6E300DA5E9E /* camera-image.png in Resources */,
 				14FF30582007B3960077F438 /* availabilitycheck_icon.png in Resources */,
+				14178A6320BA4831007229A0 /* HazardsTableViewCell.xib in Resources */,
 				E15BA12A200F163A00BBA7DD /* Breakdown.png in Resources */,
 				141EFB2920B6B1870010967E /* menu-white.png in Resources */,
 				E1572A7B1FFF87420012ABDE /* Checked-Icon.png in Resources */,
@@ -1887,17 +1937,20 @@
 				E11BE1EB1FF50EFE003BD130 /* ComponentTableViewCell.m in Sources */,
 				E15BA167200F5BB600BBA7DD /* MISSelectionViewController.m in Sources */,
 				E1689B4F1FDE620B0018C261 /* UrlConstraints.m in Sources */,
+				14178A6720BA61E7007229A0 /* ImpactControlsTableViewCell.m in Sources */,
 				E1871F9B200E10AA001B2141 /* StartInspectionTableViewCell.m in Sources */,
 				E11679A81FFCA3E900B5D99D /* WorkcenterTableViewCell.m in Sources */,
 				E15B2FAE20242B1B002632F9 /* IssueApprovalTableViewCell.m in Sources */,
 				E127A9EF1FE2A11C005B2050 /* NotificationObjects.m in Sources */,
 				E1689B2E1FDE4DAE0018C261 /* EquipMptt.m in Sources */,
 				E11679AC1FFCBA9D00B5D99D /* ScanBarcodeViewController.m in Sources */,
+				14178A5D20B9809B007229A0 /* JobStepTableViewCell.m in Sources */,
 				14160251204D103F002AB07C /* AttachmentsTableViewCell.m in Sources */,
 				E19CB9BD1FFBB1A900EFA764 /* NotifOrderTableViewCell.m in Sources */,
 				1405AB8B20AD5BA200B2DF82 /* ConfirmationTableViewCell.m in Sources */,
 				E15BA16B200F5F2600BBA7DD /* MISViewController.m in Sources */,
 				14653FAC1FDAF3A7003502E3 /* MaintPlanTableViewCell.m in Sources */,
+				14178A5620B92BC9007229A0 /* CreateJSAViewController.m in Sources */,
 				E15C9D2B1FFE52320017AFB7 /* ELCAlbumPickerController.m in Sources */,
 				E15C9D291FFE52320017AFB7 /* ELCImagePickerController.m in Sources */,
 				E1689B2D1FDE4DAE0018C261 /* StockOverView.m in Sources */,
@@ -1911,6 +1964,7 @@
 				E101417E1F8B5CDC0025DC49 /* CollectionViewCell.m in Sources */,
 				14362A9D2024C54C009CA858 /* IsolationListTableViewCell.m in Sources */,
 				E10141561F8B472B0025DC49 /* main.m in Sources */,
+				14178A5920B9754A007229A0 /* JSAListTableViewCell.m in Sources */,
 				14B5DDAA20A417E00051BB10 /* DetailOrderConfirmationViewController.m in Sources */,
 				E155A3001FE3A1BB0092AE65 /* EquipmentNumberViewController.m in Sources */,
 				14AA2F361FD8471900F354DC /* StockOverViewController.m in Sources */,
@@ -1948,6 +2002,7 @@
 				E15BA15B200F1BEA00BBA7DD /* EquipNumberTableViewCell.m in Sources */,
 				140812301FF548EF003D8543 /* XMLDictionary.m in Sources */,
 				141F11C120A6CEDD00CCCBA6 /* WorkcenterViewController.m in Sources */,
+				14178A6220BA4831007229A0 /* HazardsTableViewCell.m in Sources */,
 				E1871F96200DEE1D001B2141 /* MeasurementDocumentViewController.m in Sources */,
 				E15BA157200F1BEA00BBA7DD /* AvailabilityDetailTableViewCell.m in Sources */,
 				E15BA161200F1BEA00BBA7DD /* NotifDescriptionTableViewCell.m in Sources */,
@@ -1985,6 +2040,7 @@
 				E15BA16F200F64BF00BBA7DD /* NSMutableArray+TTMutableArray.m in Sources */,
 				E166C8351FEA5D4A006F4E87 /* DuplicateNotificationTableViewCell.m in Sources */,
 				14AA2F3C1FD8590100F354DC /* StockOverViewTableViewCell.m in Sources */,
+				14178A5320B92A38007229A0 /* JSAViewController.m in Sources */,
 				E1779F17202304C5001205F6 /* ActivityTableViewCell.m in Sources */,
 				E14548D71FE8E0C000723372 /* ListOfAttachmentsCustomTableViewCell.m in Sources */,
 				1405C36B1FE41DC700DADACB /* EquipmentHistoryViewController.m in Sources */,

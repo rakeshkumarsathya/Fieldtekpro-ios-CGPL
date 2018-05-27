@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E202" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="AUTHORIZATIONGROUP" syncable="YES">
+        <attribute name="begruid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="begtxtext" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="EHSJOBTYP" syncable="YES">
         <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descrption" optional="YES" attributeType="String" syncable="YES"/>
@@ -126,6 +130,14 @@
         <attribute name="kurztext" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kurztext1" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="ETWCMCCO" syncable="YES">
+        <attribute name="asgnflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="direction" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="iwerk" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objart" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objtyp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wcmuse" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="FlocMptt" syncable="YES">
         <attribute name="atbez" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="atinn" optional="YES" attributeType="String" syncable="YES"/>
@@ -153,6 +165,18 @@
         <attribute name="workStation" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="equipments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Equipment" inverseName="location" inverseEntity="Equipment" syncable="YES"/>
     </entity>
+    <entity name="ISOLATIONMASTER" syncable="YES">
+        <attribute name="iwerk" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phblflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tgflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tggrp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tgproc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tgprocx" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tgtyp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unproc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="untyp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="usable" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Material" representedClassName="Material" syncable="YES">
         <attribute name="labst" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lgort" optional="YES" attributeType="String" syncable="YES"/>
@@ -171,6 +195,63 @@
         <attribute name="matnr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="speme" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="werks" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="WCMREQUESTS" syncable="YES">
+        <attribute name="chkPointType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desctext" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="needid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tplnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wapinr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wapityp" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="WCMREQUIREMENTS" syncable="YES">
+        <attribute name="aprv4marked" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="aprv4unmarked" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chkpointyype" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desctext" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dpflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="needgrp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="needid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="propflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tplnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wapinr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wapityp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wkgrp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wkid" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="WCMTYPES" syncable="YES">
+        <attribute name="iwerk" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objart" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objtyp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stxt" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="WCMUSAGES" syncable="YES">
+        <attribute name="iwerk" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objart" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="useid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="usextext" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="WCMWORKS" syncable="YES">
+        <attribute name="aprv4marked" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="aprv4unmarked" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chkpointtype" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desctext" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dpflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="needgrp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="needid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="propflg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tplnr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wapinr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wapityp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wkgrp" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wkid" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="EHSJOBTYP" positionX="-9" positionY="198" width="128" height="75"/>
@@ -193,5 +274,13 @@
         <element name="FunctionalLocation" positionX="144" positionY="153" width="128" height="225"/>
         <element name="Material" positionX="-29" positionY="50" width="128" height="150"/>
         <element name="StockOverView" positionX="18" positionY="225" width="128" height="165"/>
+        <element name="ETWCMCCO" positionX="-9" positionY="198" width="128" height="135"/>
+        <element name="WCMREQUESTS" positionX="0" positionY="207" width="128" height="165"/>
+        <element name="WCMTYPES" positionX="9" positionY="216" width="128" height="105"/>
+        <element name="ISOLATIONMASTER" positionX="18" positionY="225" width="128" height="195"/>
+        <element name="AUTHORIZATIONGROUP" positionX="27" positionY="234" width="128" height="75"/>
+        <element name="WCMUSAGES" positionX="36" positionY="243" width="128" height="105"/>
+        <element name="WCMWORKS" positionX="45" positionY="252" width="128" height="270"/>
+        <element name="WCMREQUIREMENTS" positionX="-9" positionY="198" width="128" height="285"/>
     </elements>
 </model>

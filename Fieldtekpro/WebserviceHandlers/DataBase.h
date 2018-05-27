@@ -178,6 +178,7 @@
 - (NSMutableArray *)getInspectionResultforEquipment:(NSString *)equipmentID;
 - (NSMutableArray *)getWCMUsageswithPlantText:(NSString *)plantID forObject:(NSString *)objArt;
 - (NSMutableArray *)getWCMAuthorizationGroup;
+- (NSMutableArray *)getWCMUsageswithPlantTextforId:(NSString *)usageId withIwerk:(NSString *)iwerkString;
 
 - (NSString *)getImageDirectory;
 //- (void)clearAllSubviewsForView:(UIView*)view;
@@ -566,6 +567,9 @@
 -(NSMutableArray *)WorkApprovalHeaderDetails;
 -(NSMutableArray *)fetchWCMRequestsforCreateApplicationType:(NSString *)wapId forUsage:(NSString *)usageID;
 
+
+-(NSMutableArray *)insertWCMcco :(NSMutableArray *)wcmCCOArray;
+- (NSMutableArray *)fetchWCMCCOData:(NSString *)iwerkString forApplicationType:(NSString *)objtype withObjArt:(NSString *)objrt;
 
 //JSA
 -(NSMutableArray *)insertJSA :(NSMutableArray *)jsaSopstatArray;

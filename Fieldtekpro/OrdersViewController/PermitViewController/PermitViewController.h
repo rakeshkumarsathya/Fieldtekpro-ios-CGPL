@@ -13,6 +13,9 @@
 #import "PopoverViewController.h"
 #import "OperationWCDTableViewCell.h"
 #import "TaggingConditionTableViewCell.h"
+#import "ConnectionManager.h"
+#import "MBProgressHUD.h"
+#import "JSAViewController.h"
 
 @class PermitViewController;
 
@@ -20,7 +23,6 @@
 @protocol ViewControllerBDelegate <NSObject>
 
 - (void)addItemsViewController:(PermitViewController *)controller workApprovalsData:(NSMutableArray *)item withWorkApplicationsArray:(NSMutableArray *)workApplications withIsolationsData:(NSMutableArray *)isolationsData;
-
 
 
 @end
@@ -78,8 +80,13 @@
     NSString *isolationHeaderString,*btgString,*etgString,*bugString,*eugString,*WARefobj;
     IBOutlet UITextView *taggingTextView,*untaggingTextView;
  
+    NSString *decryptedUserName;
+    
+    MBProgressHUD *hud;
+
  }
 
+@property (nonatomic ,retain) NSMutableDictionary *orderHeaderDetails;
 
 @property (strong, nonatomic) UIButton *button;
 @property (strong, nonatomic) PopoverViewController *buttonPopVC;
@@ -92,7 +99,7 @@
 
 @property (nonatomic, retain) NSDate *minStartDate,*minEndDate,*measureMentDocumentTime,*measureMentDocumentDate;
 
-@property (nonatomic, retain) NSString *plantWorkCenterID,*iwerkString,*createOrderString;
+@property (nonatomic, retain) NSString *plantWorkCenterID,*iwerkString,*createOrderString,*equpmentEnableString,*orderNumberString;
 
 @property (nonatomic, weak) id <ViewControllerBDelegate> delegate;
 

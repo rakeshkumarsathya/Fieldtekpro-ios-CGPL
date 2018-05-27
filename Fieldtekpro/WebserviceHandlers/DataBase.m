@@ -635,6 +635,16 @@ static dispatch_once_t onceToken;
     return [NSMutableArray array];
 }
 
+- (NSMutableArray *)getWCMUsageswithPlantTextforId:(NSString *)usageId withIwerk:(NSString *)iwerkString
+{
+    NSMutableString *queryString = [[NSMutableString alloc] init];
+    [queryString appendFormat:@"select * from WCM_USAGES  where Use_id ='%@' and Iwerk ='%@'",usageId,iwerkString];
+    if ([self set_query:queryString]) {
+        return [self run_Queries_WITHDATA];
+    }
+    return [NSMutableArray array];
+}
+
 - (NSMutableArray *)getWCMAuthorizationGroup
 {
     NSMutableString *queryString = [[NSMutableString alloc] init];
@@ -11308,7 +11318,7 @@ static dispatch_once_t onceToken;
     
     NSMutableArray *dataArray = [NSMutableArray new];
     
-    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"FunctionalLocation"];
+    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"ETWCMCCO"];
     
     [materialsRequest setResultType:NSDictionaryResultType];
     
@@ -18924,6 +18934,86 @@ static dispatch_once_t onceToken;
     
     return dataArray;
 }
+
+//etwcmcco
+-(NSMutableArray *)insertWCMcco :(NSMutableArray *)wcmCCOArray
+{
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    for (int i=0; i<[wcmCCOArray count]; i++) {
+        
+        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"ETWCMCCO"
+                                                                inManagedObjectContext:delegate.coreDataControlObject.context];
+        [object setValue:[[wcmCCOArray objectAtIndex:i] objectForKey:@"Asgnflg"] forKey:@"asgnflg"];
+        
+        [object setValue:[[wcmCCOArray objectAtIndex:i] objectForKey:@"Direction"] forKey:@"direction"];
+        
+        [object setValue:[[wcmCCOArray objectAtIndex:i] objectForKey:@"Iwerk"] forKey:@"iwerk"];
+        
+        [object setValue:[[wcmCCOArray objectAtIndex:i] objectForKey:@"Objart"] forKey:@"objart"];
+        
+        [object setValue:[[wcmCCOArray objectAtIndex:i] objectForKey:@"Objtyp"] forKey:@"objtyp"];
+
+        [object setValue:[[wcmCCOArray objectAtIndex:i] objectForKey:@"Wcmuse"] forKey:@"wcmuse"];
+
+ 
+    }
+    
+    [delegate.coreDataControlObject saveContext];
+    [delegate.coreDataControlObject.context reset];
+    
+    if ([[defaults objectForKey:@"ACTIVATELOGS"] isEqualToString:@"X"])
+    {
+        [[DataBase sharedInstance] writToLogFile:[NSString stringWithFormat:@"#INFO#.com.enstrapp.fieldtekpro#StockOverView data received"]];
+    }
+    
+    return [NSMutableArray array];
+ }
+
+- (NSMutableArray *)fetchWCMCCOData:(NSString *)iwerkString forApplicationType:(NSString *)objtype withObjArt:(NSString *)objrt
+{
+    
+    AppDelegate   *appdelgate = (AppDelegate *)[[UIApplication
+                                                 sharedApplication]delegate];
+    
+    NSManagedObjectContext *context = appdelgate.coreDataControlObject.context;
+    
+    NSMutableArray *dataArray = [NSMutableArray new];
+    
+    //  building
+    
+   // objart
+    
+    NSFetchRequest *materialsRequest = [NSFetchRequest fetchRequestWithEntityName:@"ETWCMCCO"];
+    
+    NSPredicate *predicate;
+    
+     predicate = [NSPredicate predicateWithFormat:@"(iwerk == %@) AND (objart == %@) AND  (objtyp == %@)",iwerkString,objrt, objtype];
+ 
+    if (predicate){
+        
+        [materialsRequest setPredicate:[[NSCompoundPredicate alloc] initWithType:NSOrPredicateType subpredicates:@[predicate]]];
+    }
+    
+    [materialsRequest setResultType:NSDictionaryResultType];
+    
+    NSError *error = nil;
+    NSArray *objs = [context executeFetchRequest:materialsRequest error:&error];
+    if (error) {
+        [NSException raise:@"no Building find" format:@"%@", [error localizedDescription]];
+    }
+    if (objs.count > 0) {
+        // there is a Matnr with same id exsist. Use update method
+        
+        [dataArray addObjectsFromArray:objs];
+        
+    }else {
+        
+    }
+    
+    return dataArray;
+}
+
 
 
 //JSA

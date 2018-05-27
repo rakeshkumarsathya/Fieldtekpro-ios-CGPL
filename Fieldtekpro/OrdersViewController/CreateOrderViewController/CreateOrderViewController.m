@@ -1354,7 +1354,7 @@
     }
     
     NSDateFormatter *getDate = [[NSDateFormatter alloc] init];
-    [getDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [getDate setDateFormat:@"yyyyMMdd HH:mm:ss"];
     NSArray *dateTimeArray = [NSArray arrayWithArray:[[getDate stringFromDate:[NSDate date]] componentsSeparatedByString:@" "]];
     
     [self.orderHeaderDetails setObject:[dateTimeArray firstObject] forKey:@"DATE"];
@@ -4242,10 +4242,24 @@
     
         if (createOrderFlag) {
              appVc.createOrderString=@"X";
-         }
+          }
         else{
              appVc.createOrderString=@"";
          }
+ 
+        if (equipmentEnableFlag) {
+        
+           appVc.equpmentEnableString=@"X";
+        }
+         else{
+             appVc.equpmentEnableString=@"";
+         }
+    
+     if ([self.detailOrdersArray count]) {
+        
+        appVc.orderNumberString=[[self.detailOrdersArray objectAtIndex:0] objectForKey:@"oh_objectID"];
+        
+     }
  
       appVc.headerDetailsArray=[headerDataArray copy];
       [self showViewController:appVc sender:self];

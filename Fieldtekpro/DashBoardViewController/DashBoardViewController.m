@@ -1562,6 +1562,10 @@
 
                  }
 
+                
+                [DashBoardViewController functionForEtwbs:[parsedDictionary objectForKey:@"resultWBS"]];//resultWBS
+                [DashBoardViewController functionForEvRevnr:[parsedDictionary objectForKey:@"resultRevnr"]];//resultRevnr
+
  
                 [MBProgressHUD hideHUDForView:self.window animated:YES];
                 
@@ -1579,7 +1583,7 @@
                 
                 NSLog(@"wcm value called");
 
-                [DashBoardViewController functionForWsmDocument:[parsedDictionary objectForKey:@"resultWSMDocument"]];
+              //  [DashBoardViewController functionForWsmDocument:[parsedDictionary objectForKey:@"resultWSMDocument"]];
                 
                 //WCM
                  [DashBoardViewController functionForWcmChkReq:[parsedDictionary objectForKey:@"resultChkRequests"]];
@@ -1587,14 +1591,12 @@
                 // [DashBoardViewController functionForWcmWcvp6:parsedDictionary];
                 [DashBoardViewController functionForWcmTypes:[parsedDictionary objectForKey:@"resultWcmTypes"]];
  
-                 [DashBoardViewController functionForAuthorizationGroupMaster:[parsedDictionary objectForKey:@"resultAuthorizationGroups"]];//WCMAuthorizationGroup
+                [DashBoardViewController functionForAuthorizationGroupMaster:[parsedDictionary objectForKey:@"resultAuthorizationGroups"]];//WCMAuthorizationGroup
                 [DashBoardViewController functionForUsagesMaster:[parsedDictionary objectForKey:@"resultUsages"]];//WCMUsage
                  [DashBoardViewController functionForWCMWork:[parsedDictionary objectForKey:@"resultWcmWork"]];//WCMWork
                  [DashBoardViewController functionForWCMRequirements:[parsedDictionary objectForKey:@"resultWcmRequirements"]];//WCMRequirements
  
-                [DashBoardViewController functionForEtwbs:[parsedDictionary objectForKey:@"resultWBS"]];//resultWBS
-                [DashBoardViewController functionForEvRevnr:[parsedDictionary objectForKey:@"resultRevnr"]];//resultRevnr
-
+                [DashBoardViewController functionForWCMcco:[parsedDictionary objectForKey:@"resultWcmCco"]];//WCMRequirements
  
                 //WSM
                 /*  [DashBoardViewController functionForWsmRisks:[parsedDictionary objectForKey:@"resultWSMRisks"]];
@@ -1645,7 +1647,6 @@
 
             [DashBoardViewController functionForJSAEHSReason:[parsedDictionary objectForKey:@"resultEHSRasstep"]];
  
-                
             }
             
         case GET_AUTH_DATA:
@@ -8469,6 +8470,21 @@
     }
     
     [[DataBase sharedInstance] insertintoWCMRequirements:vhlpWCMRequirementsArray];
+}
+
++(void)functionForWCMcco :(id)resultWcmcco{
+    
+    NSMutableArray *vhlpWCMccoArray = [NSMutableArray new];
+    
+    if ([resultWcmcco isKindOfClass:[NSDictionary class]]) {
+        [vhlpWCMccoArray addObject:[NSMutableArray arrayWithObject:resultWcmcco]];
+    }
+    else if ([resultWcmcco isKindOfClass:[NSArray class]]){
+        
+        [vhlpWCMccoArray addObjectsFromArray:resultWcmcco];
+    }
+    
+    [[DataBase sharedInstance] insertWCMcco:vhlpWCMccoArray];
 }
 
 +(void)functionForEtwbs :(id)resultWBSData{

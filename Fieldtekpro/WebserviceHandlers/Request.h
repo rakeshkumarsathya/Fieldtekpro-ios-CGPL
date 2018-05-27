@@ -8,12 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "XMLDictionary.h"
-
 #import "NSData+AESCrypt.h"
 #import "NSString+AESCrypt.h"
 #import "UrlConstraints.h"
 #import <UIKit/UIKit.h>
-
 
 typedef enum WebServiceRequest{
     
@@ -98,7 +96,8 @@ typedef enum WebServiceRequest{
     WCM_VALUE_HELPS =78,
     JSA_VALUE_HELPS =79,
     NOTIFICATION_POSTPONE =80,
-    GET_ORDERS =81
+    GET_ORDERS =81,
+    PERMIT_CREATE =82
     
 }WebServiceRequest;
 

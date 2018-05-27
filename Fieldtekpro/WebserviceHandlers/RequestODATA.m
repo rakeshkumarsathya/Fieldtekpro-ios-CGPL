@@ -326,8 +326,7 @@
                 
                 [self.connectionRequest setValue:@"DUNOT" forHTTPHeaderField:@"Operation"];
                 
-                
-                
+ 
                 NSString *authStr = [NSString stringWithFormat:@"%@:%@",[parameters objectForKey:@"USERNAME"],decryptedPassword];
                 
                 NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -800,6 +799,51 @@
                 [self.connectionRequest setHTTPBody:[soapString dataUsingEncoding:NSUTF8StringEncoding]];
              }
              break;
+            
+        case PERMIT_CREATE:
+            
+            self.dataType = NORMAL_DATA;
+            self.requestType = requestId;
+            self.resultDelegate = delegate;
+            
+            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"CSRF"]) {
+                
+                [self performSelectorInBackground:@selector(createSession:) withObject:[NSMutableArray arrayWithObjects:[NSNumber numberWithInt:requestId],parameters, nil]];
+                
+                return;
+            }
+            
+            //  self.connectionRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@:%@%@/%@",URL_HOST,URL_PORT,URL_PATH_ODATA,[parameters objectForKey:@"URL_ENDPOINT"]]]];
+            
+            self.connectionRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@:%@%@/%@",URL_HOST,URL_PORT,URL_PATH_ODATA,[parameters objectForKey:@"URL_ENDPOINT"]]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:120.0];
+            
+            self.resultDelegate = delegate;
+            
+            if (1) {
+                NSMutableString *soapString = [[NSMutableString alloc] init];
+                //[soapString appendString:[self mxmlPrefix:requestId]];
+                [soapString appendString:[self mxmlBodyWithKeys:parameters Values:nil Action:[self actionWithWebServiceRequest:requestId]]];
+                //[soapString appendString:[self mxmlSuffix]];
+                NSString *msgLength = [NSString stringWithFormat:@"%lu", (unsigned long)[soapString length]];
+                [self.connectionRequest setValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"CSRF"] forHTTPHeaderField:@"x-csrf-token"];
+                [self.connectionRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+                [self.connectionRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+                [self.connectionRequest addValue:msgLength forHTTPHeaderField:@"Content-Length"];
+                
+                [self decryptforBasicAuth];
+                
+                NSString *authStr = [NSString stringWithFormat:@"%@:%@",decryptedUserName,decryptedPassword];
+                
+                NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+                
+                NSString *authValue = [authData base64EncodedStringWithOptions:0];
+                
+                [self.connectionRequest addValue:[NSString stringWithFormat:@"Basic %@",authValue] forHTTPHeaderField:@"Authorization"];
+                
+                [self.connectionRequest setHTTPMethod: @"POST"];
+                [self.connectionRequest setHTTPBody:[soapString dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+            break;
             
         case ORDER_COLLECTIVE_CONFIRMATION:
             
@@ -1678,8 +1722,7 @@
          dataDictionary = [NSJSONSerialization JSONObjectWithData:receivedData options:NSJSONReadingAllowFragments error:&error];
             
             break;
-            
-        case LARGE_DATA:
+         case LARGE_DATA:
             
             [dataToFileStream close];
             jsonData = [[NSData alloc] initWithContentsOfFile:filepathString];
@@ -2685,8 +2728,7 @@
                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderCreate options:NSJSONWritingPrettyPrinted error:&error];
                 NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
                 [soapMessage appendString:jsonString];
-                
-              }
+               }
    
             break;
             
@@ -2832,7 +2874,10 @@
             
             break;
             
-        case ORDER_CANCEL:
+      
+            
+ 
+         case ORDER_CANCEL:
 
             //Not required body
          
@@ -3215,6 +3260,185 @@
                 NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
                 [soapMessage appendString:jsonString];
                 
+            }
+            
+            break;
+            
+        case PERMIT_CREATE:
+            
+             if ([requestData count])
+            {
+                
+                NSMutableArray *longTextItems = [[NSMutableArray alloc] init];
+                NSMutableArray *wcmApplicationItems = [[NSMutableArray alloc] init];
+                NSMutableArray *wcmWorkRequirentsItems = [[NSMutableArray alloc] init];
+                NSMutableArray *wcmWorkApprovalsItems = [[NSMutableArray alloc] init];
+                NSMutableArray *issuepermitItems = [[NSMutableArray alloc] init];
+
+                NSMutableArray *operationWCDItems = [[NSMutableArray alloc] init];
+                NSMutableArray *taggingConditionItems = [[NSMutableArray alloc] init];
+                 NSMutableArray *tagItems = [[NSMutableArray alloc] init];
+                NSMutableArray *unTaggItems = [[NSMutableArray alloc] init];
+
+ 
+                if ([[requestData objectForKey:@"WCMWORKAPPlICATIONS"] count]) {
+                    
+                    NSArray *wcmWorkApplication = [requestData objectForKey:@"WCMWORKAPPlICATIONS"];
+                    
+                    for (int i =0; i<[wcmWorkApplication count]; i++) {
+                        
+                        [wcmApplicationItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:1],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:2],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:3],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:5],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:6],@"",@"",@"",@"",@"",@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:29],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:30],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:13],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:14],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:15],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:16],[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:17],@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:19],@"0",@"",@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:23],@"",@"",@"",@"",[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:28], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objart",@"Wapinr",@"Iwerk",@"Objtyp",@"Usage",@"Usagex",@"Train",@"Trainx",@"Anlzu",@"Anlzux",@"Etape",@"Etapex",@"Begru",@"Begtx",@"Stxt",@"Datefr",@"Timefr",@"Dateto",@"Timeto",@"Priok",@"Priokx",@"Rctime",@"Rcunit",@"Objnr",@"Refobj",@"Crea",@"Prep",@"Comp",@"Appr",@"Action",nil]]];
+                        
+                        
+                        if (![[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4] isEqualToString:@"1"] || ![[[[wcmWorkApplication objectAtIndex:i] firstObject] objectAtIndex:4] isEqualToString:@"7"]) {
+                            
+                            NSArray *wcmHStandardCheckPoints = [[wcmWorkApplication objectAtIndex:i] objectAtIndex:1];
+                            
+                            for (int j =0; j<[wcmHStandardCheckPoints count]; j++) {
+                                
+                                checkPointDescriptionString = [self getcodeforkeys:[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:6]];
+                                
+                                [wcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:0],[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:1],@"W",[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:3],[[wcmHStandardCheckPoints objectAtIndex:j] objectAtIndex:5],checkPointDescriptionString, nil] forKeys:[NSArray arrayWithObjects:@"Wapinr",@"Wapityp",@"ChkPointType",@"Wkid",@"Value",@"Desctext",nil]]];
+                                
+                            }
+                            
+                            NSArray *wcmCStandardCheckPoints = [[wcmWorkApplication objectAtIndex:i] objectAtIndex:2];
+                            
+                            for (int j =0; j<[wcmCStandardCheckPoints count]; j++) {
+                                
+                                checkPointDescriptionString = [self getcodeforkeys:[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:6]];
+                                
+                                [wcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:0],[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:1],@"R",[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:4],[[wcmCStandardCheckPoints objectAtIndex:j] objectAtIndex:5],checkPointDescriptionString, nil] forKeys:[NSArray arrayWithObjects:@"Wapinr",@"Wapityp",@"ChkPointType",@"Needid",@"Value",@"Desctext",nil]]];
+                                
+                            }
+                        }
+                    }
+                }
+                
+                
+                if ([[requestData objectForKey:@"WCMWORKAPPROVALS"] count]) {
+                    
+                    NSArray *wcmWorkApproval = [requestData objectForKey:@"WCMWORKAPPROVALS"];
+                    
+                    for (int i =0; i<[wcmWorkApproval count]; i++) {
+                        
+                         [wcmWorkApprovalsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:1],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:2],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:3],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:4],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:5],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:6],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:7],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:8],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:9],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:10],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:11],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:29],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:30],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:12],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:13],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:14],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:15],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:16],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:17],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:18],@"0",@"",[[wcmWorkApproval objectAtIndex:i] objectAtIndex:21],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:22],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:23],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:24],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:25],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:26],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:27],[[wcmWorkApproval objectAtIndex:i] objectAtIndex:28], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objart",@"Wapnr",@"Iwerk",@"Usage",@"Usagex",@"Train",@"Trainx",@"Anlzu",@"Anlzux",@"Etape",@"Etapex",@"Begru",@"Begtx",@"Stxt",@"Datefr",@"Timefr",@"Dateto",@"Timeto",@"Priok",@"Priokx",@"Rctime",@"Rcunit",@"Objnr",@"Refobj",@"Crea",@"Prep",@"Comp",@"Appr",@"Pappr",@"Action",nil]]];
+                        
+                     }
+                }
+ 
+                
+                if ([[requestData objectForKey:@"WCMISSUEPERMITS"] count]) {
+                    
+                    NSArray *wcmIssuePermits = [requestData objectForKey:@"WCMISSUEPERMITS"];
+ 
+                    for (int i =0; i<[wcmIssuePermits count]; i++) {
+                        
+                        [issuepermitItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:1],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:2],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:3],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:4],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:5],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:6],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:7],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:8],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:9],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:10],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:11],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:12],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:13],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:14],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:15],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:16],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:17],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:18],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:19],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:20],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:21],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:22],[[wcmIssuePermits objectAtIndex:i] objectAtIndex:23], nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objnr",@"Counter",@"Werks",@"Crname",@"Objart",@"Objtyp",@"Pmsog",@"Gntxt",@"Geniakt",@"Genvname",@"Hilvl",@"Procflg",@"Copyflg",@"Direction",@"Copyflg",@"Mandflg",@"Deacflg",@"Status",@"Asgnflg",@"Autoflg",@"Agent",@"Valflg",@"Wcmuse",@"Action",nil]]];
+                      }
+                  }
+ 
+                
+                if ([[requestData objectForKey:@"WCMOPERATIONWCD"] count]) {
+                    
+                    NSArray *wcmOperationWCD = [requestData objectForKey:@"WCMOPERATIONWCD"];
+ 
+                    for (int i =0; i<[wcmOperationWCD count]; i++) {
+ 
+                        if ([[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:31] length]) {
+                            
+                            NSArray *taggingTextArray = [[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:31] componentsSeparatedByString:@"\n"];
+                            
+                            for (int k=0; k<[taggingTextArray count]; k++) {
+                                
+                                 [unTaggItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:2],[taggingTextArray objectAtIndex:k],@"I", nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Wcnr",@"Objtype",@"FormatCol",@"TextLine",@"Action",nil]]];
+                              }
+                        }
+                        
+                         if ([[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:32] length]) {
+                            
+                            NSArray *taggingTextArray = [[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:32] componentsSeparatedByString:@"\n"];
+                            
+                            for (int j=0; j<[taggingTextArray count]; j++) {
+                                
+                                 [unTaggItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:2],[taggingTextArray objectAtIndex:j],@"I", nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Wcnr",@"Objtype",@"FormatCol",@"TextLine",@"Action",nil]]];
+                              }
+                         }
+ 
+
+
+                        NSArray *wcmOperationWCDTaggingConditions = [[wcmOperationWCD objectAtIndex:i] objectAtIndex:1];
+                        
+                        for (int j =0; j<[wcmOperationWCDTaggingConditions count]; j++) {
+                            
+                           
+                            [taggingConditionItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:0],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:1],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:2],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:3],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:4],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:5],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:6],[self getcodeforkeys:[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:7]],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:8],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:9],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:10],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:11],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:12],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:13],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:14],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:15],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:16],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:17],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:18],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:19],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:20],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:21],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:22],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:23],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:24],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:25],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:26],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:27],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:28],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:29],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:30],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:31],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:32],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:33],[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:34],
+                                [[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:22]
+                            ,[[wcmOperationWCDTaggingConditions objectAtIndex:j] objectAtIndex:36], nil] forKeys:[NSArray arrayWithObjects:@"Wcnr",@"Wcitm",@"Objnr",@"Itmtyp",@"Seq",@"Pred",@"Succ",@"Ccobj",@"Cctyp",@"Stxt",@"Tggrp",@"Tgstep",@"Tgproc",@"Tgtyp",@"Tgseq",@"Tgtxt",@"Unstep",@"Untyp",@"Phblflg",@"Phbltyp",@"Phblnr",@"Tgflg",@"Tgform",@"Unform",@"Unnr",@"Control",@"Location",@"Btg",@"Etg",@"Bug",@"Eug",@"Refobj",@"Action",nil]]];
+                           }
+                        
+                        [operationWCDItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[requestData objectForKey:@"OBJECTID"],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:1],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:2],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:3],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:4],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:5],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:6],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:7],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:8],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:9],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:10],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:11],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:12],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:29],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:30],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:13],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:14],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:15],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:16],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:17],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:18],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:19],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:20],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:21],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:22],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:23],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:24],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:25],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:26],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:27],[[[wcmOperationWCD objectAtIndex:i] firstObject] objectAtIndex:28],tagItems,unTaggItems,taggingConditionItems, nil] forKeys:[NSArray arrayWithObjects:@"Aufnr",@"Objart",@"Wcnr",@"Iwerk",@"Objtyp",@"Usage",@"Usagex",@"Train",@"Trainx",@"Anlzu",@"Anlzux",@"Etape",@"Etapex",@"Begru",@"Begtx",@"Stxt",@"Datefr",@"Timefr",@"Dateto",@"Priok",@"Priokx",@"Rctime",@"Rcunit",@"Objnr",@"Refobj",@"Crea",@"Prep",@"Comp",@"Appr",@"Action",@"ItWcmWdDataTagtext",@"ItWcmWdDataUntagtext",@"ItWcmWdItemData",nil]]];
+
+                     }
+                 }
+                
+                 NSMutableDictionary *orderCreate = [[NSMutableDictionary alloc] init];
+                 NSMutableArray *etOrderMessageItems=[NSMutableArray new];
+                 NSMutableArray *etOrderStatusItems=[NSMutableArray new];
+                 NSMutableArray *etwcmApplicationItems=[NSMutableArray new];
+                 NSMutableArray *etwcmWorkRequirentsItems=[NSMutableArray new];
+                 NSMutableArray *etwcmWorkApprovalsItems=[NSMutableArray new];
+                
+                NSMutableArray *etOperationWCDItems=[NSMutableArray new];
+                NSMutableArray *etWCMtagItems=[NSMutableArray new];
+                NSMutableArray *etWCMUntagItems=[NSMutableArray new];
+                NSMutableArray *etWCMWDItems=[NSMutableArray new];
+
+ 
+                 [etOrderMessageItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                 [etOrderStatusItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                 [etwcmApplicationItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etwcmWorkRequirentsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                 [etwcmWorkApprovalsItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                
+                [etWCMtagItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etWCMUntagItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                 [etWCMWDItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray array] forKeys:[NSArray array]]];
+                [etOperationWCDItems addObject:[NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:etWCMtagItems,etWCMUntagItems,etWCMWDItems, nil] forKeys:[NSArray arrayWithObjects:@"EtWcmWdDataTagtext",@"EtWcmWdDataUntagtext",@"EtWcmWdItemData",nil]]];
+ 
+                
+                BOOL isCommit=true;
+ 
+                [orderCreate setObject:wcmApplicationItems forKey:@"ItWcmWaData"];
+                [orderCreate setObject:wcmWorkRequirentsItems forKey:@"ItWcmWaChkReq"];
+                [orderCreate setObject:wcmWorkApprovalsItems forKey:@"ItWcmWwData"];
+                [orderCreate setObject:wcmWorkApprovalsItems forKey:@"ItWcmWdData"];
+                [orderCreate setObject:operationWCDItems forKey:@"ItWcmWdData"];
+ 
+                
+                [orderCreate setObject:[[requestData objectForKey:@"REPORTEDBY"] uppercaseString] forKey:@"IvUser"];
+                //  [orderCreate setObject:attachmentsItems forKey:@"ItDocs"];
+                [orderCreate setObject:[[requestData objectForKey:@"REPORTEDBY"] uppercaseString] forKey:@"Muser"];
+                [orderCreate setObject:longTextItems forKey:@"ItOrderLongtext"];
+                [orderCreate setObject:@"18523416-177F-4B9B-9250-4F7A90A89537" forKey:@"Deviceid"];
+                [orderCreate setObject:@"" forKey:@"Udid"];
+                [orderCreate setObject:[requestData objectForKey:@"TRANSMITTYPE"] forKey:@"IvTransmitType"];
+                [orderCreate setObject:[NSNumber numberWithBool:isCommit] forKey:@"IvCommit"];
+                [orderCreate setObject:@"WCMMP" forKey:@"Operation"];
+                
+                //For Response Data need to send  empty in ETformat
+                [orderCreate setObject:etOrderStatusItems forKey:@"EtOrderStatus"];
+                [orderCreate setObject:etOrderStatusItems forKey:@"EsAufnr"];
+                [orderCreate setObject:etwcmApplicationItems forKey:@"EtWcmWaData"];
+                [orderCreate setObject:etwcmWorkRequirentsItems forKey:@"EtWcmWaChkReq"];
+                [orderCreate setObject:etwcmWorkApprovalsItems forKey:@"EtWcmWwData"];
+                [orderCreate setObject:etOperationWCDItems forKey:@"EtWcmWdData"];
+
+ 
+                NSError *error;
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderCreate options:NSJSONWritingPrettyPrinted error:&error];
+                NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                [soapMessage appendString:jsonString];
             }
             
             break;
